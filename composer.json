@@ -1,0 +1,16 @@
+{
+    "name": "vietnguyen/phpmvc-framework",
+    "description": "",
+    "authors": [
+        {
+            "name": "hoangvietnguyen99",
+            "email": "hoangvietnguyen99@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
