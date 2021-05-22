@@ -12,6 +12,7 @@ class Application
     public Request $request;
     public Response $response;
     public Router $router;
+    public Controller $controller;
     public static Application $application;
 
     public function __construct(string $rootPath)
