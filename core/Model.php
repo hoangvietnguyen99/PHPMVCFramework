@@ -26,7 +26,32 @@ abstract class Model
     abstract public function rules();
 
     public function validate() {
-
+        $validateRules = $this->rules();
+        foreach ($validateRules as $attribute => $rules) {
+            $value = $this->{$attribute};
+            foreach ($rules as $rule) {
+                $ruleName = $rule;
+                if (!is_string($ruleName)) {
+                    $ruleName = $rule[0];
+                }
+                if ($ruleName === self::RULE_REQUIRED && !$value) {
+                    $this->addError($attribute, self::RULE_REQUIRED);
+                }
+                if ($ruleName === self::RULE_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $this->addError($attribute, self::RULE_EMAIL);
+                }
+                if ($ruleName === self::RULE_MIN && strlen($value) < $rule['min']) {
+                    $this->addError($attribute, self::RULE_MIN, $rule);
+                }
+                if ($ruleName === self::RULE_MAX && strlen($value) > $rule['max']) {
+                    $this->addError($attribute, self::RULE_MAX, $rule);
+                }
+                if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
+                    $this->addError($attribute, self::RULE_MATCH, $rule);
+                }
+            }
+        }
+        return empty($this->errors);
     }
 
     public function addError(string $attribute, string $rule, $params = []) {
@@ -45,5 +70,13 @@ abstract class Model
             self::RULE_MAX => 'This field must have max length of {max}',
             self::RULE_MATCH => 'This field must be same of {match}'
         ];
+    }
+
+    public function hasError(string $attribute) {
+        return $this->errors[$attribute] ?? false;
+    }
+
+    public function getFirstError(string $attribute) {
+        return $this->errors[$attribute][0] ?? false;
     }
 }

@@ -10,12 +10,17 @@
           integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
 
     <title>PHP MVC Framework</title>
+
+    <style>
+        html, body, .container {
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     {{content}}
 </div>
-
 
 <!-- Optional JavaScript; choose one of the two! -->
 
