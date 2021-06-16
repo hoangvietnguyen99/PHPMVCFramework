@@ -8,82 +8,63 @@ namespace app\core;
  */
 class Router
 {
-    public Request $request;
-    public Response $response;
-    protected array $routes = [
-        'get' => [],
-        'post' => []
-    ];
+    private Request $request;
+    private Response $response;
+    private array $routeMap = [];
 
-    /**
-     * Router constructor.
-     * @param Request $request
-     * @param Response $response
-     */
     public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
         $this->response = $response;
     }
 
-    public function get(string $path, $callback)
+    public function get(string $url, $callback)
     {
-        $this->routes['get'][$path] = $callback;
+        $this->routeMap['get'][$url] = $callback;
     }
 
-    public function post(string $path, $callback)
+    public function post(string $url, $callback)
     {
-        $this->routes['post'][$path] = $callback;
+        $this->routeMap['post'][$url] = $callback;
     }
 
     public function resolve()
     {
-        $path = $this->request->getPath();
-        $method = $this->request->method();
-        $callback = $this->routes[$method][$path] ?? false;
-        if ($callback === false) {
-            $this->response->setStatusCode(404);
-            return $this->renderView('_404');
+        $method = $this->request->getMethod();
+        $url = $this->request->getUrl();
+        $callback = $this->routeMap[$method][$url] ?? false;
+        if (!$callback) {
+            $this->response->statusCode(404);
+            return 'Not Found';
         }
         if (is_string($callback)) {
             return $this->renderView($callback);
         }
         if (is_array($callback)) {
-            Application::$application->controller = new $callback[0]();
-            $callback[0] = Application::$application->controller;
+            $controller = new $callback[0];
+            Application::$application->controller = $controller;
+            $callback[0] = $controller;
         }
-        echo call_user_func($callback, $this->request);
+        return call_user_func($callback, $this->request, $this->response);
     }
 
-    public function renderView(string $view, array $params = [])
+    public function renderView($view, $params = [])
     {
-        $layoutContent = $this->layoutContent();
-        $viewContent = $this->renderOnlyView($view, $params);
+        $layoutName = Application::$application->controller->layout;
+        $viewContent = $this->renderViewOnly($view, $params);
+        ob_start();
+        include_once Application::$ROOT_DIR."/views/layouts/$layoutName.php";
+        $layoutContent = ob_get_clean();
         return str_replace('{{content}}', $viewContent, $layoutContent);
     }
 
-    public function renderContent(string $viewContent)
-    {
-        $layoutContent = $this->layoutContent();
-        return str_replace('{{content}}', $viewContent, $layoutContent);
-    }
-
-    protected function renderOnlyView(string $view, array $params = [])
+    public function renderViewOnly($view, $params = [])
     {
         foreach ($params as $key => $value) {
             $$key = $value;
         }
         ob_start();
-        include_once Application::$ROOT_DIR . "/views/$view.php";
+        include_once Application::$ROOT_DIR."/views/$view.php";
         return ob_get_clean();
     }
-
-    protected function layoutContent()
-    {
-        $layout = Application::$application->controller->layout;
-        ob_start();
-        include_once Application::$ROOT_DIR . "/views/layouts/$layout.php";
-        return ob_get_clean();
-    }
-
 }

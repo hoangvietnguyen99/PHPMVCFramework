@@ -4,7 +4,12 @@
 namespace app\controllers;
 
 
-class AboutController
-{
+use app\core\Controller;
 
+class AboutController extends Controller
+{
+    public function index()
+    {
+        return $this->render('about');
+    }
 }

@@ -1,15 +1,16 @@
-<div class="col d-flex justify-content-center align-items-center">
-    <form action="" method="post"> Login
-        <div class="form-group">
-            <label class="form-label"> Email
-                <input type="email" class="form-control" name="email">
-            </label>
-        </div>
-        <div class="form-group">
-            <label class="form-label"> Password
-                <input type="password" class="form-control" name="password">
-            </label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+<?php
+
+/** @var $model LoginForm */
+
+use app\core\form\Form;
+use app\models\LoginForm;
+
+?>
+
+    <h1>Login</h1>
+
+<?php $form = Form::begin('', 'post') ?>
+<?php echo $form->field($model, 'email') ?>
+<?php echo $form->field($model, 'password')->passwordField() ?>
+    <button class="btn btn-success">Submit</button>
+<?php Form::end() ?>
