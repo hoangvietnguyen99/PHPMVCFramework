@@ -63,7 +63,7 @@ var KTLogin = function () {
                     }
                 }), $("#kt_login_signup_submit").on("click", (function (t) {
                     t.preventDefault(), o.validate().then((function (t) {
-                        "Valid" == t ? $("#kt_login_signup_form").submit(): swal.fire({
+                        "Valid" == t ? $("#kt_login_signup_form").submit() : swal.fire({
                             text: "Sorry, looks like there are some errors detected, please try again.",
                             icon: "error",
                             buttonsStyling: !1,

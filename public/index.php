@@ -34,10 +34,4 @@ $app->router->post('/forgetpassword', [AuthController::class, 'forgetPassword'])
 
 $app->router->get('/profile', [SiteController::class, 'profile']);
 
-$app->router->get('/login', [AuthController::class, 'login']);
-$app->router->post('/login', [AuthController::class, 'handleLogin']);
-
-$app->router->get('/register', [AuthController::class, 'register']);
-$app->router->post('/register', [AuthController::class, 'handleRegister']);
-
 $app->run();

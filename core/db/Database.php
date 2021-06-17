@@ -11,6 +11,7 @@ class Database
 {
     public Client $client;
     public \MongoDB\Database $database;
+
     /**
      * Database constructor.
      */

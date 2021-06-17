@@ -4,6 +4,8 @@
 namespace app\core;
 
 
+use app\core\db\DbModel;
+
 abstract class Model
 {
     public const RULE_REQUIRED = 'required';
@@ -70,10 +72,11 @@ abstract class Model
                     $this->addErrorWithRule($attribute, self::RULE_MATCH_REGEX, $rule);
                 }
                 if ($ruleName === self::RULE_UNIQUE) {
-                    $className = $rule['class'];
-                    $collectionName = $className::collectionName();
-                    $collection = Application::$application->database->getCollection($collectionName);
-                    $document = $collection->findOne([$attribute => $value]);
+                    /**
+                     * @var $class DbModel
+                     */
+                    $class = $rule['class'];
+                    $document = $class::findOne([$attribute => $value]);
                     if ($document) {
                         $this->addErrorWithRule($attribute, self::RULE_UNIQUE);
                     }

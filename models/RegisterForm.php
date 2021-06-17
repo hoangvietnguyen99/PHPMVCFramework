@@ -8,7 +8,8 @@ use app\core\Model;
 
 class RegisterForm extends Model
 {
-    public string $fullname = '';
+    public string $fullName = '';
+    public string $username = '';
     public string $email = '';
     public string $password = '';
     public string $passwordConfirm = '';
@@ -16,7 +17,8 @@ class RegisterForm extends Model
     public function labels(): array
     {
         return [
-            'fullname' => 'Full name',
+            'fullName' => 'Full name',
+            'username' => 'Username',
             'email' => 'Email',
             'password' => 'Password',
             'passwordConfirm' => 'Password Confirm'
@@ -26,8 +28,13 @@ class RegisterForm extends Model
     public function rules(): array
     {
         return [
-            'fullname' => [self::RULE_REQUIRED],
-            'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
+            'fullName' => [self::RULE_REQUIRED],
+            'username' => [self::RULE_REQUIRED, [
+                self::RULE_UNIQUE, 'class' => User::class
+            ]],
+            'email' => [self::RULE_REQUIRED, self::RULE_EMAIL, [
+                self::RULE_UNIQUE, 'class' => User::class
+            ]],
             'password' => [self::RULE_REQUIRED,
                 [
                     self::RULE_MATCH_REGEX,
@@ -39,17 +46,12 @@ class RegisterForm extends Model
         ];
     }
 
-    public function register() {
-        $user = new User($this->fullname, $this->email, password_hash($this->password, PASSWORD_DEFAULT));
-        if ($user->validate()) {
-            $user->insertOne();
+    public function register(): bool
+    {
+        $user = new User($this->fullName, $this->email, password_hash($this->password, PASSWORD_DEFAULT), $this->username);
+        if ($user->insertOrUpdateOne()) {
             return true;
         }
-        else {
-            foreach ($user->errors as $attr => $message) {
-                if ($message[0]) $this->addError($attr, $message[0]);
-            }
-            return false;
-        }
+        return false;
     }
 }
