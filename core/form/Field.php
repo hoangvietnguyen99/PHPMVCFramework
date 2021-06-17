@@ -10,39 +10,23 @@ class Field
 {
     public Model $model;
     public string $attribute;
-    public string $type;
-    public string $label;
+    public string $inputHtml;
 
-    /**
-     * Field constructor.
-     * @param Model $model
-     * @param string $attribute
-     */
-    public function __construct(Model $model, string $attribute, string $type, string $label)
+    public function __construct(Model $model, string $inputHtml, string $attribute)
     {
         $this->model = $model;
         $this->attribute = $attribute;
-        $this->type = $type;
-        $this->label = $label;
+        $inputHtml = str_replace('{{name}}', $attribute, $inputHtml);
+        $inputHtml = str_replace('{{value}}', $this->model->{$this->attribute}, $inputHtml);
+        $this->inputHtml = str_replace('{{label}}', $this->model->getLabel($this->attribute), $inputHtml);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return sprintf('
-            <div class="form-group">
-                <label>%s</label>
-                <input type="%s" name="%s" value="%s" class="form-control%s">
-                <div class="invalid-feedback">
-                    %s
-                </div>
-            </div>
-        ',
-            $this->label,
-            $this->type,
-            $this->attribute,
-            $this->model->{$this->attribute},
-            $this->model->hasError($this->attribute) ? ' is-invalid' : '',
-            $this->model->getFirstError($this->attribute)
+        return sprintf('%s',
+            $this->inputHtml
         );
     }
+
+
 }
