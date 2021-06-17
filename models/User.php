@@ -4,28 +4,25 @@
 namespace app\models;
 
 
-use app\core\DbModel;
+use app\core\db\DbModel;
 
 class User extends DbModel
 {
-    public string $firstname;
-    public string $lastname;
+    public string $fullname;
     public string $email;
     public string $password;
 
     /**
      * User constructor.
-     * @param string $firstname
-     * @param string $lastname
+     * @param string $fullname
      * @param string $email
      * @param string $password
      */
-    public function __construct(string $firstname = '', string $lastname = '', string $email = '', string $password = '')
+    public function __construct(string $fullname = '', string $email = '', string $password = '')
     {
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
         $this->email = $email;
         $this->password = $password;
+        $this->fullname = $fullname;
     }
 
     public static function collectionName(): string
@@ -42,7 +39,7 @@ class User extends DbModel
 
     public function attributes(): array
     {
-        return ['firstname', 'lastname', 'email', 'password'];
+        return ['fullname', 'email', 'password'];
     }
 
     public function rules(): array
@@ -52,10 +49,5 @@ class User extends DbModel
                 [self::RULE_UNIQUE, 'class' => self::class]
             ]
         ];
-    }
-
-    public function getDisplayName(): string
-    {
-        return $this->firstname . ' ' . $this->lastname;
     }
 }

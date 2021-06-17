@@ -3,7 +3,8 @@
 namespace app\core;
 
 
-use MongoDB\Model\BSONDocument;
+use app\core\db\Database;
+use app\models\User;
 
 /**
  * Class Application
@@ -18,9 +19,11 @@ class Application
     public Response $response;
     public Router $router;
     public Database $database;
-    public Controller $controller;
+    public ?Controller $controller = null;
     public Session $session;
-    public ?DbModel $user;
+    public ?User $user;
+    public View $view;
+    public string $layout = 'main';
 
     public function __construct(string $rootPath, array $config)
     {
@@ -33,11 +36,11 @@ class Application
         $this->router = new Router($this->request, $this->response);
         $this->database = new Database($config["db"]);
         $this->session = new Session();
+        $this->view = new View();
 
         $userId = Application::$application->session->get('user');
         if ($userId) {
-            $key = $this->userClass::primaryKey();
-            $this->user = $this->userClass::findOne([$key => $userId]);
+            $this->user = $this->userClass::findOne(["_id" => $userId]);
         }
     }
 
@@ -48,14 +51,20 @@ class Application
 
     public function run()
     {
-        echo $this->router->resolve();
+        try {
+            echo $this->router->resolve();
+        } catch (\Exception $exception) {
+            $this->response->statusCode($exception->getCode());
+            echo $this->view->renderView('_error', [
+               'exception' => $exception
+            ]);
+        }
     }
 
-    public function login(DbModel $user)
+    public function login(User $user)
     {
         $this->user = $user;
-        $primaryKey = $user->primaryKey();
-        $value = $user->{$primaryKey};
+        $value = $user->getId();
         Application::$application->session->set('user', $value);
         return true;
     }

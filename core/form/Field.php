@@ -8,46 +8,25 @@ use app\core\Model;
 
 class Field
 {
-    const TYPE_TEXT = 'text';
-    const TYPE_PASSWORD = 'password';
-
     public Model $model;
     public string $attribute;
-    public string $type;
+    public string $inputHtml;
 
-    /**
-     * Field constructor.
-     * @param Model $model
-     * @param string $attribute
-     */
-    public function __construct(Model $model, string $attribute)
+    public function __construct(Model $model, string $inputHtml, string $attribute)
     {
-        $this->type = self::TYPE_TEXT;
         $this->model = $model;
         $this->attribute = $attribute;
+        $inputHtml = str_replace('{{name}}', $attribute, $inputHtml);
+        $inputHtml = str_replace('{{value}}', $this->model->{$this->attribute}, $inputHtml);
+        $this->inputHtml = str_replace('{{label}}', $this->model->getLabel($this->attribute), $inputHtml);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return sprintf('<div class="form-group">
-                <label>%s</label>
-                <input type="%s" class="form-control%s" name="%s" value="%s">
-                <div class="invalid-feedback">
-                    %s
-                </div>
-            </div>',
-            $this->model->getLabel($this->attribute),
-            $this->type,
-            $this->model->hasError($this->attribute) ? ' is-invalid' : '',
-            $this->attribute,
-            $this->model->{$this->attribute},
-            $this->model->getFirstError($this->attribute)
+        return sprintf('%s',
+            $this->inputHtml
         );
     }
 
-    public function passwordField()
-    {
-        $this->type = self::TYPE_PASSWORD;
-        return $this;
-    }
+
 }

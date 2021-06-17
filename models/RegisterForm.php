@@ -8,8 +8,7 @@ use app\core\Model;
 
 class RegisterForm extends Model
 {
-    public string $firstname = '';
-    public string $lastname = '';
+    public string $fullname = '';
     public string $email = '';
     public string $password = '';
     public string $passwordConfirm = '';
@@ -17,8 +16,7 @@ class RegisterForm extends Model
     public function labels(): array
     {
         return [
-            'firstname' => 'First name',
-            'lastname' => 'Last name',
+            'fullname' => 'Full name',
             'email' => 'Email',
             'password' => 'Password',
             'passwordConfirm' => 'Password Confirm'
@@ -28,8 +26,7 @@ class RegisterForm extends Model
     public function rules(): array
     {
         return [
-            'firstname' => [self::RULE_REQUIRED],
-            'lastname' => [self::RULE_REQUIRED],
+            'fullname' => [self::RULE_REQUIRED],
             'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
             'password' => [self::RULE_REQUIRED,
                 [
@@ -43,9 +40,9 @@ class RegisterForm extends Model
     }
 
     public function register() {
-        $user = new User($this->firstname, $this->lastname, $this->email, password_hash($this->password, PASSWORD_DEFAULT));
+        $user = new User($this->fullname, $this->email, password_hash($this->password, PASSWORD_DEFAULT));
         if ($user->validate()) {
-            $_id = $user->insertOne();
+            $user->insertOne();
             return true;
         }
         else {

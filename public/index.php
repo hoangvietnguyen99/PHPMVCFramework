@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+use app\controllers\AuthController;
 use app\controllers\SiteController;
 use app\controllers\AboutController;
 use app\core\Application;
@@ -22,12 +23,15 @@ $config = [
 $app = new Application(dirname(__DIR__), $config);
 
 $app->router->get('/', [SiteController::class, 'home']);
-$app->router->get('/register', [SiteController::class, 'register']);
-$app->router->post('/register', [SiteController::class, 'register']);
-$app->router->get('/login', [SiteController::class, 'login']);
-$app->router->post('/login', [SiteController::class, 'login']);
-$app->router->get('/logout', [SiteController::class, 'logout']);
-$app->router->get('/contact', [SiteController::class, 'contact']);
-$app->router->get('/about', [AboutController::class, 'index']);
+
+$app->router->get('/signup', [AuthController::class, 'signUp']);
+$app->router->post('/signup', [AuthController::class, 'signUp']);
+$app->router->get('/signin', [AuthController::class, 'signIn']);
+$app->router->post('/signin', [AuthController::class, 'signIn']);
+$app->router->get('/signout', [AuthController::class, 'signOut']);
+$app->router->get('/forgetpassword', [AuthController::class, 'forgetPassword']);
+$app->router->post('/forgetpassword', [AuthController::class, 'forgetPassword']);
+
+$app->router->get('/profile', [SiteController::class, 'profile']);
 
 $app->run();

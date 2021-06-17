@@ -16,7 +16,8 @@ abstract class Model
 
     public array $errors = [];
 
-    public function loadData($data) {
+    public function loadData($data)
+    {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->{$key} = $value;
@@ -39,7 +40,8 @@ abstract class Model
         return [];
     }
 
-    public function validate() {
+    public function validate()
+    {
         $validateRules = $this->rules();
         foreach ($validateRules as $attribute => $rules) {
             $value = $this->{$attribute};
@@ -86,20 +88,30 @@ abstract class Model
         return $this->errorMessages()[$rule];
     }
 
-    private function addErrorWithRule(string $attribute, string $rule, $params = []) {
+    private function addErrorWithRule(string $attribute, string $rule, $params = [])
+    {
         $params['field'] ??= $this->getLabel($attribute);
         $errorMessage = $params['message'] ?? $this->errorMessage($rule);
         foreach ($params as $key => $value) {
             $errorMessage = str_replace("{{$key}}", $value, $errorMessage);
         }
-        $this->errors[$attribute][] = $errorMessage;
+
+        $this->addError($attribute, $errorMessage);
     }
 
-    public function addError(string $attribute, string $message) {
+    public function addError(string $attribute, string $message)
+    {
+        $currentErrors = Application::$application->session->getFlash('error');
+        if (!$currentErrors) $currentErrors = [];
+        if (!isset($currentErrors[$attribute])) {
+            $currentErrors[$attribute] = $message;
+            Application::$application->session->setFlash('error', $currentErrors);
+        }
         $this->errors[$attribute][] = $message;
     }
 
-    public function errorMessages() {
+    public function errorMessages()
+    {
         return [
             self::RULE_REQUIRED => '{field} is required',
             self::RULE_EMAIL => '{field} must be a valid email address',
@@ -111,11 +123,13 @@ abstract class Model
         ];
     }
 
-    public function hasError(string $attribute) {
+    public function hasError(string $attribute)
+    {
         return $this->errors[$attribute] ?? false;
     }
 
-    public function getFirstError(string $attribute) {
+    public function getFirstError(string $attribute)
+    {
         $errors = $this->errors[$attribute] ?? [];
         return $errors[0] ?? '';
     }
