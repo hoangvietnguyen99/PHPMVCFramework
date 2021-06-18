@@ -30,16 +30,13 @@ class Router
         $this->routeMap['post'][$url] = $callback;
     }
 
-    /**
-     * @throws NotFoundException
-     */
     public function resolve()
     {
         $method = $this->request->getMethod();
         $url = $this->request->getUrl();
         $callback = $this->routeMap[$method][$url] ?? false;
         if (!$callback) {
-            throw new NotFoundException();
+            return null;
         }
         if (is_string($callback)) {
             return Application::$application->view->renderView($callback);

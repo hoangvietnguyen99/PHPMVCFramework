@@ -8,12 +8,25 @@ use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
+use app\middlewares\AuthMiddleware;
+use app\middlewares\GuestMiddleware;
 use app\models\ForgetPasswordForm;
 use app\models\LoginForm;
 use app\models\RegisterForm;
 
 class AuthController extends Controller
 {
+
+
+    /**
+     * AuthController constructor.
+     */
+    public function __construct()
+    {
+        $this->registerMiddleware(new GuestMiddleware(['signIn', 'signUp', 'forgetPassword']));
+        $this->registerMiddleware(new AuthMiddleware(['signOut']));
+    }
+
     public function signIn(Request $request)
     {
         $loginForm = new LoginForm();

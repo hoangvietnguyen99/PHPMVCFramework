@@ -52,7 +52,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--begin::Header Mobile-->
 <div id="kt_header_mobile" class="header-mobile bg-primary header-mobile-fixed">
     <!--begin::Logo-->
-    <a href="../../../../index.html">
+    <a href="/">
         <img alt="Logo" src="../assets/media/logos/logo-letter-9.png" class="max-h-30px"/>
     </a>
     <!--end::Logo-->
@@ -95,7 +95,7 @@ License: You must have a valid license purchased only from themeforest(the above
                         <!--begin::Left-->
                         <div class="d-none d-lg-flex align-items-center mr-3">
                             <!--begin::Logo-->
-                            <a href="../../../../index.html" class="mr-20">
+                            <a href="/" class="mr-20">
                                 <img alt="Logo" src="../assets/media/logos/logo-letter-9.png" class="max-h-35px"/>
                             </a>
                             <!--end::Logo-->
@@ -1190,7 +1190,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                  class="header-menu header-menu-left header-menu-mobile header-menu-layout-default">
                                 <!--begin::Header Nav-->
                                 <ul class="menu-nav">
-                                    <?PHP if ($user->isAdmin): ?>
+                                    <?PHP if (!Application::isGuest() && $user->isAdmin): ?>
                                     <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover"
                                         aria-haspopup="true">
                                         <a href="javascript:;" class="menu-link menu-toggle">
@@ -1255,10 +1255,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                         </div>
                                     </li>
                                     <?PHP endif; ?>
-                                    <li class="menu-item menu-item-open menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here"
+                                    <li class="menu-item menu-item-submenu menu-item-rel"
                                         data-menu-toggle="hover" aria-haspopup="true">
                                         <a href="javascript:;" class="menu-link menu-toggle">
-                                            <span class="menu-text">Questions</span>
+                                            <span class="menu-text">Questions (chưa đụng)</span>
                                             <span class="menu-desc">View all questions and answers</span>
                                             <i class="menu-arrow"></i>
                                         </a>
@@ -2151,7 +2151,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <li class="menu-item menu-item-submenu" data-menu-toggle="hover"
                                         aria-haspopup="true">
                                         <a href="javascript:;" class="menu-link menu-toggle">
-                                            <span class="menu-text">Pages</span>
+                                            <span class="menu-text">Pages (chưa đụng)</span>
                                             <span class="menu-desc">Custom Pages</span>
                                             <i class="menu-arrow"></i>
                                         </a>
@@ -2517,6 +2517,110 @@ License: You must have a valid license purchased only from themeforest(the above
                                             </div>
                                         </div>
                                     </li>
+                                    <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover"
+                                        aria-haspopup="true">
+                                        <a href="javascript:;" class="menu-link menu-toggle">
+                                            <span class="menu-text">Profile</span>
+                                            <span class="menu-desc">Settings and more</span>
+                                            <i class="menu-arrow"></i>
+                                        </a>
+                                        <div class="menu-submenu menu-submenu-classic menu-submenu-left">
+                                            <ul class="menu-subnav">
+                                                <li class="menu-item menu-item-submenu" data-menu-toggle="hover"
+                                                    aria-haspopup="true">
+                                                    <a href="/profile" class="menu-link">
+																<span class="svg-icon menu-icon">
+																	<!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Shopping/Gift.svg-->
+																	<svg xmlns="http://www.w3.org/2000/svg"
+                                                                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                         width="24px" height="24px" viewBox="0 0 24 24"
+                                                                         version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none"
+                                                                           fill-rule="evenodd">
+																			<rect x="0" y="0" width="24" height="24"/>
+																			<path d="M4,6 L20,6 C20.5522847,6 21,6.44771525 21,7 L21,8 C21,8.55228475 20.5522847,9 20,9 L4,9 C3.44771525,9 3,8.55228475 3,8 L3,7 C3,6.44771525 3.44771525,6 4,6 Z M5,11 L10,11 C10.5522847,11 11,11.4477153 11,12 L11,19 C11,19.5522847 10.5522847,20 10,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,12 C4,11.4477153 4.44771525,11 5,11 Z M14,11 L19,11 C19.5522847,11 20,11.4477153 20,12 L20,19 C20,19.5522847 19.5522847,20 19,20 L14,20 C13.4477153,20 13,19.5522847 13,19 L13,12 C13,11.4477153 13.4477153,11 14,11 Z"
+                                                                                  fill="#000000"/>
+																			<path d="M14.4452998,2.16794971 C14.9048285,1.86159725 15.5256978,1.98577112 15.8320503,2.4452998 C16.1384028,2.90482849 16.0142289,3.52569784 15.5547002,3.83205029 L12,6.20185043 L8.4452998,3.83205029 C7.98577112,3.52569784 7.86159725,2.90482849 8.16794971,2.4452998 C8.47430216,1.98577112 9.09517151,1.86159725 9.5547002,2.16794971 L12,3.79814957 L14.4452998,2.16794971 Z"
+                                                                                  fill="#000000" fill-rule="nonzero"
+                                                                                  opacity="0.3"/>
+																		</g>
+																	</svg>
+                                                                    <!--end::Svg Icon-->
+																</span>
+                                                        <span class="menu-text">Summary</span>
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item menu-item-submenu" data-menu-toggle="hover"
+                                                    aria-haspopup="true">
+                                                    <a href="/profile/account-information" class="menu-link">
+																<span class="svg-icon menu-icon">
+																	<!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Shopping/Gift.svg-->
+																	<svg xmlns="http://www.w3.org/2000/svg"
+                                                                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                         width="24px" height="24px" viewBox="0 0 24 24"
+                                                                         version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none"
+                                                                           fill-rule="evenodd">
+																			<rect x="0" y="0" width="24" height="24"/>
+																			<path d="M4,6 L20,6 C20.5522847,6 21,6.44771525 21,7 L21,8 C21,8.55228475 20.5522847,9 20,9 L4,9 C3.44771525,9 3,8.55228475 3,8 L3,7 C3,6.44771525 3.44771525,6 4,6 Z M5,11 L10,11 C10.5522847,11 11,11.4477153 11,12 L11,19 C11,19.5522847 10.5522847,20 10,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,12 C4,11.4477153 4.44771525,11 5,11 Z M14,11 L19,11 C19.5522847,11 20,11.4477153 20,12 L20,19 C20,19.5522847 19.5522847,20 19,20 L14,20 C13.4477153,20 13,19.5522847 13,19 L13,12 C13,11.4477153 13.4477153,11 14,11 Z"
+                                                                                  fill="#000000"/>
+																			<path d="M14.4452998,2.16794971 C14.9048285,1.86159725 15.5256978,1.98577112 15.8320503,2.4452998 C16.1384028,2.90482849 16.0142289,3.52569784 15.5547002,3.83205029 L12,6.20185043 L8.4452998,3.83205029 C7.98577112,3.52569784 7.86159725,2.90482849 8.16794971,2.4452998 C8.47430216,1.98577112 9.09517151,1.86159725 9.5547002,2.16794971 L12,3.79814957 L14.4452998,2.16794971 Z"
+                                                                                  fill="#000000" fill-rule="nonzero"
+                                                                                  opacity="0.3"/>
+																		</g>
+																	</svg>
+                                                                    <!--end::Svg Icon-->
+																</span>
+                                                        <span class="menu-text">Account Information</span>
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item menu-item-submenu" data-menu-toggle="hover"
+                                                    aria-haspopup="true">
+                                                    <a href="/profile/personal-information" class="menu-link">
+																<span class="svg-icon menu-icon">
+																	<!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Address-card.svg-->
+																	<svg xmlns="http://www.w3.org/2000/svg"
+                                                                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                         width="24px" height="24px" viewBox="0 0 24 24"
+                                                                         version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none"
+                                                                           fill-rule="evenodd">
+																			<rect x="0" y="0" width="24" height="24"/>
+																			<path d="M6,2 L18,2 C19.6568542,2 21,3.34314575 21,5 L21,19 C21,20.6568542 19.6568542,22 18,22 L6,22 C4.34314575,22 3,20.6568542 3,19 L3,5 C3,3.34314575 4.34314575,2 6,2 Z M12,11 C13.1045695,11 14,10.1045695 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,10.1045695 10.8954305,11 12,11 Z M7.00036205,16.4995035 C6.98863236,16.6619875 7.26484009,17 7.4041679,17 C11.463736,17 14.5228466,17 16.5815,17 C16.9988413,17 17.0053266,16.6221713 16.9988413,16.5 C16.8360465,13.4332455 14.6506758,12 11.9907452,12 C9.36772908,12 7.21569918,13.5165724 7.00036205,16.4995035 Z"
+                                                                                  fill="#000000"/>
+																		</g>
+																	</svg>
+                                                                    <!--end::Svg Icon-->
+																</span>
+                                                        <span class="menu-text">Personal Information</span>
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item menu-item-submenu" data-menu-toggle="hover"
+                                                    aria-haspopup="true">
+                                                    <a href="/profile/change-password" class="menu-link">
+																<span class="svg-icon menu-icon">
+																	<!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Adress-book1.svg-->
+																	<svg xmlns="http://www.w3.org/2000/svg"
+                                                                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                         width="24px" height="24px" viewBox="0 0 24 24"
+                                                                         version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none"
+                                                                           fill-rule="evenodd">
+																			<rect x="0" y="0" width="24" height="24"/>
+																			<path d="M17,2 L19,2 C20.6568542,2 22,3.34314575 22,5 L22,19 C22,20.6568542 20.6568542,22 19,22 L17,22 L17,2 Z"
+                                                                                  fill="#000000" opacity="0.3"/>
+																			<path d="M4,2 L16,2 C17.6568542,2 19,3.34314575 19,5 L19,19 C19,20.6568542 17.6568542,22 16,22 L4,22 C3.44771525,22 3,21.5522847 3,21 L3,3 C3,2.44771525 3.44771525,2 4,2 Z M11.1176481,13.709585 C10.6725287,14.1547043 9.99251947,14.2650547 9.42948307,13.9835365 C8.86644666,13.7020183 8.18643739,13.8123686 7.74131803,14.2574879 L6.2303083,15.7684977 C6.17542087,15.8233851 6.13406645,15.8902979 6.10952004,15.9639372 C6.02219616,16.2259088 6.16377615,16.5090688 6.42574781,16.5963927 L7.77956724,17.0476658 C9.07965249,17.4810276 10.5130001,17.1426601 11.4820264,16.1736338 L15.4812434,12.1744168 C16.3714821,11.2841781 16.5921828,9.92415954 16.0291464,8.79808673 L15.3965752,7.53294436 C15.3725414,7.48487691 15.3409156,7.44099843 15.302915,7.40299777 C15.1076528,7.20773562 14.7910703,7.20773562 14.5958082,7.40299777 L13.0032662,8.99553978 C12.5581468,9.44065914 12.4477965,10.1206684 12.7293147,10.6837048 C13.0108329,11.2467412 12.9004826,11.9267505 12.4553632,12.3718698 L11.1176481,13.709585 Z"
+                                                                                  fill="#000000"/>
+																		</g>
+																	</svg>
+                                                                    <!--end::Svg Icon-->
+																</span>
+                                                        <span class="menu-text">Change Password</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
                                 </ul>
                                 <!--end::Header Nav-->
                             </div>
@@ -2613,7 +2717,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!--begin::Nav-->
         <div class="navi navi-spacer-x-0 p-0">
             <!--begin::Item-->
-            <a href="../../user/profile-1/personal-information.html" class="navi-item">
+            <a href="/profile" class="navi-item">
                 <div class="navi-link">
                     <div class="symbol symbol-40 bg-light mr-3">
                         <div class="symbol-label">
@@ -4302,6 +4406,13 @@ echo Application::$application->session->getFlash('success');
         }
     })
 </script>
+<!--begin::Page Scripts(used by profile)-->
+<script src="../assets/js/pages/widgets7a50.js?v=7.2.7"></script>
+<script src="../assets/js/pages/custom/profile/profile7a50.js?v=7.2.7"></script>
+<!--end::Page Scripts-->
+<!--begin::Page Scripts(used by admin users)-->
+<script src="../assets/js/pages/crud/ktdatatable/child/data-local7a50.js?v=7.2.7"></script>
+<!--end::Page Scripts-->
 </body>
 <!--end::Body-->
 

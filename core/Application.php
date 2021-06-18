@@ -4,6 +4,7 @@ namespace app\core;
 
 
 use app\core\db\Database;
+use app\core\exception\NotFoundException;
 use app\models\User;
 
 /**
@@ -17,7 +18,10 @@ class Application
     public string $userClass;
     public Request $request;
     public Response $response;
-    public Router $router;
+    /**
+     * @var Router[]
+     */
+    public array $routers = [];
     public Database $database;
     public ?Controller $controller = null;
     public Session $session;
@@ -33,7 +37,6 @@ class Application
         self::$application = $this;
         $this->request = new Request();
         $this->response = new Response();
-        $this->router = new Router($this->request, $this->response);
         $this->database = new Database($config["db"]);
         $this->session = new Session();
         $this->view = new View();
@@ -52,7 +55,20 @@ class Application
     public function run()
     {
         try {
-            echo $this->router->resolve();
+            $result = null;
+            foreach ($this->routers as $router) {
+                $result = $router->resolve();
+                if ($result) {
+                    echo $result;
+                    break;
+                }
+            }
+            if (!$result) {
+                $this->response->statusCode(404);
+                echo $this->view->renderView('_error', [
+                    'exception' => new NotFoundException()
+                ]);
+            }
         } catch (\Exception $exception) {
             $this->response->statusCode($exception->getCode());
             echo $this->view->renderView('_error', [

@@ -1,26 +1,15 @@
 <?php
 
 
-namespace app\core\middlewares;
+namespace app\middlewares;
 
 
 use app\core\Application;
 use app\core\exception\ForbiddenException;
+use app\core\middlewares\Middleware;
 
 class AuthMiddleware extends Middleware
 {
-    protected array $actions = [];
-
-    /**
-     * AuthMiddleware constructor.
-     * @param array $actions
-     */
-    public function __construct(array $actions = [])
-    {
-        $this->actions = $actions;
-    }
-
-
     /**
      * @throws ForbiddenException
      */

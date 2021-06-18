@@ -4,13 +4,8 @@
 namespace app\controllers;
 
 
-use app\core\Application;
 use app\core\Controller;
-use app\core\middlewares\AuthMiddleware;
-use app\core\Request;
-use app\core\Response;
-use app\models\LoginForm;
-use app\models\RegisterForm;
+use app\middlewares\AuthMiddleware;
 
 class SiteController extends Controller
 {
@@ -30,10 +25,5 @@ class SiteController extends Controller
     public function contact()
     {
         return $this->render('contact');
-    }
-
-    public function profile()
-    {
-        return $this->render('profile');
     }
 }
