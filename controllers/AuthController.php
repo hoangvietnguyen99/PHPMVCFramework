@@ -16,63 +16,53 @@ use app\models\RegisterForm;
 
 class AuthController extends Controller
 {
-
-
     /**
      * AuthController constructor.
      */
     public function __construct()
     {
-        $this->registerMiddleware(new GuestMiddleware(['signIn', 'signUp', 'forgetPassword']));
+        $this->registerMiddleware(new GuestMiddleware(['getAuth', 'signIn', 'signUp', 'forgetPassword']));
         $this->registerMiddleware(new AuthMiddleware(['signOut']));
     }
 
-    public function signIn(Request $request)
+    public function getAuth(): string
+    {
+        $this->setLayout('');
+        return $this->render('auth');
+    }
+
+    public function signIn(Request $request, Response $response)
     {
         $loginForm = new LoginForm();
-        if ($request->getMethod() === 'post') {
-            $loginForm->loadData($request->getBody());
-            if ($loginForm->validate() && $loginForm->login()) {
-                Application::$application->session->setFlash('success', 'Welcome back');
-                return Application::$application->response->redirect('/');
-            }
+        $loginForm->loadData($request->getBody());
+        if ($loginForm->validate() && $loginForm->login()) {
+            Application::$application->session->setFlash('success', 'Welcome back');
+            return $response->send(200);
         }
-        $this->setLayout('auth');
-        return $this->render('login', [
-            'model' => $loginForm
-        ]);
+        return $response->send(401, $loginForm->errors);
     }
 
-    public function signUp(Request $request)
+    public function signUp(Request $request, Response $response)
     {
         $registerModel = new RegisterForm();
-        if ($request->getMethod() === 'post') {
-            $registerModel->loadData($request->getBody());
-            if ($registerModel->validate() && $registerModel->register()) {
-                Application::$application->session->setFlash('success', 'Thanks for joining with us');
-                return Application::$application->response->redirect('/signin');
-            }
+        $registerModel->loadData($request->getBody());
+        if ($registerModel->validate() && $registerModel->register()) {
+            Application::$application->session->setFlash('success', 'Thanks for joining with us');
+            return $response->send(201);
         }
-        $this->setLayout('auth');
-        return $this->render('register', [
-            'model' => $registerModel
-        ]);
+        return $response->send(400, $registerModel->errors);
     }
 
-    public function forgetPassword(Request $request)
+    public function forgetPassword(Request $request, Response $response)
     {
         $forgetPasswordForm = new ForgetPasswordForm();
-        if ($request->getMethod() === 'post') {
-            $forgetPasswordForm->loadData($request->getBody());
-            if ($forgetPasswordForm->validate() && $forgetPasswordForm->forgetPassword()) {
-                Application::$application->session->setFlash('success', 'Check your email for the link');
-                return Application::$application->response->redirect('/');
-            }
+        $forgetPasswordForm->loadData($request->getBody());
+        return json_encode($request->getBody());
+        if ($forgetPasswordForm->validate() && $forgetPasswordForm->forgetPassword()) {
+            Application::$application->session->setFlash('success', 'Check your email for the link');
+            return $response->send(200);
         }
-        $this->setLayout('auth');
-        return $this->render('forgetPassword', [
-            'model' => $forgetPasswordForm
-        ]);
+        return $response->send(400, $forgetPasswordForm->errors);
     }
 
     public function signOut(Request $request, Response $response)

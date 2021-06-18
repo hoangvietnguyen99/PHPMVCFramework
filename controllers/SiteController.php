@@ -26,4 +26,9 @@ class SiteController extends Controller
     {
         return $this->render('contact');
     }
+
+    public function questions()
+    {
+        return $this->render('questions');
+    }
 }

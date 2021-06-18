@@ -20,26 +20,6 @@ class ProfileController extends Controller
     }
 
     public function profile() {
-        return $this->render('profile/overview', [
-            'subLayout' => 'profile'
-        ]);
-    }
-
-    public function changePassword() {
-        return $this->render('profile/change-password', [
-            'subLayout' => 'profile'
-        ]);
-    }
-
-    public function personalInformation() {
-        return $this->render('profile/personal-information', [
-            'subLayout' => 'profile'
-        ]);
-    }
-
-    public function accountInformation() {
-        return $this->render('profile/account-information', [
-            'subLayout' => 'profile'
-        ]);
+        return $this->render('profile');
     }
 }

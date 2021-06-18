@@ -26,6 +26,7 @@ class View
             $subLayoutContent = ob_get_clean();
             $viewContent = str_replace('{{content}}', $viewContent, $subLayoutContent);
         }
+        if (!$layoutName) return $viewContent;
         ob_start();
         include_once Application::$ROOT_DIR . "/views/layouts/$layoutName.php";
         $layoutContent = ob_get_clean();

@@ -6,4 +6,4 @@ use app\core\Router;
 
 $adminRouter = new Router(Application::$application->request, Application::$application->response);
 
-$adminRouter->get('/admin/users', [AdminController::class, 'users']);
+$adminRouter->get('/admin', [AdminController::class, 'users']);

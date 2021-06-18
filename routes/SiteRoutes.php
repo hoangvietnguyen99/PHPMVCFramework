@@ -8,3 +8,4 @@ $siteRouter = new Router(Application::$application->request, Application::$appli
 
 $siteRouter->get('/', [SiteController::class, 'home']);
 $siteRouter->get('/contact', [SiteController::class, 'contact']);
+$siteRouter->get('/questions', [SiteController::class, 'questions']);

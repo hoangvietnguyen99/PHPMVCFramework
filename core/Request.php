@@ -47,6 +47,12 @@ class Request
                 $data[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
         }
+        $rawPostBody = file_get_contents('php://input');
+        $postData = json_decode($rawPostBody, true);
+        return $postData;
+        foreach ($postData as $key => $value) {
+            $data[$key] = filter_var($value, FILTER_SANITIZE_SPECIAL_CHARS);
+        }
         return $data;
     }
 }
