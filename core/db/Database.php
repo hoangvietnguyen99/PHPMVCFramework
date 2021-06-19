@@ -22,7 +22,7 @@ class Database
 
         $this->client = new Client($connectionString);
 
-        $this->database = $this->client->vnsocial;
+        $this->database = $this->client->{$config["NAME"]};
     }
 
     public function getCollection(string $collectionName): Collection

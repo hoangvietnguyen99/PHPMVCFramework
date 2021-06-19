@@ -17,11 +17,10 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->registerMiddleware(new AdminMiddleware());
-        $this->setLayout('admin');
     }
 
     public function users()
     {
-        return $this->render('admin/users');
+        return $this->render('admin/userManagement');
     }
 }

@@ -10,22 +10,11 @@ class View
 
     public function renderView(string $view, array $params = [])
     {
-        $subLayout = '';
-        if (isset($params['subLayout'])) {
-            $subLayout = $params['subLayout'];
-            unset($params['subLayout']);
-        }
         $layoutName = Application::$application->layout;
         if (Application::$application->controller) {
             $layoutName = Application::$application->controller->layout;
         }
         $viewContent = $this->renderViewOnly($view, $params);
-        if ($subLayout) {
-            ob_start();
-            include_once Application::$ROOT_DIR . "/views/layouts/$subLayout.php";
-            $subLayoutContent = ob_get_clean();
-            $viewContent = str_replace('{{content}}', $viewContent, $subLayoutContent);
-        }
         if (!$layoutName) return $viewContent;
         ob_start();
         include_once Application::$ROOT_DIR . "/views/layouts/$layoutName.php";

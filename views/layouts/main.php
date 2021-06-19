@@ -953,7 +953,8 @@ License: You must have a valid license purchased only from themeforest(the above
                             <?php
                             if (Application::isGuest()): ?>
                                 <div class="topbar-item">
-                                    <a href="/auth" class="btn btn-light-success font-weight-bold mr-2">Sign In</a>
+                                    <a href="/login" class="btn btn-light-success font-weight-bold mr-2">Log In</a>
+                                    <a href="/register" class="btn btn-light-success font-weight-bold mr-2">Register</a>
                                 </div>
                             <?php else: ?>
                             <!--begin::User-->
@@ -1065,7 +1066,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <i class="symbol-badge bg-success"></i>
             </div>
             <div class="d-flex flex-column">
-                <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?PHP echo $user->fullName ?></a>
+                <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?PHP echo $user->getFullName() ?></a>
                 <div class="text-muted mt-1"><?PHP if ($user->isAdmin): ?>Administrator<?PHP else: ?>User<?PHP endif; ?></div>
                 <div class="navi mt-2">
                     <a href="mailto: <?PHP echo $user->email ?>" class="navi-item">
@@ -1086,7 +1087,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<span class="navi-text text-muted text-hover-primary"><?PHP echo $user->email ?></span>
 								</span>
                     </a>
-                    <a href="/signout" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
+                    <a href="/logout" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Log Out</a>
                 </div>
             </div>
         </div>
@@ -2463,6 +2464,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
+<script src="assets/js/pages/crud/ktdatatable/child/data-ajax.js"></script>
 <script src="assets/js/pages/widgets.js"></script>
 <script type="application/javascript">
     $('document').ready(() => {
@@ -2509,7 +2511,6 @@ License: You must have a valid license purchased only from themeforest(the above
         }
     })
 </script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!--end::Page Scripts-->
 </body>
 <!--end::Body-->

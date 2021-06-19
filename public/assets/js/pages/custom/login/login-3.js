@@ -1,89 +1,76 @@
 "use strict";
 
 // Class Definition
-var KTLogin = function () {
-    var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
+var KTLogin = function() {
+	var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
 
-    var _handleFormSignin = function () {
-        var form = KTUtil.getById('kt_login_singin_form');
-        var formSubmitUrl = KTUtil.attr(form, 'action');
-        var formSubmitButton = KTUtil.getById('kt_login_singin_form_submit_button');
+	var _handleFormSignin = function() {
+		var form = KTUtil.getById('kt_login_singin_form');
+		var formSubmitUrl = KTUtil.attr(form, 'action');
+		var formSubmitButton = KTUtil.getById('kt_login_singin_form_submit_button');
 
-        if (!form) {
-            return;
-        }
+		if (!form) {
+			return;
+		}
 
-        FormValidation
-            .formValidation(
-                form,
-                {
-                    fields: {
-                        email: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Your email is required'
-                                }
-                            }
-                        },
-                        password: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Password is required'
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        trigger: new FormValidation.plugins.Trigger(),
-                        submitButton: new FormValidation.plugins.SubmitButton(),
-                        //defaultSubmit: new FormValidation.plugins.DefaultSubmit(), // Uncomment this line to enable normal button submit after form validation
-                        bootstrap: new FormValidation.plugins.Bootstrap({
-                            //	eleInvalidClass: '', // Repace with uncomment to hide bootstrap validation icons
-                            //	eleValidClass: '',   // Repace with uncomment to hide bootstrap validation icons
-                        })
-                    }
-                }
-            )
-            .on('core.form.valid', function () {
-                // Show loading state on button
-                // KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+		FormValidation
+		    .formValidation(
+		        form,
+		        {
+		            fields: {
+						email: {
+							validators: {
+								notEmpty: {
+									message: 'Email is required'
+								}
+							}
+						},
+						password: {
+							validators: {
+								notEmpty: {
+									message: 'Password is required'
+								}
+							}
+						}
+		            },
+		            plugins: {
+						trigger: new FormValidation.plugins.Trigger(),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+	            		//defaultSubmit: new FormValidation.plugins.DefaultSubmit(), // Uncomment this line to enable normal button submit after form validation
+						bootstrap: new FormValidation.plugins.Bootstrap({
+						//	eleInvalidClass: '', // Repace with uncomment to hide bootstrap validation icons
+						//	eleValidClass: '',   // Repace with uncomment to hide bootstrap validation icons
+						})
+		            }
+		        }
+		    )
+		    .on('core.form.valid', function() {
+				// Show loading state on button
+				KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
 
-                form.submit();
+				// Simulate Ajax request
+				setTimeout(function() {
+					KTUtil.btnRelease(formSubmitButton);
+				}, 2000);
 
-                // Simulate Ajax request
-                // setTimeout(function () {
-                //     KTUtil.btnRelease(formSubmitButton);
-                // }, 2000);
-
-                // Form Validation & Ajax Submission: https://formvalidation.io/guide/examples/using-ajax-to-submit-the-form
-                 /*FormValidation.utils.fetch(formSubmitUrl, {
+				// Form Validation & Ajax Submission: https://formvalidation.io/guide/examples/using-ajax-to-submit-the-form
+		        FormValidation.utils.fetch(formSubmitUrl, {
 		            method: 'POST',
 					dataType: 'json',
 		            params: {
-		                email: form.querySelector('[name="email"]').value,
 		                password: form.querySelector('[name="password"]').value,
+		                email: form.querySelector('[name="email"]').value,
 		            },
-		        }).then(function(response) { // Return valid JSON
+		        }).then(function(error) { // Return valid JSON
 					// Release button
 					KTUtil.btnRelease(formSubmitButton);
 
-                     console.log(response);
 
-					if (!response) {
-						Swal.fire({
-			                text: "All is cool! Have fun!",
-			                icon: "success",
-			                buttonsStyling: false,
-							confirmButtonText: "Ok, got it!",
-							customClass: {
-								confirmButton: "btn font-weight-bold btn-light-primary"
-							}
-			            }).then(function() {
-							window.location.href = '/';
-						});
+					if (!error) {
+						document.location.href = '/';
 					} else {
 						Swal.fire({
-			                text: "Sorry, something went wrong, please try again.",
+			                text: `Sorry, ${error.email ? error.email[0] : error.password ? error.password[0] : ''}`,
 			                icon: "error",
 			                buttonsStyling: false,
 							confirmButtonText: "Ok, got it!",
@@ -91,381 +78,359 @@ var KTLogin = function () {
 								confirmButton: "btn font-weight-bold btn-light-primary"
 							}
 			            }).then(function() {
-                            window.location.href = '/signin';
+							KTUtil.scrollTop();
 						});
 					}
-		        });*/
-            })
-            .on('core.form.invalid', function () {
-                Swal.fire({
-                    text: "Sorry, looks like there are some errors detected, please try again.",
-                    icon: "error",
-                    buttonsStyling: false,
-                    confirmButtonText: "Ok, got it!",
-                    customClass: {
-                        confirmButton: "btn font-weight-bold btn-light-primary"
-                    }
-                }).then(function () {
-                    KTUtil.scrollTop();
-                });
-            });
+		        });
+		    })
+			.on('core.form.invalid', function() {
+				KTUtil.scrollTop();
+		    });
     }
 
-    var _handleFormForgot = function () {
-        var form = KTUtil.getById('kt_login_forgot_form');
-        var formSubmitUrl = KTUtil.attr(form, 'action');
-        var formSubmitButton = KTUtil.getById('kt_login_forgot_form_submit_button');
+	var _handleFormForgot = function() {
+		var form = KTUtil.getById('kt_login_forgot_form');
+		var formSubmitUrl = KTUtil.attr(form, 'action');
+		var formSubmitButton = KTUtil.getById('kt_login_forgot_form_submit_button');
 
-        if (!form) {
-            return;
-        }
+		if (!form) {
+			return;
+		}
 
-        FormValidation
-            .formValidation(
-                form,
-                {
-                    fields: {
-                        email: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'Email is required'
-                                },
-                                emailAddress: {
-                                    message: 'The value is not a valid email address'
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        trigger: new FormValidation.plugins.Trigger(),
-                        submitButton: new FormValidation.plugins.SubmitButton(),
-                        //defaultSubmit: new FormValidation.plugins.DefaultSubmit(), // Uncomment this line to enable normal button submit after form validation
-                        bootstrap: new FormValidation.plugins.Bootstrap({
-                            //	eleInvalidClass: '', // Repace with uncomment to hide bootstrap validation icons
-                            //	eleValidClass: '',   // Repace with uncomment to hide bootstrap validation icons
-                        })
-                    }
-                }
-            )
-            .on('core.form.valid', function () {
-                // Show loading state on button
-                KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+		FormValidation
+		    .formValidation(
+		        form,
+		        {
+		            fields: {
+						email: {
+							validators: {
+								notEmpty: {
+									message: 'Email is required'
+								},
+								emailAddress: {
+									message: 'The value is not a valid email address'
+								}
+							}
+						}
+		            },
+		            plugins: {
+						trigger: new FormValidation.plugins.Trigger(),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+	            		//defaultSubmit: new FormValidation.plugins.DefaultSubmit(), // Uncomment this line to enable normal button submit after form validation
+						bootstrap: new FormValidation.plugins.Bootstrap({
+						//	eleInvalidClass: '', // Repace with uncomment to hide bootstrap validation icons
+						//	eleValidClass: '',   // Repace with uncomment to hide bootstrap validation icons
+						})
+		            }
+		        }
+		    )
+		    .on('core.form.valid', function() {
+				// Show loading state on button
+				KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
 
-                // Simulate Ajax request
-                setTimeout(function () {
-                    KTUtil.btnRelease(formSubmitButton);
-                }, 2000);
-            })
-            .on('core.form.invalid', function () {
-                Swal.fire({
-                    text: "Sorry, looks like there are some errors detected, please try again.",
-                    icon: "error",
-                    buttonsStyling: false,
-                    confirmButtonText: "Ok, got it!",
-                    customClass: {
-                        confirmButton: "btn font-weight-bold btn-light-primary"
-                    }
-                }).then(function () {
-                    KTUtil.scrollTop();
-                });
-            });
+				// Simulate Ajax request
+				setTimeout(function() {
+					KTUtil.btnRelease(formSubmitButton);
+				}, 2000);
+		    })
+			.on('core.form.invalid', function() {
+				Swal.fire({
+					text: "Sorry, looks like there are some errors detected, please try again.",
+					icon: "error",
+					buttonsStyling: false,
+					confirmButtonText: "Ok, got it!",
+					customClass: {
+						confirmButton: "btn font-weight-bold btn-light-primary"
+					}
+				}).then(function() {
+					KTUtil.scrollTop();
+				});
+		    });
     }
 
-    var _handleFormSignup = function () {
-        // Base elements
-        var wizardEl = KTUtil.getById('kt_login');
-        var form = KTUtil.getById('kt_login_signup_form');
-        var wizardObj;
-        var validations = [];
+	var _handleFormSignup = function() {
+		// Base elements
+		var wizardEl = KTUtil.getById('kt_login');
+		var form = KTUtil.getById('kt_login_signup_form');
+		var wizardObj;
+		var validations = [];
 
-        if (!form) {
-            return;
-        }
+		if (!form) {
+			return;
+		}
 
-        // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
-        // Step 1
-        validations.push(FormValidation.formValidation(
-            form,
-            {
-                fields: {
-                    fname: {
-                        validators: {
-                            notEmpty: {
-                                message: 'First name is required'
-                            }
-                        }
-                    },
-                    lname: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Last Name is required'
-                            }
-                        }
-                    },
-                    phone: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Phone is required'
-                            }
-                        }
-                    },
-                    email: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Email is required'
-                            },
-                            emailAddress: {
-                                message: 'The value is not a valid email address'
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    trigger: new FormValidation.plugins.Trigger(),
-                    // Bootstrap Framework Integration
-                    bootstrap: new FormValidation.plugins.Bootstrap({
-                        //eleInvalidClass: '',
-                        eleValidClass: '',
-                    })
-                }
-            }
-        ));
+		const strongPassword = function() {
+			return {
+				validate: function(input) {
+					const value = input.value;
+					if (value === '') {
+						return {
+							valid: true,
+						};
+					}
 
-        // Step 2
-        validations.push(FormValidation.formValidation(
-            form,
-            {
-                fields: {
-                    address1: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Address is required'
-                            }
-                        }
-                    },
-                    postcode: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Postcode is required'
-                            }
-                        }
-                    },
-                    city: {
-                        validators: {
-                            notEmpty: {
-                                message: 'City is required'
-                            }
-                        }
-                    },
-                    state: {
-                        validators: {
-                            notEmpty: {
-                                message: 'State is required'
-                            }
-                        }
-                    },
-                    country: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Country is required'
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    trigger: new FormValidation.plugins.Trigger(),
-                    // Bootstrap Framework Integration
-                    bootstrap: new FormValidation.plugins.Bootstrap({
-                        //eleInvalidClass: '',
-                        eleValidClass: '',
-                    })
-                }
-            }
-        ));
+					// Check the password strength
+					if (value.length < 8) {
+						return {
+							valid: false,
+							message: 'The password must be more than 8 characters long',
+						};
+					}
 
-        // Step 3
-        validations.push(FormValidation.formValidation(
-            form,
-            {
-                fields: {
-                    delivery: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Delivery type is required'
-                            }
-                        }
-                    },
-                    packaging: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Packaging type is required'
-                            }
-                        }
-                    },
-                    preferreddelivery: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Preferred delivery window is required'
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    trigger: new FormValidation.plugins.Trigger(),
-                    // Bootstrap Framework Integration
-                    bootstrap: new FormValidation.plugins.Bootstrap({
-                        //eleInvalidClass: '',
-                        eleValidClass: '',
-                    })
-                }
-            }
-        ));
+					// The password does not contain any uppercase character
+					if (value === value.toLowerCase()) {
+						return {
+							valid: false,
+							message: 'The password must contain at least one upper case character',
+						};
+					}
 
-        // Step 4
-        validations.push(FormValidation.formValidation(
-            form,
-            {
-                fields: {
-                    ccname: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Credit card name is required'
-                            }
-                        }
-                    },
-                    ccnumber: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Credit card number is required'
-                            },
-                            creditCard: {
-                                message: 'The credit card number is not valid'
-                            }
-                        }
-                    },
-                    ccmonth: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Credit card month is required'
-                            }
-                        }
-                    },
-                    ccyear: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Credit card year is required'
-                            }
-                        }
-                    },
-                    cccvv: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Credit card CVV is required'
-                            },
-                            digits: {
-                                message: 'The CVV value is not valid. Only numbers is allowed'
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    trigger: new FormValidation.plugins.Trigger(),
-                    // Bootstrap Framework Integration
-                    bootstrap: new FormValidation.plugins.Bootstrap({
-                        //eleInvalidClass: '',
-                        eleValidClass: '',
-                    })
-                }
-            }
-        ));
+					// The password does not contain any lower character
+					if (value === value.toUpperCase()) {
+						return {
+							valid: false,
+							message: 'The password must contain at least one lower case character',
+						};
+					}
 
-        // Initialize form wizard
-        wizardObj = new KTWizard(wizardEl, {
-            startStep: 1, // initial active step number
-            clickableSteps: false  // allow step clicking
-        });
+					// The password does not contain any digit
+					if (value.search(/[0-9]/) < 0) {
+						return {
+							valid: false,
+							message: 'The password must contain at least one digit',
+						};
+					}
 
-        // Validation before going to next page
-        wizardObj.on('change', function (wizard) {
-            if (wizard.getStep() > wizard.getNewStep()) {
-                return; // Skip if stepped back
-            }
+					return {
+						valid: true,
+					};
+				},
+			};
+		};
 
-            // Validate form before change wizard step
-            var validator = validations[wizard.getStep() - 1]; // get validator for currnt step
+		const uniqueUsername = function() {
+			return {
+				validate: async function (input) {
+					const value = input.value;
 
-            if (validator) {
-                validator.validate().then(function (status) {
-                    if (status == 'Valid') {
-                        wizard.goTo(wizard.getNewStep());
+					if (!value) return {
+						valid: true
+					};
 
-                        KTUtil.scrollTop();
-                    } else {
-                        Swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn font-weight-bold btn-light"
-                            }
-                        }).then(function () {
-                            KTUtil.scrollTop();
-                        });
-                    }
-                });
-            }
+					return {
+						valid: await FormValidation.utils.fetch('/isnewusername', {
+							method: 'POST',
+							dataType: 'json',
+							params: {
+								username: value
+							},
+						}).then(function (error) { // Return valid JSON
+							return error['canCreate'];
+						})
+					}
+				},
+			};
+		};
 
-            return false;  // Do not change wizard step, further action will be handled by he validator
-        });
+		const uniqueEmail = function() {
+			return {
+				validate: async function (input) {
+					const value = input.value;
+					if (!value) return {
+						valid: true
+					};
 
-        // Change event
-        wizardObj.on('changed', function (wizard) {
-            KTUtil.scrollTop();
-        });
+					return {
+						valid: await FormValidation.utils.fetch('/isnewemail', {
+							method: 'POST',
+							dataType: 'json',
+							params: {
+								email: value
+							},
+						}).then(function (error) { // Return valid JSON
+							return error['canCreate'];
+						})
+					}
+				},
+			};
+		};
 
-        // Submit event
-        wizardObj.on('submit', function (wizard) {
-            Swal.fire({
-                text: "All is good! Please confirm the form submission.",
-                icon: "success",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Yes, submit!",
-                cancelButtonText: "No, cancel",
-                customClass: {
-                    confirmButton: "btn font-weight-bold btn-primary",
-                    cancelButton: "btn font-weight-bold btn-default"
-                }
-            }).then(function (result) {
-                if (result.value) {
-                    form.submit(); // Submit form
-                } else if (result.dismiss === 'cancel') {
-                    Swal.fire({
-                        text: "Your form has not been submitted!.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn font-weight-bold btn-primary",
-                        }
-                    });
-                }
-            });
-        });
+		// Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+		// Step 1
+		validations.push(FormValidation.formValidation(
+			form,
+			{
+				fields: {
+					username: {
+						validators: {
+							notEmpty: {
+								message: 'First name is required'
+							},
+							uniqueUsername: {
+								message: 'Username already exist'
+							}
+						}
+					},
+					password: {
+						validators: {
+							notEmpty: {
+								message: 'Password is required'
+							},
+							strongPassword
+						}
+					},
+					passwordConfirm: {
+						validators: {
+							notEmpty: {
+								message: 'The password confirmation is required'
+							},
+							identical: {
+								compare: function() {
+									return form.querySelector('[name="password"]').value;
+								},
+								message: 'The password and its confirm are not the same'
+							}
+						}
+					},
+					email: {
+						validators: {
+							notEmpty: {
+								message: 'Email is required'
+							},
+							emailAddress: {
+								message: 'The value is not a valid email address'
+							},
+							uniqueEmail: {
+								message: 'Email already exist'
+							}
+						}
+					}
+				},
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					// Bootstrap Framework Integration
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						//eleInvalidClass: '',
+						eleValidClass: '',
+					})
+				}
+			}
+		).registerValidator('strongPassword', strongPassword)
+			.registerValidator('uniqueUsername', uniqueUsername)
+			.registerValidator('uniqueEmail', uniqueEmail));
+
+		// Step 2
+		validations.push(FormValidation.formValidation(
+			form,
+			{
+				fields: {
+					firstName: {
+						validators: {
+							notEmpty: {
+								message: 'First name is required'
+							}
+						}
+					},
+					lastName: {
+						validators: {
+							notEmpty: {
+								message: 'Last name is required'
+							}
+						}
+					},
+					dateOfBirth: {
+						validations: {
+							notEmpty: {
+								message: 'Date of birth is required'
+							}
+						}
+					}
+				},
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					// Bootstrap Framework Integration
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						//eleInvalidClass: '',
+						eleValidClass: '',
+					})
+				}
+			}
+		));
+
+		// Initialize form wizard
+		wizardObj = new KTWizard(wizardEl, {
+			startStep: 1, // initial active step number
+			clickableSteps: false  // allow step clicking
+		});
+
+		// Validation before going to next page
+		wizardObj.on('change', function (wizard) {
+			if (wizard.getStep() > wizard.getNewStep()) {
+				return; // Skip if stepped back
+			}
+
+			// Validate form before change wizard step
+			var validator = validations[wizard.getStep() - 1]; // get validator for currnt step
+
+			if (validator) {
+				validator.validate().then(function (status) {
+					if (status == 'Valid') {
+						wizard.goTo(wizard.getNewStep());
+					}
+					KTUtil.scrollTop();
+				});
+			}
+
+			return false;  // Do not change wizard step, further action will be handled by he validator
+		});
+
+		// Change event
+		wizardObj.on('changed', function (wizard) {
+			KTUtil.scrollTop();
+		});
+
+		// Submit event
+		wizardObj.on('submit', function (wizard) {
+			Swal.fire({
+				text: "All is good! Please confirm the form submission.",
+				icon: "success",
+				showCancelButton: true,
+				buttonsStyling: false,
+				confirmButtonText: "Yes, submit!",
+				cancelButtonText: "No, cancel",
+				customClass: {
+					confirmButton: "btn font-weight-bold btn-primary",
+					cancelButton: "btn font-weight-bold btn-default"
+				}
+			}).then(function (result) {
+				if (result.value) {
+					form.submit(); // Submit form
+				} else if (result.dismiss === 'cancel') {
+					Swal.fire({
+						text: "Your form has not been submitted!.",
+						icon: "error",
+						buttonsStyling: false,
+						confirmButtonText: "Ok, got it!",
+						customClass: {
+							confirmButton: "btn font-weight-bold btn-primary",
+						}
+					});
+				}
+			});
+		});
     }
 
     // Public Functions
     return {
-        init: function () {
+        init: function() {
             _handleFormSignin();
-            _handleFormForgot();
-            _handleFormSignup();
+			_handleFormForgot();
+			_handleFormSignup();
         }
     };
 }();
 
 // Class Initialization
-jQuery(document).ready(function () {
+jQuery(document).ready(function() {
     KTLogin.init();
 });

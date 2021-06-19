@@ -3,7 +3,6 @@
 
 namespace app\controllers;
 
-
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
@@ -13,6 +12,7 @@ use app\middlewares\GuestMiddleware;
 use app\models\ForgetPasswordForm;
 use app\models\LoginForm;
 use app\models\RegisterForm;
+use app\models\User;
 
 class AuthController extends Controller
 {
@@ -21,17 +21,15 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->registerMiddleware(new GuestMiddleware(['getAuth', 'signIn', 'signUp', 'forgetPassword']));
-        $this->registerMiddleware(new AuthMiddleware(['signOut']));
+        $this->registerMiddleware(new GuestMiddleware([
+            'getLogIn', 'logIn',
+            'getRegister', 'register',
+            'getForgetPassword', 'forgetPassword'
+        ]));
+        $this->registerMiddleware(new AuthMiddleware(['logOut']));
     }
 
-    public function getAuth(): string
-    {
-        $this->setLayout('');
-        return $this->render('auth');
-    }
-
-    public function signIn(Request $request, Response $response)
+    public function logIn(Request $request, Response $response)
     {
         $loginForm = new LoginForm();
         $loginForm->loadData($request->getBody());
@@ -39,25 +37,37 @@ class AuthController extends Controller
             Application::$application->session->setFlash('success', 'Welcome back');
             return $response->send(200);
         }
+        $this->setLayout('');
         return $response->send(401, $loginForm->errors);
     }
 
-    public function signUp(Request $request, Response $response)
+    public function getLogIn()
+    {
+        $this->setLayout('');
+        return $this->render('auth/logIn');
+    }
+
+    public function register(Request $request, Response $response)
     {
         $registerModel = new RegisterForm();
         $registerModel->loadData($request->getBody());
         if ($registerModel->validate() && $registerModel->register()) {
             Application::$application->session->setFlash('success', 'Thanks for joining with us');
-            return $response->send(201);
+            return $response->redirect('/login');
         }
         return $response->send(400, $registerModel->errors);
+    }
+
+    public function getRegister()
+    {
+        $this->setLayout('');
+        return $this->render('auth/register');
     }
 
     public function forgetPassword(Request $request, Response $response)
     {
         $forgetPasswordForm = new ForgetPasswordForm();
         $forgetPasswordForm->loadData($request->getBody());
-        return json_encode($request->getBody());
         if ($forgetPasswordForm->validate() && $forgetPasswordForm->forgetPassword()) {
             Application::$application->session->setFlash('success', 'Check your email for the link');
             return $response->send(200);
@@ -65,10 +75,34 @@ class AuthController extends Controller
         return $response->send(400, $forgetPasswordForm->errors);
     }
 
-    public function signOut(Request $request, Response $response)
+    public function getForgetPassword()
+    {
+        $this->setLayout('');
+        return $this->render('auth/forgot');
+    }
+
+    public function logOut(Request $request, Response $response)
     {
         Application::$application->logout();
         Application::$application->session->setFlash('success', 'See you later');
         return $response->redirect('/');
+    }
+
+    public function isNewEmail(Request $request, Response $response)
+    {
+        $data = $request->getBody();
+        if (!isset($data['email'])) return $response->send(200, ['canCreate' => false]);
+        $user = User::findOne(['email' => $data['email']]);
+        if ($user) return $response->send(200, ['canCreate' => false]);
+        return $response->send(200, ['canCreate' => true]);
+    }
+
+    public function isNewUsername(Request $request, Response $response)
+    {
+        $data = $request->getBody();
+        if (!isset($data['username'])) return $response->send(200, ['canCreate' => false]);
+        $user = User::findOne(['username' => $data['username']]);
+        if ($user) return $response->send(200, ['canCreate' => false]);
+        return $response->send(200, ['canCreate' => true]);
     }
 }

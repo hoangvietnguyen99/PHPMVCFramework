@@ -13,6 +13,7 @@ abstract class Model
     public const RULE_MIN = 'min';
     public const RULE_MAX = 'max';
     public const RULE_MATCH = 'match';
+    public const RULE_IN_ARRAY = 'in_array';
     public const RULE_UNIQUE = 'unique';
     public const RULE_MATCH_REGEX = 'match_regex';
 
@@ -65,8 +66,12 @@ abstract class Model
                     $this->addErrorWithRule($attribute, self::RULE_MAX, $rule);
                 }
                 if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
-                    $rule['match'] = $this->getLabel($rule['match']);
-                    $this->addErrorWithRule($attribute, self::RULE_MATCH, $rule);
+                        $rule['match'] = $this->getLabel($rule['match']);
+                        $this->addErrorWithRule($attribute, self::RULE_MATCH, $rule);
+                }
+                if ($ruleName === self::RULE_IN_ARRAY && !in_array($value, $rule['values'])) {
+                    $rule['values'] = implode(', ', $rule['values']);
+                    $this->addErrorWithRule($attribute, self::RULE_IN_ARRAY, $rule);
                 }
                 if ($ruleName === self::RULE_MATCH_REGEX && !preg_match($rule['regex'], $value)) {
                     $this->addErrorWithRule($attribute, self::RULE_MATCH_REGEX, $rule);
@@ -121,6 +126,7 @@ abstract class Model
             self::RULE_MIN => '{field} must have min length of {min}',
             self::RULE_MAX => '{field} must have max length of {max}',
             self::RULE_MATCH => '{field} must be same of {match}',
+            self::RULE_IN_ARRAY => '{field} must be in [{values}]',
             self::RULE_MATCH_REGEX => '{field} must meet standard requirements',
             self::RULE_UNIQUE => '{field} already exists',
         ];

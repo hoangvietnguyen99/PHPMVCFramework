@@ -5,36 +5,35 @@ namespace app\models;
 
 
 use app\core\db\DbModel;
+use DateTime;
 use Exception;
 use MongoDB\BSON\ObjectId;
 
 class User extends DbModel
 {
-    public string $username;
-    public string $fullName;
-    public string $email;
-    public string $password;
-    public \DateTime $joinDate;
+    public string $username = '';
+    public string $firstName = '';
+    public string $middleName = '';
+    public string $lastName = '';
+    public string $email = '';
+    public string $password = '';
+    public DateTime $joinDate;
+    public DateTime $dateOfBirth;
     public string $imgPath = '';
+    public string $gender = 'Male';
     public bool $isAdmin = false;
 
     /**
      * User constructor.
-     * @param string $fullName
-     * @param string $email
-     * @param string $password
-     * @param string $username
      * @throws Exception
      */
-    public function __construct(string $fullName = '', string $email = '', string $password = '', string $username = '')
+    public function __construct()
     {
-        $this->email = $email;
-        $this->password = $password;
-        $this->fullName = $fullName;
-        $this->username = $username;
-        $this->joinDate = new \DateTime('now', new \DateTimeZone('Asia/Ho_Chi_Minh'));
+        $this->dateOfBirth = new DateTime('now', new \DateTimeZone('Asia/Ho_Chi_Minh'));
+        $this->joinDate = new DateTime('now', new \DateTimeZone('Asia/Ho_Chi_Minh'));
         $this->_id = new ObjectId();
     }
+
 
     public static function collectionName(): string
     {
@@ -49,20 +48,33 @@ class User extends DbModel
         $user = new User();
         foreach ($data as $attr => $value) {
             switch ($attr) {
-                case '_id': {
+                case '_id':
+                {
                     $user->_id = new ObjectId($value);
                     break;
                 }
-                case 'joinDate': {
-                    $user->joinDate = new \DateTime($value['date'], new \DateTimeZone($value['timezone']));
+                case 'joinDate':
+                {
+                    $user->joinDate = new DateTime($value['date'], new \DateTimeZone($value['timezone']));
                     break;
                 }
-                default: {
+                case 'dateOfBirth':
+                {
+                    $user->dateOfBirth = new DateTime($value['date'], new \DateTimeZone($value['timezone']));
+                    break;
+                }
+                default:
+                {
                     $user->$attr = $value;
                     break;
                 }
             }
         }
         return $user;
+    }
+
+    public function getFullName()
+    {
+        return $this->firstName . ' ' . $this->middleName . ' ' . $this->lastName;
     }
 }
