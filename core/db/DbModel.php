@@ -49,4 +49,16 @@ abstract class DbModel
         if (!$document) return null;
         return static::convertToClass($document);
     }
+
+    public static function find($condition = []): array
+    {
+        $collectionName = static::collectionName();
+        $collection = Application::$application->database->getCollection($collectionName);
+        $documents = $collection->find($condition);
+        $results = [];
+        foreach ($documents as $document) {
+            $results[] = static::convertToClass($document);
+        }
+        return $results;
+    }
 }

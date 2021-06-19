@@ -33,7 +33,7 @@ class Router
     public function resolve()
     {
         $method = $this->request->getMethod();
-        $url = $this->request->getUrl();
+        $url = $this->request->url;
         $callback = $this->routeMap[$method][$url] ?? false;
         if (!$callback) {
             return null;

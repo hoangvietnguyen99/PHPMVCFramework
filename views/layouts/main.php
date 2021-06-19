@@ -1046,6 +1046,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!--end::Page-->
 </div>
 <!--end::Main-->
+<?php if ($user): ?>
 <!-- begin::User Panel-->
 <div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
     <!--begin::Header-->
@@ -1306,6 +1307,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!--end::Content-->
 </div>
 <!-- end::User Panel-->
+<?php endif; ?>
 <!--begin::Quick Panel-->
 <div id="kt_quick_panel" class="offcanvas offcanvas-right pt-5 pb-10">
     <!--begin::Header-->
@@ -2465,6 +2467,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
 <script src="assets/js/pages/crud/ktdatatable/child/data-ajax.js"></script>
+<script src="assets/js/pages/crud/forms/editors/summernote.js"></script>
+<!--end::Page Scripts-->
+<script src="assets/js/pages/crud/forms/widgets/tagify.js"></script>
 <script src="assets/js/pages/widgets.js"></script>
 <script type="application/javascript">
     $('document').ready(() => {

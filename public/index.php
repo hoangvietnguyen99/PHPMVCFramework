@@ -26,15 +26,18 @@ $app = new Application(dirname(__DIR__), $config);
  * @var $siteRouter Router
  * @var $profileRouter Router
  * @var $adminRouter Router
+ * @var $questionRouter Router
  */
 include_once __DIR__.'/../routes/AuthRoutes.php';
 include_once __DIR__.'/../routes/SiteRoutes.php';
 include_once __DIR__.'/../routes/ProfileRoutes.php';
 include_once __DIR__.'/../routes/AdminRoutes.php';
+include_once __DIR__.'/../routes/QuestionRoutes.php';
 
 $app->routers[] = $authRouter;
 $app->routers[] = $siteRouter;
 $app->routers[] = $profileRouter;
 $app->routers[] = $adminRouter;
+$app->routers[] = $questionRouter;
 
 $app->run();

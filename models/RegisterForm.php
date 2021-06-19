@@ -4,6 +4,7 @@
 namespace app\models;
 
 
+use app\constants\Gender;
 use app\core\Model;
 
 class RegisterForm extends Model
@@ -38,7 +39,7 @@ class RegisterForm extends Model
                 ]
             ],
             'passwordConfirm' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']],
-            'gender' => [self::RULE_REQUIRED, [self::RULE_IN_ARRAY, 'values' => ['Male', 'Female']]],
+            'gender' => [self::RULE_REQUIRED, [self::RULE_IN_ARRAY, 'values' => [Gender::FEMALE, Gender::MALE]]],
             'dateOfBirth' => [self::RULE_REQUIRED],
         ];
     }

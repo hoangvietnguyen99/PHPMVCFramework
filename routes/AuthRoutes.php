@@ -1,20 +1,21 @@
 <?php
 
+use app\constants\Path;
 use app\controllers\AuthController;
 use app\core\Application;
 use app\core\Router;
 
 $authRouter = new Router(Application::$application->request, Application::$application->response);
 
-$authRouter->get('/logout', [AuthController::class, 'logOut']);
+$authRouter->get(Path::LOGOUT[0], [AuthController::class, 'logOut']);
 
-$authRouter->post('/register', [AuthController::class, 'register']);
-$authRouter->get('/register', [AuthController::class, 'getRegister']);
-$authRouter->post('/login', [AuthController::class, 'logIn']);
-$authRouter->get('/login', [AuthController::class, 'getLogIn']);
+$authRouter->post(Path::REGISTER[0], [AuthController::class, 'register']);
+$authRouter->get(Path::REGISTER[0], [AuthController::class, 'getRegister']);
+$authRouter->post(Path::LOGIN[0], [AuthController::class, 'logIn']);
+$authRouter->get(Path::LOGIN[0], [AuthController::class, 'getLogIn']);
 
-$authRouter->post('/forgot', [AuthController::class, 'forgetPassword']);
-$authRouter->get('/forgot', [AuthController::class, 'getForgetPassword']);
+$authRouter->post(Path::FORGOT[0], [AuthController::class, 'forgetPassword']);
+$authRouter->get(Path::FORGOT[0], [AuthController::class, 'getForgetPassword']);
 
-$authRouter->post('/isnewemail', [AuthController::class, 'isNewEmail']);
-$authRouter->post('/isnewusername', [AuthController::class, 'isNewUsername']);
+$authRouter->post(Path::IS_NEW_EMAIL[0], [AuthController::class, 'isNewEmail']);
+$authRouter->post(Path::IS_NEW_USERNAME[0], [AuthController::class, 'isNewUsername']);

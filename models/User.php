@@ -4,6 +4,7 @@
 namespace app\models;
 
 
+use app\constants\Gender;
 use app\core\db\DbModel;
 use DateTime;
 use Exception;
@@ -20,7 +21,7 @@ class User extends DbModel
     public DateTime $joinDate;
     public DateTime $dateOfBirth;
     public string $imgPath = '';
-    public string $gender = 'Male';
+    public string $gender = Gender::MALE;
     public bool $isAdmin = false;
 
     /**
@@ -37,7 +38,7 @@ class User extends DbModel
 
     public static function collectionName(): string
     {
-        return 'users';
+        return 'USERS';
     }
 
     /**

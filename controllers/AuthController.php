@@ -32,7 +32,7 @@ class AuthController extends Controller
     public function logIn(Request $request, Response $response)
     {
         $loginForm = new LoginForm();
-        $loginForm->loadData($request->getBody());
+        $loginForm->loadData($request->body);
         if ($loginForm->validate() && $loginForm->login()) {
             Application::$application->session->setFlash('success', 'Welcome back');
             return $response->send(200);
@@ -50,7 +50,7 @@ class AuthController extends Controller
     public function register(Request $request, Response $response)
     {
         $registerModel = new RegisterForm();
-        $registerModel->loadData($request->getBody());
+        $registerModel->loadData($request->body);
         if ($registerModel->validate() && $registerModel->register()) {
             Application::$application->session->setFlash('success', 'Thanks for joining with us');
             return $response->redirect('/login');
@@ -67,7 +67,7 @@ class AuthController extends Controller
     public function forgetPassword(Request $request, Response $response)
     {
         $forgetPasswordForm = new ForgetPasswordForm();
-        $forgetPasswordForm->loadData($request->getBody());
+        $forgetPasswordForm->loadData($request->body);
         if ($forgetPasswordForm->validate() && $forgetPasswordForm->forgetPassword()) {
             Application::$application->session->setFlash('success', 'Check your email for the link');
             return $response->send(200);
@@ -90,7 +90,7 @@ class AuthController extends Controller
 
     public function isNewEmail(Request $request, Response $response)
     {
-        $data = $request->getBody();
+        $data = $request->body;
         if (!isset($data['email'])) return $response->send(200, ['canCreate' => false]);
         $user = User::findOne(['email' => $data['email']]);
         if ($user) return $response->send(200, ['canCreate' => false]);
@@ -99,7 +99,7 @@ class AuthController extends Controller
 
     public function isNewUsername(Request $request, Response $response)
     {
-        $data = $request->getBody();
+        $data = $request->body;
         if (!isset($data['username'])) return $response->send(200, ['canCreate' => false]);
         $user = User::findOne(['username' => $data['username']]);
         if ($user) return $response->send(200, ['canCreate' => false]);
