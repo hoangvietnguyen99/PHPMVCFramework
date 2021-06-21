@@ -5,10 +5,9 @@ namespace app\models;
 
 
 use app\constants\Gender;
+use app\core\Application;
 use app\core\db\DbModel;
-use DateTime;
-use Exception;
-use MongoDB\BSON\ObjectId;
+use MongoDB\BSON\UTCDateTime;
 
 class User extends DbModel
 {
@@ -18,64 +17,78 @@ class User extends DbModel
     public string $lastName = '';
     public string $email = '';
     public string $password = '';
-    public DateTime $joinDate;
-    public DateTime $dateOfBirth;
+    public UTCDateTime $joinDate;
+    public UTCDateTime $dateOfBirth;
     public string $imgPath = '';
     public string $gender = Gender::MALE;
     public bool $isAdmin = false;
 
     /**
      * User constructor.
-     * @throws Exception
      */
     public function __construct()
     {
-        $this->dateOfBirth = new DateTime('now', new \DateTimeZone('Asia/Ho_Chi_Minh'));
-        $this->joinDate = new DateTime('now', new \DateTimeZone('Asia/Ho_Chi_Minh'));
-        $this->_id = new ObjectId();
+        parent::__construct();
+        $this->joinDate = new UTCDateTime(strtotime('now') * 1000);
     }
-
 
     public static function collectionName(): string
     {
         return 'USERS';
     }
 
-    /**
-     * @throws Exception
-     */
-    public static function convertToClass(object|array $data): User
-    {
-        $user = new User();
-        foreach ($data as $attr => $value) {
-            switch ($attr) {
-                case '_id':
-                {
-                    $user->_id = new ObjectId($value);
-                    break;
-                }
-                case 'joinDate':
-                {
-                    $user->joinDate = new DateTime($value['date'], new \DateTimeZone($value['timezone']));
-                    break;
-                }
-                case 'dateOfBirth':
-                {
-                    $user->dateOfBirth = new DateTime($value['date'], new \DateTimeZone($value['timezone']));
-                    break;
-                }
-                default:
-                {
-                    $user->$attr = $value;
-                    break;
-                }
-            }
-        }
-        return $user;
-    }
-
     public function getFullName()
     {
         return $this->firstName . ' ' . $this->middleName . ' ' . $this->lastName;
     }
+
+    public function bsonSerialize()
+    {
+        return [
+            '_id' => $this->id,
+            'username' => $this->username,
+            'firstName' => $this->firstName,
+            'middleName' => $this->middleName,
+            'lastName' => $this->lastName,
+            'email' => $this->email,
+            'password' => $this->password,
+            'joinDate' => $this->joinDate,
+            'dateOfBirth' => $this->dateOfBirth,
+            'imgPath' => $this->imgPath,
+            'gender' => $this->gender,
+            'isAdmin' => $this->isAdmin,
+        ];
+    }
+
+    public function bsonUnserialize(array $data)
+    {
+        $this->id = $data['_id'];
+        $this->username = $data['username'];
+        $this->firstName = $data['firstName'];
+        $this->middleName = $data['middleName'];
+        $this->lastName = $data['lastName'];
+        $this->email = $data['email'];
+        $this->password = $data['password'];
+        $this->joinDate = $data['joinDate'];
+        $this->dateOfBirth = $data['dateOfBirth'];
+        $this->imgPath = $data['imgPath'];
+        $this->gender = $data['gender'];
+        $this->isAdmin = $data['isAdmin'];
+    }
+
+//    public static function findOne($condition)
+//    {
+//        $collectionName = static::collectionName();
+//        $collection = Application::$application->database->getCollection($collectionName);
+//        return $collection->findOne($condition);
+//    }
+//
+//    public function insertOrUpdateOne($returnItem = true)
+//    {
+//        $collectionName = $this->collectionName();
+//        $collection = Application::$application->database->getCollection($collectionName);
+//        $updateResult = $collection->updateOne(['_id' => $this->id], ['$set' => $this], ['upsert' => true])->getUpsertedId();
+//        if (!$returnItem) return $updateResult;
+//        return self::findOne(['_id' => $updateResult]);
+//    }
 }

@@ -28,20 +28,14 @@ abstract class Model
         }
     }
 
-    public function labels(): array
-    {
-        return [];
-    }
+    abstract public function labels(): array;
 
     public function getLabel($attribute)
     {
         return $this->labels()[$attribute] ?? $attribute;
     }
 
-    public function rules(): array
-    {
-        return [];
-    }
+    abstract public function rules(): array;
 
     public function validate()
     {

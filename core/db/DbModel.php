@@ -6,58 +6,60 @@ namespace app\core\db;
 
 use app\core\Application;
 use MongoDB\BSON\ObjectId;
+use MongoDB\BSON\Persistable;
 
-abstract class DbModel
+abstract class DbModel implements Persistable
 {
-    protected ObjectId $_id;
+    protected ObjectId $id;
+
+    /**
+     * DbModel constructor.
+     */
+    public function __construct()
+    {
+        $this->id = new ObjectId();
+    }
 
     public function getId(): ObjectId
     {
-        return $this->_id;
+        return $this->id;
     }
 
-    abstract public static function convertToClass(array|object $data);
+    public function loadData($data)
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
+    }
 
     abstract public static function collectionName(): string;
 
-    public function convertToArray()
-    {
-        return json_decode(json_encode($this), true);
-    }
-
-    public function insertOrUpdateOne(): static|null
+    public function insertOrUpdateOne($returnItem = true)
     {
         $collectionName = $this->collectionName();
         $collection = Application::$application->database->getCollection($collectionName);
-        if ($this->_id) {
-            $document = self::findOne(['_id' => $this->_id]);
-            if ($document) {
-                $document = $collection->updateOne(['_id' => $this->_id], $this->convertToArray());
-                if (!$document) return null;
-                return static::convertToClass($document);
-            }
-        }
-        $insertedId = $collection->insertOne($this->convertToArray())->getInsertedId();
-        return self::findOne(['_id' => $insertedId]);
+        $updateResult = $collection->updateOne(['_id' => $this->id], ['$set' => $this], ['upsert' => true])->getUpsertedId();
+        if (!$returnItem) return $updateResult;
+        return self::findOne(['_id' => $updateResult]);
     }
 
-    public static function findOne($condition): static|null
+    public static function findOne($condition)
     {
         $collectionName = static::collectionName();
         $collection = Application::$application->database->getCollection($collectionName);
-        $document = $collection->findOne($condition);
-        if (!$document) return null;
-        return static::convertToClass($document);
+        return $collection->findOne($condition);
     }
 
-    public static function find($condition = []): array
+    public static function find($condition = [])
     {
         $collectionName = static::collectionName();
         $collection = Application::$application->database->getCollection($collectionName);
         $documents = $collection->find($condition);
         $results = [];
         foreach ($documents as $document) {
-            $results[] = static::convertToClass($document);
+            $results[] = $document;
         }
         return $results;
     }

@@ -7,3 +7,4 @@ use app\core\Router;
 $adminRouter = new Router(Application::$application->request, Application::$application->response);
 
 $adminRouter->get('/admin', [AdminController::class, 'users']);
+$adminRouter->post('/admin/categories', [AdminController::class, 'addCategories']);

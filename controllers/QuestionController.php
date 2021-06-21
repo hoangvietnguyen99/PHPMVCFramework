@@ -4,10 +4,13 @@
 namespace app\controllers;
 
 
+use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
 use app\middlewares\AuthMiddleware;
+use app\models\AskForm;
+use app\models\Category;
 use app\models\Tag;
 
 class QuestionController extends Controller
@@ -23,15 +26,25 @@ class QuestionController extends Controller
 
     public function getAsk()
     {
-        return $this->render('ask');
+        $categories = Category::find();
+        return $this->render('ask', [
+            'model' => new AskForm(),
+            'categories' => $categories
+        ]);
     }
 
-    public function ask(Request $request)
+    public function ask(Request $request, Response $response)
     {
-        echo '<pre>';
-        var_dump($request->body);
-        echo '</pre>';
-        exit;
+        $askForm = new AskForm();
+        $askForm->loadData($request->body);
+        if ($askForm->validate() && $askForm->ask()) {
+            Application::$application->session->setFlash('success', 'Your question is successfully submitted.');
+            return $response->redirect('/questions');
+        }
+        return $this->render('ask', [
+            'model' => $askForm,
+            'categories' => Category::find()
+        ]);
     }
 
     public function questions()

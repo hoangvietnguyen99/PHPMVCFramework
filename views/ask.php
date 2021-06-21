@@ -1,8 +1,13 @@
 <?PHP
 /** @var $this View */
+/** @var $model AskForm */
+/** @var $categories Category[] */
 
 use app\core\Application;
+use app\core\form\Field;
 use app\core\View;
+use app\models\AskForm;
+use app\models\Category;
 
 $this->title = 'Ask';
 $user = Application::$application->user;
@@ -156,37 +161,47 @@ $user = Application::$application->user;
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="form-group col-6">
-                                                    <label>Title</label>
+                                                    <?php echo new Field(
+                                                            $model,
+                                                        '<label>{{label}}</label>
                                                     <input type="text" class="form-control form-control-solid"
-                                                           placeholder="Title of question" name="title"/>
+                                                           placeholder="{{label}}" name="{{name}}" value="{{value}}" autofocus/>',
+                                                        'title'
+                                                    ) ?>
                                                 </div>
                                                 <div class="form-group col-6">
-                                                    <label for="exampleSelect1">Categories</label>
-                                                    <select class="form-control" id="ask-form-category" name="category" required>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
+                                                    <?php echo new Field(
+                                                            $model,
+                                                        '<label for="exampleSelect1">{{label}}</label>
+                                                    <select class="form-control" id="ask-form-category" name="{{name}}">'.(implode('', array_map(fn($cat) => '<option>'.($cat->name).'</option>', $categories))).'</select>',
+                                                        'category'
+                                                    ) ?>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label>Description</label>
-                                                <textarea name="description" class="summernote" id="kt_summernote_1"></textarea>
+                                            <?php echo new Field(
+                                                    $model,
+                                                '<label>{{label}}</label>
+                                                <textarea name="{{name}}" class="summernote" id="kt_summernote_1">{{value}}</textarea>',
+                                                'description'
+                                            ) ?>
                                             </div>
                                             <div class="form-group">
-                                                <label>Add some tags</label>
+                                                <?php echo new Field(
+                                                        $model,
+                                                    '<label>Add some tags</label>
                                                 <div>
-                                                    <input id="kt_tagify_1" class="form-control tagify" name='tags'
-                                                           placeholder='type...' value='' autofocus=""
+                                                    <input id="kt_tagify_1" class="form-control tagify" name="{{name}}"
+                                                           placeholder="tags..." value="{{value}}"
                                                            />
                                                     <div class="mt-3">
                                                         <a href="javascript:;" id="kt_tagify_1_remove"
                                                            class="btn btn-sm btn-light-primary font-weight-bold">Remove
                                                             tags</a>
                                                     </div>
-                                                </div>
+                                                </div>',
+                                                'tags'
+                                                ) ?>
                                             </div>
                                         </div>
                                         <div class="card-footer">

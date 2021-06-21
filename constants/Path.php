@@ -4,7 +4,7 @@
 namespace app\constants;
 
 
-abstract class Path
+final class Path
 {
     public const HOME = ['/', 'Home'];
 

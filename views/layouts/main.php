@@ -1001,6 +1001,14 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <span class="menu-desc">View all questions</span>
                                         </a>
                                     </li>
+                                    <?php if ($user): ?>
+                                    <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+                                        <a href="/ask" class="menu-link">
+                                            <span class="menu-text">Ask</span>
+                                            <span class="menu-desc">Ask a question</span>
+                                        </a>
+                                    </li>
+                                    <?php endif; ?>
                                     <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
                                         <a href="/profile" class="menu-link">
                                             <span class="menu-text">Profile</span>
@@ -2466,15 +2474,15 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
-<script src="assets/js/pages/crud/ktdatatable/child/data-ajax.js"></script>
 <script src="assets/js/pages/crud/forms/editors/summernote.js"></script>
 <!--end::Page Scripts-->
 <script src="assets/js/pages/crud/forms/widgets/tagify.js"></script>
 <script src="assets/js/pages/widgets.js"></script>
 <script type="application/javascript">
     $('document').ready(() => {
-        const errors = JSON.parse('<?php echo json_encode(Application::$application->session->getFlash('message')) ?>') || [];
+        const errors = JSON.parse('<?php echo json_encode(Application::$application->session->getFlash('error')) ?>') || [];
         const success = '<?php echo Application::$application->session->getFlash('success') ?>';
+        console.log(errors, success);
         if (success) {
             $.notify({
                 message: success,

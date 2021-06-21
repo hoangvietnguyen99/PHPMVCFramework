@@ -6,6 +6,7 @@ namespace app\models;
 
 use app\constants\Gender;
 use app\core\Model;
+use MongoDB\BSON\UTCDateTime;
 
 class RegisterForm extends Model
 {
@@ -52,7 +53,7 @@ class RegisterForm extends Model
             if (property_exists($user, $key)) {
                 switch ($key) {
                     case 'dateOfBirth': {
-                        $user->dateOfBirth = \DateTime::createFromFormat('m/d/Y', $value, new \DateTimeZone('Asia/Ho_Chi_Minh'));
+                        $user->dateOfBirth = new UTCDateTime(strtotime($value) * 1000);
                         break;
                     }
                     default: {
@@ -62,9 +63,25 @@ class RegisterForm extends Model
                 }
             }
         }
-        if ($user->insertOrUpdateOne()) {
+        $userId = $user->insertOrUpdateOne();
+        if ($userId) {
             return true;
         }
         return false;
+    }
+
+    public function labels(): array
+    {
+        return [
+            'firstName' => 'First name',
+            'middleName' => 'Middle name',
+            'lastName' => 'Last name',
+            'username' => 'Username',
+            'email' => 'Email',
+            'password' => 'Password',
+            'passwordConfirm' => 'Password confirm',
+            'gender' => 'Gender',
+            'dateOfBirth' => 'Date of birth'
+        ];
     }
 }

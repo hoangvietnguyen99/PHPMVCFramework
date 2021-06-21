@@ -77,7 +77,7 @@ class Application
         }
     }
 
-    public function login(User $user)
+    public function login($user)
     {
         $this->user = $user;
         $value = $user->getId();

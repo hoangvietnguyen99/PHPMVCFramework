@@ -5,7 +5,6 @@ namespace app\models;
 
 
 use app\core\db\DbModel;
-use MongoDB\BSON\ObjectId;
 
 class Category extends DbModel
 {
@@ -13,28 +12,26 @@ class Category extends DbModel
     public int $count = 0;
     public bool $isDeleted = false;
 
-    public static function convertToClass(object|array $data)
-    {
-        $category = new Category();
-        foreach ($data as $attr => $value) {
-            switch ($attr) {
-                case '_id':
-                {
-                    $category->_id = new ObjectId($value);
-                    break;
-                }
-                default:
-                {
-                    $category->$attr = $value;
-                    break;
-                }
-            }
-        }
-        return $category;
-    }
-
     public static function collectionName(): string
     {
         return 'CATEGORIES';
+    }
+
+    public function bsonSerialize()
+    {
+        return [
+            '_id' => $this->id,
+            'name' => $this->name,
+            'count' => $this->count,
+            'isDeleted' => $this->isDeleted
+        ];
+    }
+
+    public function bsonUnserialize(array $data)
+    {
+        $this->id = $data['_id'];
+        $this->name = $data['name'];
+        $this->count = $data['count'];
+        $this->isDeleted = $data['isDeleted'];
     }
 }
