@@ -7,6 +7,7 @@ namespace app\core;
 class View
 {
     public string $title = '';
+    public array $scripts = [];
 
     public function renderView(string $view, array $params = [])
     {
@@ -19,7 +20,8 @@ class View
         ob_start();
         include_once Application::$ROOT_DIR . "/views/layouts/$layoutName.php";
         $layoutContent = ob_get_clean();
-        return str_replace('{{content}}', $viewContent, $layoutContent);
+        $layoutContent = str_replace('{{content}}', $viewContent, $layoutContent);
+        return str_replace('{{scripts}}', implode('', $this->scripts), $layoutContent);
     }
 
     public function renderViewOnly(string $view, array $params = [])

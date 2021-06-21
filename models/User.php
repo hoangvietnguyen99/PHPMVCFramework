@@ -42,10 +42,15 @@ class User extends DbModel
         return $this->firstName . ' ' . $this->middleName . ' ' . $this->lastName;
     }
 
+    public function getShortLetterName()
+    {
+        return $this->firstName[0] . $this->lastName[0];
+    }
+
     public function bsonSerialize()
     {
         return [
-            '_id' => $this->id,
+            '_id' => $this->_id,
             'username' => $this->username,
             'firstName' => $this->firstName,
             'middleName' => $this->middleName,
@@ -62,7 +67,7 @@ class User extends DbModel
 
     public function bsonUnserialize(array $data)
     {
-        $this->id = $data['_id'];
+        $this->_id = $data['_id'];
         $this->username = $data['username'];
         $this->firstName = $data['firstName'];
         $this->middleName = $data['middleName'];
@@ -75,20 +80,4 @@ class User extends DbModel
         $this->gender = $data['gender'];
         $this->isAdmin = $data['isAdmin'];
     }
-
-//    public static function findOne($condition)
-//    {
-//        $collectionName = static::collectionName();
-//        $collection = Application::$application->database->getCollection($collectionName);
-//        return $collection->findOne($condition);
-//    }
-//
-//    public function insertOrUpdateOne($returnItem = true)
-//    {
-//        $collectionName = $this->collectionName();
-//        $collection = Application::$application->database->getCollection($collectionName);
-//        $updateResult = $collection->updateOne(['_id' => $this->id], ['$set' => $this], ['upsert' => true])->getUpsertedId();
-//        if (!$returnItem) return $updateResult;
-//        return self::findOne(['_id' => $updateResult]);
-//    }
 }

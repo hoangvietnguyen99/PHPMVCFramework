@@ -10,19 +10,19 @@ use MongoDB\BSON\Persistable;
 
 abstract class DbModel implements Persistable
 {
-    protected ObjectId $id;
+    protected ObjectId $_id;
 
     /**
      * DbModel constructor.
      */
     public function __construct()
     {
-        $this->id = new ObjectId();
+        $this->_id = new ObjectId();
     }
 
     public function getId(): ObjectId
     {
-        return $this->id;
+        return $this->_id;
     }
 
     public function loadData($data)
@@ -40,7 +40,7 @@ abstract class DbModel implements Persistable
     {
         $collectionName = $this->collectionName();
         $collection = Application::$application->database->getCollection($collectionName);
-        $updateResult = $collection->updateOne(['_id' => $this->id], ['$set' => $this], ['upsert' => true])->getUpsertedId();
+        $updateResult = $collection->updateOne(['_id' => $this->getId()], ['$set' => $this], ['upsert' => true])->getUpsertedId();
         if (!$returnItem) return $updateResult;
         return self::findOne(['_id' => $updateResult]);
     }

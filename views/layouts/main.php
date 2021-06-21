@@ -965,7 +965,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <span class="text-white font-weight-bolder font-size-sm d-none d-md-inline"><?PHP if ($user->isAdmin): ?>Administrator<?PHP else: ?>User<?PHP endif; ?></span>
                                     </div>
                                     <span class="symbol symbol-35">
-												<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30">HV</span>
+												<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30"><?PHP echo $user->getShortLetterName() ?></span>
 											</span>
                                 </div>
                             </div>
@@ -2470,13 +2470,8 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="assets/js/scripts.bundle.js"></script>
 <!--end::Global Theme Bundle-->
-<!--begin::Page Vendors(used by this page)-->
-<script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
-<!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
-<script src="assets/js/pages/crud/forms/editors/summernote.js"></script>
-<!--end::Page Scripts-->
-<script src="assets/js/pages/crud/forms/widgets/tagify.js"></script>
+<script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
 <script src="assets/js/pages/widgets.js"></script>
 <script type="application/javascript">
     $('document').ready(() => {
@@ -2524,6 +2519,7 @@ License: You must have a valid license purchased only from themeforest(the above
         }
     })
 </script>
+{{scripts}}
 <!--end::Page Scripts-->
 </body>
 <!--end::Body-->

@@ -11,6 +11,9 @@ use app\models\Category;
 
 $this->title = 'Ask';
 $user = Application::$application->user;
+
+$this->scripts[] = '<script src="assets/js/pages/crud/forms/editors/summernote.js"></script>';
+$this->scripts[] = '<script src="assets/js/pages/crud/forms/widgets/tagify.js"></script>';
 ?>
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">

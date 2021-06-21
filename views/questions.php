@@ -4,6 +4,7 @@
 use app\core\View;
 
 $this->title = 'Questions';
+$this->scripts[] = '<script src="assets/js/pages/features/cards/tools.js"></script>';
 ?>
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">

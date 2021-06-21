@@ -6,14 +6,38 @@ namespace app\models;
 
 use app\core\db\DbModel;
 use MongoDB\BSON\ObjectId;
+use MongoDB\BSON\UTCDateTime;
 
 class Question extends DbModel
 {
-    public string $title = '';
-    public ObjectId $categoryId;
-    public string $description;
-    /** @var ObjectId[] $tagIds */
-    public array $tagIds;
+    public string $title;
+    public object $category;
+    public string $content;
+    public array $tags;
+    public UTCDateTime $createdDate;
+    public ObjectId $author;
+    public int $totalLikes = 0;
+    public int $totalDislikes = 0;
+
+    /**
+     * Question constructor.
+     * @param string $title
+     * @param object $category
+     * @param string $content
+     * @param array $tags
+     * @param ObjectId $author
+     */
+    public function __construct(string $title, object $category, string $content, array $tags, ObjectId $author)
+    {
+        parent::__construct();
+        $this->title = $title;
+        $this->category = $category;
+        $this->content = $content;
+        $this->tags = $tags;
+        $this->author = $author;
+        $this->createdDate = new UTCDateTime(strtotime('now') * 1000);
+    }
+
 
     public static function collectionName(): string
     {
@@ -23,22 +47,30 @@ class Question extends DbModel
     public function bsonSerialize()
     {
         return [
-            '_id' => $this->id,
+            '_id' => $this->_id,
             'title' => $this->title,
-            'categoryId' => $this->categoryId,
-            'description' => $this->description,
-            'tagIds' => $this->tagIds,
+            'category' => $this->category,
+            'content' => $this->content,
+            'tags' => $this->tags,
+            'createdDate' => $this->createdDate,
+            'author' => $this->author,
+            'totalLikes' => $this->totalLikes,
+            'totalDislikes' => $this->totalDislikes,
         ];
     }
 
     public function bsonUnserialize(array $data)
     {
-        $this->id = $data['_id'];
+        $this->_id = $data['_id'];
         $this->title = $data['title'];
-        $this->categoryId = $data['categoryId'];
-        $this->description = $data['description'];
-        foreach ($data['tagIds'] as $tagId) {
-            $this->tagIds[] = $tagId;
+        $this->category = $data['category'];
+        $this->content = $data['content'];
+        $this->createdDate = $data['createdDate'];
+        $this->author = $data['author'];
+        $this->totalLikes = $data['totalLikes'];
+        $this->totalDislikes = $data['totalDislikes'];
+        foreach ($data['tags'] as $tag) {
+            $this->tags[] = $tag;
         }
     }
 }

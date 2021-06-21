@@ -20,7 +20,7 @@ class Category extends DbModel
     public function bsonSerialize()
     {
         return [
-            '_id' => $this->id,
+            '_id' => $this->_id,
             'name' => $this->name,
             'count' => $this->count,
             'isDeleted' => $this->isDeleted
@@ -29,7 +29,7 @@ class Category extends DbModel
 
     public function bsonUnserialize(array $data)
     {
-        $this->id = $data['_id'];
+        $this->_id = $data['_id'];
         $this->name = $data['name'];
         $this->count = $data['count'];
         $this->isDeleted = $data['isDeleted'];
