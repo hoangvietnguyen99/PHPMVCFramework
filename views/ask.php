@@ -47,86 +47,6 @@ $this->scripts[] = '<script src="assets/js/pages/crud/forms/widgets/tagify.js"><
                 <!--end::Page Heading-->
             </div>
             <!--end::Info-->
-            <!--begin::Toolbar-->
-            <div class="d-flex align-items-center">
-                <!--begin::Actions-->
-                <a href="#" class="btn btn-light-primary font-weight-bolder btn-sm">Actions</a>
-                <!--end::Actions-->
-                <!--begin::Dropdown-->
-                <div class="dropdown dropdown-inline" data-toggle="tooltip" title="Quick actions" data-placement="left">
-                    <a href="#" class="btn btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="svg-icon svg-icon-success svg-icon-2x">
-												<!--begin::Svg Icon | path:assets/media/svg/icons/Files/File-plus.svg-->
-												<svg xmlns="http://www.w3.org/2000/svg"
-                                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-                                                     height="24px" viewBox="0 0 24 24" version="1.1">
-													<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-														<polygon points="0 0 24 0 24 24 0 24"/>
-														<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z"
-                                                              fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-														<path d="M11,14 L9,14 C8.44771525,14 8,13.5522847 8,13 C8,12.4477153 8.44771525,12 9,12 L11,12 L11,10 C11,9.44771525 11.4477153,9 12,9 C12.5522847,9 13,9.44771525 13,10 L13,12 L15,12 C15.5522847,12 16,12.4477153 16,13 C16,13.5522847 15.5522847,14 15,14 L13,14 L13,16 C13,16.5522847 12.5522847,17 12,17 C11.4477153,17 11,16.5522847 11,16 L11,14 Z"
-                                                              fill="#000000"/>
-													</g>
-												</svg>
-                                                <!--end::Svg Icon-->
-											</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right p-0 m-0">
-                        <!--begin::Navigation-->
-                        <ul class="navi navi-hover">
-                            <li class="navi-header font-weight-bold py-4">
-                                <span class="font-size-lg">Choose Label:</span>
-                                <i class="flaticon2-information icon-md text-muted" data-toggle="tooltip"
-                                   data-placement="right" title="Click to learn more..."></i>
-                            </li>
-                            <li class="navi-separator mb-3 opacity-70"></li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-														<span class="navi-text">
-															<span class="label label-xl label-inline label-light-success">Customer</span>
-														</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-														<span class="navi-text">
-															<span class="label label-xl label-inline label-light-danger">Partner</span>
-														</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-														<span class="navi-text">
-															<span class="label label-xl label-inline label-light-warning">Suplier</span>
-														</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-														<span class="navi-text">
-															<span class="label label-xl label-inline label-light-primary">Member</span>
-														</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-														<span class="navi-text">
-															<span class="label label-xl label-inline label-light-dark">Staff</span>
-														</span>
-                                </a>
-                            </li>
-                            <li class="navi-separator mt-3 opacity-70"></li>
-                            <li class="navi-footer py-4">
-                                <a class="btn btn-clean font-weight-bold btn-sm" href="#">
-                                    <i class="ki ki-plus icon-sm"></i>Add new</a>
-                            </li>
-                        </ul>
-                        <!--end::Navigation-->
-                    </div>
-                </div>
-                <!--end::Dropdown-->
-            </div>
-            <!--end::Toolbar-->
         </div>
     </div>
     <!--end::Subheader-->
@@ -155,7 +75,7 @@ $this->scripts[] = '<script src="assets/js/pages/crud/forms/widgets/tagify.js"><
                                         </div>
                                         <!--end::Symbol-->
                                         <!--begin::Description-->
-                                        <span class="text-muted font-weight-bold font-size-lg">What’s on your mind, <?php echo $user->firstName ?></span>
+                                        <span class="text-muted font-weight-bold font-size-lg">What’s on your mind?</span>
                                         <!--end::Description-->
                                     </div>
                                     <!--end::Top-->
@@ -786,3 +706,122 @@ $this->scripts[] = '<script src="assets/js/pages/crud/forms/widgets/tagify.js"><
     <!--end::Entry-->
 </div>
 <!--end::Content-->
+<?php
+$this->scripts[] = '<script type="application/javascript">
+
+"use strict";
+
+// Class Definition
+var KTLogin = function() {
+	var _buttonSpinnerClasses = "spinner spinner-right spinner-white pr-15";
+
+	var _handleFormAsk = function() {
+		var form = KTUtil.getById("ask-form");
+		var formSubmitUrl = KTUtil.attr(form, "action");
+		var formSubmitButton = KTUtil.getById("ask-form-submit");
+
+		if (!form) {
+			return;
+		}
+
+		FormValidation
+		    .formValidation(
+		        form,
+		        {
+		            fields: {
+						title: {
+							validators: {
+								notEmpty: {
+									message: "Title is required"
+								}
+							}
+						},
+						category: {
+							validators: {
+								notEmpty: {
+									message: "Category is required"
+								}
+							}
+						},
+						description: {
+							validators: {
+								notEmpty: {
+									message: "Description is required"
+								}
+							}
+						},
+						tags: {
+							validators: {
+								notEmpty: {
+									message: "Tags is required"
+								}
+							}
+						},
+		            },
+		            plugins: {
+						trigger: new FormValidation.plugins.Trigger(),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+						bootstrap: new FormValidation.plugins.Bootstrap({
+						})
+		            }
+		        }
+		    )
+		    .on("core.form.valid", function() {
+				// Show loading state on button
+				KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+				
+				var body = {
+				    title: form.querySelector(`[name="title"]`).value,
+				    category: form.querySelector(`[name="category"]`).value,
+				    description: form.querySelector(`[name="description"]`).value,
+				    tags: form.querySelector(`[name="tags"]`).value,
+				}
+				console.log(body);
+
+				// Form Validation & Ajax Submission: https://formvalidation.io/guide/examples/using-ajax-to-submit-the-form
+		        FormValidation.utils.fetch(formSubmitUrl, {
+		            method: "POST",
+					dataType: "json",
+		            params: body,
+		        }).then(function(error) { // Return valid JSON
+					// Release button
+					KTUtil.btnRelease(formSubmitButton);
+					console.log(error);
+
+					if (!error) {
+						document.location.href = "/questions";
+					} else {
+						Swal.fire({
+			                text: `Something wrong, check the form again.`,
+			                icon: "error",
+			                buttonsStyling: false,
+							confirmButtonText: "Ok, got it!",
+							customClass: {
+								confirmButton: "btn font-weight-bold btn-light-primary"
+							}
+			            }).then(function() {
+							KTUtil.scrollTop();
+						});
+					}
+		        });
+		    })
+			.on("core.form.invalid", function() {
+				KTUtil.scrollTop();
+		    });
+    }
+
+    // Public Functions
+    return {
+        init: function() {
+            _handleFormAsk();
+        }
+    };
+}();
+
+// Class Initialization
+jQuery(document).ready(function() {
+    KTLogin.init();
+});
+
+</script>'
+?>

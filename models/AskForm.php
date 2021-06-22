@@ -6,9 +6,7 @@ namespace app\models;
 
 use app\core\Application;
 use app\core\Model;
-use app\utils\Util;
-use function MongoDB\BSON\fromPHP;
-use function MongoDB\BSON\toPHP;
+use app\core\Request;
 
 class AskForm extends Model
 {
@@ -39,16 +37,13 @@ class AskForm extends Model
 
     public function ask()
     {
-        if (str_contains($this->tags, '&#34;')) {
-            $this->tags = str_replace('&#34;', '"', $this->tags);
-        }
         $tags = json_decode($this->tags, true);
         $this->tags = '';
         if (!$tags) {
             $this->addError('tags', 'Invalid tags');
             return false;
         }
-        $this->tags = implode(', ', array_map(fn($tag) => $tag['name'], $tags));
+        $this->tags = implode(', ', array_map(fn($tag) => strtoupper($tag['value']), $tags));
         $tagArray = [];
         foreach ($tags as $tag) {
             $tagInDb = Tag::findOne(["name" => $tag['value']]);
@@ -70,10 +65,12 @@ class AskForm extends Model
             $item->insertOrUpdateOne();
         }
 
-        $question = new Question($this->title,
-            (object) ['_id' => $category->getId(), 'name' => $category->name],
-        $this->description, array_map(fn($tag) => (object)['_id' => $tag->getId(), 'name' => $tag->name], $tagArray),
-            Application::$application->user->getId());
+        $question = new Question(Application::$application->user->getId());
+
+        $question->category[] = (object) ['_id' => $category->getId(), 'name' => $category->name];
+        $question->content = $this->description;
+        $question->tags = array_map(fn($tag) => (object)['_id' => $tag->getId(), 'name' => $tag->name], $tagArray);
+        $question->title = $this->title;
 
         if ($question->insertOrUpdateOne()) {
             return true;

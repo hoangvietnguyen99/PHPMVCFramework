@@ -152,14 +152,6 @@ License: You must have a valid license purchased only from themeforest(the above
                             <!--end::Form Group-->
                             <!--begin::Form Group-->
                             <div class="form-group">
-                                <label class="font-size-h6 font-weight-bolder text-dark">Username</label>
-                                <input type="text"
-                                       class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
-                                       name="username" placeholder="Username" value=""/>
-                            </div>
-                            <!--end::Form Group-->
-                            <!--begin::Form Group-->
-                            <div class="form-group">
                                 <label class="font-size-h6 font-weight-bolder text-dark">Password</label>
                                 <input type="password"
                                        class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
@@ -186,33 +178,23 @@ License: You must have a valid license purchased only from themeforest(the above
                             <!--begin::Title-->
                             <!--begin::Row-->
                             <div class="row">
-                                <div class="col-xl-4">
+                                <div class="col-xl-8">
                                     <!--begin::Input-->
                                     <div class="form-group">
-                                        <label class="font-size-h6 font-weight-bolder text-dark">First Name</label>
+                                        <label class="font-size-h6 font-weight-bolder text-dark">Your name</label>
                                         <input type="text"
                                                class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
-                                               name="firstName" placeholder="First name" value=""/>
+                                               name="name" placeholder="Your name" value=""/>
                                     </div>
                                     <!--end::Input-->
                                 </div>
                                 <div class="col-xl-4">
                                     <!--begin::Input-->
                                     <div class="form-group">
-                                        <label class="font-size-h6 font-weight-bolder text-dark">Middle Name</label>
+                                        <label class="font-size-h6 font-weight-bolder text-dark">Phone</label>
                                         <input type="text"
                                                class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
-                                               name="middleName" placeholder="Middle name" value=""/>
-                                    </div>
-                                    <!--end::Input-->
-                                </div>
-                                <div class="col-xl-4">
-                                    <!--begin::Input-->
-                                    <div class="form-group">
-                                        <label class="font-size-h6 font-weight-bolder text-dark">Last Name</label>
-                                        <input type="text"
-                                               class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
-                                               name="lastName" placeholder="Last name" value=""/>
+                                               name="phone" placeholder="Phone" value=""/>
                                     </div>
                                     <!--end::Input-->
                                 </div>

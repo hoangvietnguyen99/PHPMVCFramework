@@ -20,8 +20,7 @@ class View
         ob_start();
         include_once Application::$ROOT_DIR . "/views/layouts/$layoutName.php";
         $layoutContent = ob_get_clean();
-        $layoutContent = str_replace('{{content}}', $viewContent, $layoutContent);
-        return str_replace('{{scripts}}', implode('', $this->scripts), $layoutContent);
+        return str_replace('{{content}}', $viewContent, $layoutContent);
     }
 
     public function renderViewOnly(string $view, array $params = [])

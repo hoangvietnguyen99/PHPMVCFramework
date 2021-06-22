@@ -10,25 +10,19 @@ use MongoDB\BSON\UTCDateTime;
 
 class RegisterForm extends Model
 {
-    public string $firstName;
-    public string $middleName;
-    public string $lastName;
-    public string $username;
-    public string $email;
-    public string $gender;
-    public string $password;
-    public string $dateOfBirth;
-    public string $passwordConfirm;
+    public string $name = '';
+    public string $phone = '';
+    public string $email = '';
+    public string $gender = '';
+    public string $password = '';
+    public string $dateOfBirth = '';
+    public string $passwordConfirm = '';
 
     public function rules(): array
     {
         return [
-            'firstName' => [self::RULE_REQUIRED],
-            'middleName' => [self::RULE_REQUIRED],
-            'lastName' => [self::RULE_REQUIRED],
-            'username' => [self::RULE_REQUIRED, [
-                self::RULE_UNIQUE, 'class' => User::class
-            ]],
+            'name' => [self::RULE_REQUIRED],
+            'phone' => [self::RULE_REQUIRED],
             'email' => [self::RULE_REQUIRED, self::RULE_EMAIL, [
                 self::RULE_UNIQUE, 'class' => User::class
             ]],
@@ -49,21 +43,13 @@ class RegisterForm extends Model
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         $user = new User();
-        foreach ($this as $key => $value) {
-            if (property_exists($user, $key)) {
-                switch ($key) {
-                    case 'dateOfBirth': {
-                        $user->dateOfBirth = new UTCDateTime(strtotime($value) * 1000);
-                        break;
-                    }
-                    default: {
-                        $user->$key = $value;
-                        break;
-                    }
-                }
-            }
-        }
-        $userId = $user->insertOrUpdateOne();
+        $user->name = $this->name;
+        $user->gender = $this->gender;
+        $user->dateOfBirth = new UTCDateTime(strtotime($this->dateOfBirth) * 1000);;
+        $user->password = $this->password;
+        $user->email = $this->email;
+        $user->phone = $this->phone;
+        $userId = $user->insertOrUpdateOne(false);
         if ($userId) {
             return true;
         }
@@ -73,10 +59,8 @@ class RegisterForm extends Model
     public function labels(): array
     {
         return [
-            'firstName' => 'First name',
-            'middleName' => 'Middle name',
-            'lastName' => 'Last name',
-            'username' => 'Username',
+            'name' => 'Your name',
+            'phone' => 'Phone',
             'email' => 'Email',
             'password' => 'Password',
             'passwordConfirm' => 'Password confirm',

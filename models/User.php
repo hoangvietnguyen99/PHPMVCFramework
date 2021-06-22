@@ -5,23 +5,28 @@ namespace app\models;
 
 
 use app\constants\Gender;
-use app\core\Application;
+use app\constants\Role;
+use app\constants\Tier;
 use app\core\db\DbModel;
 use MongoDB\BSON\UTCDateTime;
 
 class User extends DbModel
 {
-    public string $username = '';
-    public string $firstName = '';
-    public string $middleName = '';
-    public string $lastName = '';
+    public string $name = '';
+    public string $role = Role::USER;
+    public string $phone = '';
     public string $email = '';
     public string $password = '';
     public UTCDateTime $joinDate;
-    public UTCDateTime $dateOfBirth;
+    public ?UTCDateTime $dateOfBirth = null;
     public string $imgPath = '';
     public string $gender = Gender::MALE;
-    public bool $isAdmin = false;
+    public int $totalQuestions = 0;
+    public int $totalAnswers = 0;
+    public int $totalLikes = 0;
+    public int $totalDislikes = 0;
+    public string $tier = Tier::BASIC;
+    public int $score = 0;
 
     /**
      * User constructor.
@@ -37,47 +42,45 @@ class User extends DbModel
         return 'USERS';
     }
 
-    public function getFullName()
-    {
-        return $this->firstName . ' ' . $this->middleName . ' ' . $this->lastName;
-    }
-
-    public function getShortLetterName()
-    {
-        return $this->firstName[0] . $this->lastName[0];
-    }
-
     public function bsonSerialize()
     {
         return [
             '_id' => $this->_id,
-            'username' => $this->username,
-            'firstName' => $this->firstName,
-            'middleName' => $this->middleName,
-            'lastName' => $this->lastName,
+            'name' => $this->name,
+            'role' => $this->role,
+            'phone' => $this->phone,
             'email' => $this->email,
             'password' => $this->password,
             'joinDate' => $this->joinDate,
             'dateOfBirth' => $this->dateOfBirth,
             'imgPath' => $this->imgPath,
             'gender' => $this->gender,
-            'isAdmin' => $this->isAdmin,
+            'totalQuestions' => $this->totalQuestions,
+            'totalAnswers' => $this->totalAnswers,
+            'totalLikes' => $this->totalLikes,
+            'totalDislikes' => $this->totalDislikes,
+            'tier' => $this->tier,
+            'score' => $this->score,
         ];
     }
 
     public function bsonUnserialize(array $data)
     {
         $this->_id = $data['_id'];
-        $this->username = $data['username'];
-        $this->firstName = $data['firstName'];
-        $this->middleName = $data['middleName'];
-        $this->lastName = $data['lastName'];
+        $this->name = $data['name'];
+        $this->role = $data['role'];
+        $this->phone = $data['phone'];
         $this->email = $data['email'];
         $this->password = $data['password'];
         $this->joinDate = $data['joinDate'];
         $this->dateOfBirth = $data['dateOfBirth'];
         $this->imgPath = $data['imgPath'];
         $this->gender = $data['gender'];
-        $this->isAdmin = $data['isAdmin'];
+        $this->totalQuestions = $data['totalQuestions'];
+        $this->totalAnswers = $data['totalAnswers'];
+        $this->totalLikes = $data['totalLikes'];
+        $this->totalDislikes = $data['totalDislikes'];
+        $this->tier = $data['tier'];
+        $this->score = $data['score'];
     }
 }

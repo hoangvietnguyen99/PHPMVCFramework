@@ -3,7 +3,6 @@
 
 namespace app\controllers;
 
-
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
@@ -39,12 +38,9 @@ class QuestionController extends Controller
         $askForm->loadData($request->body);
         if ($askForm->validate() && $askForm->ask()) {
             Application::$application->session->setFlash('success', 'Your question is successfully submitted.');
-            return $response->redirect('/questions');
+            return $response->send(201);
         }
-        return $this->render('ask', [
-            'model' => $askForm,
-            'categories' => Category::find()
-        ]);
+        return $response->send(400, $askForm->errors);
     }
 
     public function questions()

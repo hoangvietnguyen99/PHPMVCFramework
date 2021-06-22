@@ -37,7 +37,6 @@ class AuthController extends Controller
             Application::$application->session->setFlash('success', 'Welcome back');
             return $response->send(200);
         }
-        $this->setLayout('');
         return $response->send(401, $loginForm->errors);
     }
 
@@ -53,7 +52,7 @@ class AuthController extends Controller
         $registerModel->loadData($request->body);
         if ($registerModel->validate() && $registerModel->register()) {
             Application::$application->session->setFlash('success', 'Thanks for joining with us');
-            return $response->redirect('/login');
+            return $response->send(201);
         }
         return $response->send(400, $registerModel->errors);
     }
@@ -93,15 +92,6 @@ class AuthController extends Controller
         $data = $request->body;
         if (!isset($data['email'])) return $response->send(200, ['canCreate' => false]);
         $user = User::findOne(['email' => $data['email']]);
-        if ($user) return $response->send(200, ['canCreate' => false]);
-        return $response->send(200, ['canCreate' => true]);
-    }
-
-    public function isNewUsername(Request $request, Response $response)
-    {
-        $data = $request->body;
-        if (!isset($data['username'])) return $response->send(200, ['canCreate' => false]);
-        $user = User::findOne(['username' => $data['username']]);
         if ($user) return $response->send(200, ['canCreate' => false]);
         return $response->send(200, ['canCreate' => true]);
     }

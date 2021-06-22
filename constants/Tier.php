@@ -4,7 +4,10 @@
 namespace app\constants;
 
 
-class Tier
+final class Tier
 {
-
+    public const BASIC = 'BASIC';
+    public const SILVER = 'SILVER';
+    public const GOLD = 'GOLD';
+    public const PLATINUM = 'PLATINUM';
 }

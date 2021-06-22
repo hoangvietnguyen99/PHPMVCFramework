@@ -1,6 +1,7 @@
 <?php
 /** @var $this View */
 
+use app\constants\Role;
 use app\core\Application;
 use app\core\View;
 
@@ -961,11 +962,11 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div class="topbar-item">
                                 <div class="btn btn-icon btn-hover-transparent-white w-auto d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
                                     <div class="d-flex flex-column text-right pr-3">
-                                        <span class="text-white opacity-50 font-weight-bold font-size-sm d-none d-md-inline"><?PHP echo $user->username ?></span>
-                                        <span class="text-white font-weight-bolder font-size-sm d-none d-md-inline"><?PHP if ($user->isAdmin): ?>Administrator<?PHP else: ?>User<?PHP endif; ?></span>
+                                        <span class="text-white opacity-50 font-weight-bold font-size-sm d-none d-md-inline"><?PHP echo $user->name ?></span>
+                                        <span class="text-white font-weight-bolder font-size-sm d-none d-md-inline"><?PHP if ($user->role === Role::ADMIN): ?>Administrator<?PHP else: ?>User<?PHP endif; ?></span>
                                     </div>
                                     <span class="symbol symbol-35">
-												<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30"><?PHP echo $user->getShortLetterName() ?></span>
+												<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30"><?PHP echo $user->name[0] ?></span>
 											</span>
                                 </div>
                             </div>
@@ -987,7 +988,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile header-menu-layout-default">
                                 <!--begin::Header Nav-->
                                 <ul class="menu-nav">
-                                    <?PHP if (!Application::isGuest() && $user->isAdmin): ?>
+                                    <?PHP if (!Application::isGuest() && $user->role === Role::ADMIN): ?>
                                     <li class="menu-item menu-item-open menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here" data-menu-toggle="hover" aria-haspopup="true">
                                         <a href="/admin" class="menu-link">
                                             <span class="menu-text">Admin Page</span>
@@ -1075,8 +1076,8 @@ License: You must have a valid license purchased only from themeforest(the above
                 <i class="symbol-badge bg-success"></i>
             </div>
             <div class="d-flex flex-column">
-                <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?PHP echo $user->getFullName() ?></a>
-                <div class="text-muted mt-1"><?PHP if ($user->isAdmin): ?>Administrator<?PHP else: ?>User<?PHP endif; ?></div>
+                <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?PHP echo $user->name ?></a>
+                <div class="text-muted mt-1"><?PHP if ($user->role === Role::ADMIN): ?>Administrator<?PHP else: ?>User<?PHP endif; ?></div>
                 <div class="navi mt-2">
                     <a href="mailto: <?PHP echo $user->email ?>" class="navi-item">
 								<span class="navi-link p-0 pb-2">
@@ -2477,7 +2478,6 @@ License: You must have a valid license purchased only from themeforest(the above
     $('document').ready(() => {
         const errors = JSON.parse('<?php echo json_encode(Application::$application->session->getFlash('error')) ?>') || [];
         const success = '<?php echo Application::$application->session->getFlash('success') ?>';
-        console.log(errors, success);
         if (success) {
             $.notify({
                 message: success,
@@ -2519,7 +2519,7 @@ License: You must have a valid license purchased only from themeforest(the above
         }
     })
 </script>
-{{scripts}}
+<?php echo implode('', $this->scripts) ?>
 <!--end::Page Scripts-->
 </body>
 <!--end::Body-->
