@@ -6,7 +6,6 @@ var KTTagifyDemos = function() {
             .then(response => {
                 response.text().then(text => {
                     text = JSON.parse(text);
-                    console.log(text);
                     var input = document.getElementById('kt_tagify_1'),
                         // init Tagify script on the above inputs
                         tagify = new Tagify(input, {

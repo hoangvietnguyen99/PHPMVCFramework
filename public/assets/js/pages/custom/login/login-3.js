@@ -70,7 +70,7 @@ var KTLogin = function() {
 						document.location.href = '/';
 					} else {
 						Swal.fire({
-			                text: `Sorry, ${error.email ? error.email[0] : error.password ? error.password[0] : ''}`,
+			                text: `Sorry, ${error.email ? error.email[0] : error.password ? error.password[0] : `Something wrong, check the form again.`}`,
 			                icon: "error",
 			                buttonsStyling: false,
 							confirmButtonText: "Ok, got it!",
@@ -208,30 +208,6 @@ var KTLogin = function() {
 			};
 		};
 
-		const uniqueUsername = function() {
-			return {
-				validate: async function (input) {
-					const value = input.value;
-
-					if (!value) return {
-						valid: true
-					};
-
-					return {
-						valid: await FormValidation.utils.fetch('/isnewusername', {
-							method: 'POST',
-							dataType: 'json',
-							params: {
-								username: value
-							},
-						}).then(function (error) { // Return valid JSON
-							return error['canCreate'];
-						})
-					}
-				},
-			};
-		};
-
 		const uniqueEmail = function() {
 			return {
 				validate: async function (input) {
@@ -248,7 +224,7 @@ var KTLogin = function() {
 								email: value
 							},
 						}).then(function (error) { // Return valid JSON
-							return error['canCreate'];
+								return error['canCreate'];
 						})
 					}
 				},
@@ -261,16 +237,6 @@ var KTLogin = function() {
 			form,
 			{
 				fields: {
-					username: {
-						validators: {
-							notEmpty: {
-								message: 'First name is required'
-							},
-							uniqueUsername: {
-								message: 'Username already exist'
-							}
-						}
-					},
 					password: {
 						validators: {
 							notEmpty: {
@@ -316,7 +282,6 @@ var KTLogin = function() {
 				}
 			}
 		).registerValidator('strongPassword', strongPassword)
-			.registerValidator('uniqueUsername', uniqueUsername)
 			.registerValidator('uniqueEmail', uniqueEmail));
 
 		// Step 2
@@ -324,17 +289,17 @@ var KTLogin = function() {
 			form,
 			{
 				fields: {
-					firstName: {
+					name: {
 						validators: {
 							notEmpty: {
-								message: 'First name is required'
+								message: 'Name is required'
 							}
 						}
 					},
-					lastName: {
+					phone: {
 						validators: {
 							notEmpty: {
-								message: 'Last name is required'
+								message: 'Phone is required'
 							}
 						}
 					},
@@ -391,29 +356,61 @@ var KTLogin = function() {
 
 		// Submit event
 		wizardObj.on('submit', function (wizard) {
-			Swal.fire({
-				text: "All is good! Please confirm the form submission.",
-				icon: "success",
-				showCancelButton: true,
-				buttonsStyling: false,
-				confirmButtonText: "Yes, submit!",
-				cancelButtonText: "No, cancel",
-				customClass: {
-					confirmButton: "btn font-weight-bold btn-primary",
-					cancelButton: "btn font-weight-bold btn-default"
-				}
-			}).then(function (result) {
-				if (result.value) {
-					form.submit(); // Submit form
-				} else if (result.dismiss === 'cancel') {
+			// Swal.fire({
+			// 	text: "All is good! Please confirm the form submission.",
+			// 	icon: "success",
+			// 	showCancelButton: true,
+			// 	buttonsStyling: false,
+			// 	confirmButtonText: "Yes, submit!",
+			// 	cancelButtonText: "No, cancel",
+			// 	customClass: {
+			// 		confirmButton: "btn font-weight-bold btn-primary",
+			// 		cancelButton: "btn font-weight-bold btn-default"
+			// 	}
+			// }).then(function (result) {
+			// 	if (result.value) {
+			// 		form.submit(); // Submit form
+			// 	} else if (result.dismiss === 'cancel') {
+			// 		Swal.fire({
+			// 			text: "Your form has not been submitted!.",
+			// 			icon: "error",
+			// 			buttonsStyling: false,
+			// 			confirmButtonText: "Ok, got it!",
+			// 			customClass: {
+			// 				confirmButton: "btn font-weight-bold btn-primary",
+			// 			}
+			// 		});
+			// 	}
+			// });
+
+			const body = {
+				email: form.querySelector('[name="email"]').value,
+				password: form.querySelector('[name="password"]').value,
+				passwordConfirm: form.querySelector('[name="passwordConfirm"]').value,
+				name: form.querySelector('[name="name"]').value,
+				phone: form.querySelector('[name="phone"]').value,
+				gender: form.querySelector('[name="gender"]').value,
+				dateOfBirth: form.querySelector('[name="dateOfBirth"]').value
+			}
+
+			FormValidation.utils.fetch(form.getAttribute('action'), {
+				dataType: 'json',
+				method: form.getAttribute('method'),
+				params: body,
+			}).then(function(error) { // Return valid JSON
+				if (!error) {
+					document.location.href = '/login';
+				} else {
 					Swal.fire({
-						text: "Your form has not been submitted!.",
+						text: `Something wrong, check the form again.`,
 						icon: "error",
 						buttonsStyling: false,
 						confirmButtonText: "Ok, got it!",
 						customClass: {
-							confirmButton: "btn font-weight-bold btn-primary",
+							confirmButton: "btn font-weight-bold btn-light-primary"
 						}
+					}).then(function() {
+						KTUtil.scrollTop();
 					});
 				}
 			});
