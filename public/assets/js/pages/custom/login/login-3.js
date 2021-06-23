@@ -49,9 +49,24 @@ var KTLogin = function() {
 				KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
 
 				// Simulate Ajax request
-				setTimeout(function() {
+				// setTimeout(function() {
+				// 	KTUtil.btnRelease(formSubmitButton);
+				// }, 2000);
+
+				fetch(formSubmitUrl, {
+					method: 'POST',
+					headers: {
+						'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+					},
+					body: JSON.stringify({
+						email: form.querySelector('[name="email"]').value,
+						password: form.querySelector('[name="password"]').value,
+					})
+				}).then(async response => {
 					KTUtil.btnRelease(formSubmitButton);
-				}, 2000);
+
+					console.log(await response.text())
+				});
 
 				// Form Validation & Ajax Submission: https://formvalidation.io/guide/examples/using-ajax-to-submit-the-form
 		        FormValidation.utils.fetch(formSubmitUrl, {
