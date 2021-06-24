@@ -33,24 +33,25 @@ class Request
         foreach ($_POST as $key => $value) {
             $this->body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
         }
-        $rawPostBody = file_get_contents('php://input');
-        if ($rawPostBody) {
-            if (str_contains($rawPostBody, '&#34;')) $rawPostBody = str_replace('&#34;', '"', $rawPostBody);
-            $jsonParse = json_decode($rawPostBody, true);
-            if ($jsonParse) {
-                foreach ($jsonParse as $item => $value) {
-                    $this->body[$item] = $value;
-                }
-            }
-            else {
-                $tempData = [];
-                parse_str($rawPostBody, $tempData);
-                if (count($tempData)) {
-                    $this->body = array_merge($this->body, $tempData);
-                }
-            }
-        }
-
+        $jsonData = json_decode(file_get_contents('php://input'), true);
+        if ($jsonData) $this->body = json_decode(file_get_contents('php://input'), true);
+//        $this->body = json_decode(file_get_contents('php://input'), true);
+//        if ($rawPostBody) {
+//            if (str_contains($rawPostBody, '&#34;')) $rawPostBody = str_replace('&#34;', '"', $rawPostBody);
+//            $jsonParse = json_decode($rawPostBody, true);
+//            if ($jsonParse) {
+//                foreach ($jsonParse as $item => $value) {
+//                    $this->body[$item] = $value;
+//                }
+//            }
+//            else {
+//                $tempData = [];
+//                parse_str($rawPostBody, $tempData);
+//                if (count($tempData)) {
+//                    $this->body = array_merge($this->body, $tempData);
+//                }
+//            }
+//        }
     }
 
     public function getMethod()

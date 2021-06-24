@@ -37,7 +37,8 @@ class AuthController extends Controller
             Application::$application->session->setFlash('success', 'Welcome back');
             return $response->send(200);
         }
-        return $response->send(401, $loginForm->errors);
+//        return $response->send(401, $loginForm->errors);
+        return $response->send(401, $request->body);
     }
 
     public function getLogIn()
