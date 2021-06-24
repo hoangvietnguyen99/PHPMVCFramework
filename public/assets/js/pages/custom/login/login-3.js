@@ -52,21 +52,35 @@ var KTLogin = function() {
 				// setTimeout(function() {
 				// 	KTUtil.btnRelease(formSubmitButton);
 				// }, 2000);
+				var body = {
+					email: form.querySelector('[name="email"]').value,
+					password: form.querySelector('[name="password"]').value,
+				}
 
-				fetch(formSubmitUrl, {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+				// myHeaders.append("Cookie", "PHPSESSID=liqsbiqha4p8er4tf721vl5o1l");
+
+				var requestOptions = {
 					method: 'POST',
-					headers: {
-						'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-					},
-					body: JSON.stringify({
-						email: form.querySelector('[name="email"]').value,
-						password: form.querySelector('[name="password"]').value,
-					})
-				}).then(async response => {
+					headers: myHeaders,
+					body: JSON.stringify(body),
+					redirect: 'follow'
+				};
+
+				// fetch("http://localhost:4000/login", requestOptions)
+				// 	.then(response => response.text())
+				// 	.then(result => console.log(result))
+				// 	.catch(error => console.log('error', error));
+
+				fetch(formSubmitUrl, requestOptions).then(async response => {
 					KTUtil.btnRelease(formSubmitButton);
 
-					console.log(await response.text())
-				});
+					return response.text();
+				}).then(text => {
+					console.log(text);
+				})
+				return;
 
 				// Form Validation & Ajax Submission: https://formvalidation.io/guide/examples/using-ajax-to-submit-the-form
 		        FormValidation.utils.fetch(formSubmitUrl, {
