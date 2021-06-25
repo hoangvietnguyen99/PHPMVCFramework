@@ -28,6 +28,7 @@ class Application
     public ?User $user;
     public View $view;
     public string $layout = 'main';
+    public JWT $jwt;
 
     public function __construct(string $rootPath, array $config)
     {
@@ -40,6 +41,7 @@ class Application
         $this->database = new Database($config["db"]);
         $this->session = new Session();
         $this->view = new View();
+        $this->jwt = new JWT($config['jwt']);
 
         $userId = Application::$application->session->get('user');
         if ($userId) {
@@ -82,7 +84,7 @@ class Application
         $this->user = $user;
         $value = $user->getId();
         Application::$application->session->set('user', $value);
-        return true;
+        return $user;
     }
 
     public function logout()

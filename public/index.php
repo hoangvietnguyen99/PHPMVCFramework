@@ -16,6 +16,9 @@ $config = [
         "CLOUD" => $_ENV["DB_CONNECTION_STRING_CLOUD"],
         "TYPE" => $_ENV["DB_SOURCE"],
         "NAME" => $_ENV["DB_NAME"]
+    ],
+    "jwt" => [
+        "SECRET" => $_ENV["SECRET"]
     ]
 ];
 

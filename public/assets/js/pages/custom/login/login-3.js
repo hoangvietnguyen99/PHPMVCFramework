@@ -45,72 +45,75 @@ var KTLogin = function() {
 		        }
 		    )
 		    .on('core.form.valid', function() {
-				// Show loading state on button
-				KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+				console.log('here');
+		    	form.submit();
 
-				// Simulate Ajax request
-				// setTimeout(function() {
+				// // Show loading state on button
+				// KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+				//
+				// // Simulate Ajax request
+				// // setTimeout(function() {
+				// // 	KTUtil.btnRelease(formSubmitButton);
+				// // }, 2000);
+				// var body = {
+				// 	email: form.querySelector('[name="email"]').value,
+				// 	password: form.querySelector('[name="password"]').value,
+				// }
+				//
+				// var myHeaders = new Headers();
+				// myHeaders.append("Content-Type", "application/json");
+				// // myHeaders.append("Cookie", "PHPSESSID=liqsbiqha4p8er4tf721vl5o1l");
+				//
+				// var requestOptions = {
+				// 	method: 'POST',
+				// 	headers: myHeaders,
+				// 	body: JSON.stringify(body),
+				// 	redirect: 'follow'
+				// };
+				//
+				// // fetch("http://localhost:4000/login", requestOptions)
+				// // 	.then(response => response.text())
+				// // 	.then(result => console.log(result))
+				// // 	.catch(error => console.log('error', error));
+				//
+				// fetch(formSubmitUrl, requestOptions).then(async response => {
 				// 	KTUtil.btnRelease(formSubmitButton);
-				// }, 2000);
-				var body = {
-					email: form.querySelector('[name="email"]').value,
-					password: form.querySelector('[name="password"]').value,
-				}
-
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
-				// myHeaders.append("Cookie", "PHPSESSID=liqsbiqha4p8er4tf721vl5o1l");
-
-				var requestOptions = {
-					method: 'POST',
-					headers: myHeaders,
-					body: JSON.stringify(body),
-					redirect: 'follow'
-				};
-
-				// fetch("http://localhost:4000/login", requestOptions)
-				// 	.then(response => response.text())
-				// 	.then(result => console.log(result))
-				// 	.catch(error => console.log('error', error));
-
-				fetch(formSubmitUrl, requestOptions).then(async response => {
-					KTUtil.btnRelease(formSubmitButton);
-
-					return response.text();
-				}).then(text => {
-					console.log(text);
-				})
-				return;
-
-				// Form Validation & Ajax Submission: https://formvalidation.io/guide/examples/using-ajax-to-submit-the-form
-		        FormValidation.utils.fetch(formSubmitUrl, {
-		            method: 'POST',
-					dataType: 'json',
-		            params: {
-		                password: form.querySelector('[name="password"]').value,
-		                email: form.querySelector('[name="email"]').value,
-		            },
-		        }).then(function(error) { // Return valid JSON
-					// Release button
-					KTUtil.btnRelease(formSubmitButton);
-
-
-					if (!error) {
-						document.location.href = '/';
-					} else {
-						Swal.fire({
-			                text: `Sorry, ${error.email ? error.email[0] : error.password ? error.password[0] : `Something wrong, check the form again.`}`,
-			                icon: "error",
-			                buttonsStyling: false,
-							confirmButtonText: "Ok, got it!",
-							customClass: {
-								confirmButton: "btn font-weight-bold btn-light-primary"
-							}
-			            }).then(function() {
-							KTUtil.scrollTop();
-						});
-					}
-		        });
+				//
+				// 	return response.text();
+				// }).then(text => {
+				// 	console.log(text);
+				// })
+				// return;
+				//
+				// // Form Validation & Ajax Submission: https://formvalidation.io/guide/examples/using-ajax-to-submit-the-form
+		        // FormValidation.utils.fetch(formSubmitUrl, {
+		        //     method: 'POST',
+				// 	dataType: 'json',
+		        //     params: {
+		        //         password: form.querySelector('[name="password"]').value,
+		        //         email: form.querySelector('[name="email"]').value,
+		        //     },
+		        // }).then(function(error) { // Return valid JSON
+				// 	// Release button
+				// 	KTUtil.btnRelease(formSubmitButton);
+				//
+				//
+				// 	if (!error) {
+				// 		document.location.href = '/';
+				// 	} else {
+				// 		Swal.fire({
+			    //             text: `Sorry, ${error.email ? error.email[0] : error.password ? error.password[0] : `Something wrong, check the form again.`}`,
+			    //             icon: "error",
+			    //             buttonsStyling: false,
+				// 			confirmButtonText: "Ok, got it!",
+				// 			customClass: {
+				// 				confirmButton: "btn font-weight-bold btn-light-primary"
+				// 			}
+			    //         }).then(function() {
+				// 			KTUtil.scrollTop();
+				// 		});
+				// 	}
+		        // });
 		    })
 			.on('core.form.invalid', function() {
 				KTUtil.scrollTop();

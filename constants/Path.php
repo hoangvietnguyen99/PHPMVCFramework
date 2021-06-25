@@ -4,6 +4,8 @@
 namespace app\constants;
 
 
+use ReflectionClass;
+
 final class Path
 {
     public const HOME = ['/', 'Home'];
@@ -17,7 +19,6 @@ final class Path
     public const ASK = ['/ask', 'Ask'];
 
     public const IS_NEW_EMAIL = ['/isnewemail', 'Is New Email'];
-    public const IS_NEW_USERNAME = ['/isnewusername', 'Is New Username'];
 
     public const LOGIN = ['/login', 'Log In'];
     public const LOGOUT = ['/logout', 'Log Out'];
@@ -26,4 +27,10 @@ final class Path
 
     public const CATEGORIES = ['/categories', 'Categories'];
     public const TAGS = ['/tags', 'Tags'];
+
+    static function getConstants(): array
+    {
+        $oClass = new ReflectionClass(__CLASS__);
+        return $oClass->getConstants();
+    }
 }

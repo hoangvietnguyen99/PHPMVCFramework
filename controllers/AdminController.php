@@ -12,13 +12,13 @@ use app\models\Category;
 
 class AdminController extends Controller
 {
-//    /**
-//     * AdminController constructor.
-//     */
-//    public function __construct()
-//    {
-//        $this->registerMiddleware(new AdminMiddleware());
-//    }
+    /**
+     * AdminController constructor.
+     */
+    public function __construct()
+    {
+        $this->registerMiddleware(new AdminMiddleware(['addCategories']));
+    }
 
     public function users()
     {

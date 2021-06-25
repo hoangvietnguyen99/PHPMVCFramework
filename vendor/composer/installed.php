@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'd6c4c052355d468ffe3891f20080c8142bd015a5',
+    'reference' => '1da6113dde54441aab1d98adb084cd47611becad',
     'name' => 'vietnguyen/phpmvc-framework',
   ),
   'versions' => 
@@ -47,6 +47,15 @@
       ),
       'reference' => '953dbc19443aa9314c44b7217a16873347e6840d',
     ),
+    'nesbot/carbon' => 
+    array (
+      'pretty_version' => '2.49.0',
+      'version' => '2.49.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '93d9db91c0235c486875d22f1e08b50bdf3e6eee',
+    ),
     'ocramius/package-versions' => 
     array (
       'replaced' => 
@@ -62,6 +71,15 @@
       array (
       ),
       'reference' => '994ecccd8f3283ecf5ac33254543eb0ac946d525',
+    ),
+    'symfony/deprecation-contracts' => 
+    array (
+      'pretty_version' => 'v2.4.0',
+      'version' => '2.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5f38c8804a9e97d23e0c8d63341088cd8a22d627',
     ),
     'symfony/polyfill-ctype' => 
     array (
@@ -90,6 +108,31 @@
       ),
       'reference' => 'eca0bf41ed421bed1b57c4958bab16aa86b757d0',
     ),
+    'symfony/translation' => 
+    array (
+      'pretty_version' => 'v5.3.2',
+      'version' => '5.3.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7e2603bcc598e14804c4d2359d8dc4ee3c40391b',
+    ),
+    'symfony/translation-contracts' => 
+    array (
+      'pretty_version' => 'v2.4.0',
+      'version' => '2.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '95c812666f3e91db75385749fe219c5e494c7f95',
+    ),
+    'symfony/translation-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '2.3',
+      ),
+    ),
     'vietnguyen/phpmvc-framework' => 
     array (
       'pretty_version' => 'dev-main',
@@ -97,7 +140,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'd6c4c052355d468ffe3891f20080c8142bd015a5',
+      'reference' => '1da6113dde54441aab1d98adb084cd47611becad',
     ),
     'vlucas/phpdotenv' => 
     array (

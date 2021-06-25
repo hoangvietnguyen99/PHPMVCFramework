@@ -1,50 +1,294 @@
 <?php
 /** @var $this View */
 
-use app\core\View;
+/** @var $model RegisterForm */
 
-$this->title = 'Register'
+use app\core\form\Field;
+use app\core\View;
+use app\models\RegisterForm;
+
+$this->title = 'Register';
+$this->scripts[] = '<script type="application/javascript">
+    // Class definition
+
+    var KTBootstrapDatepicker = function () {
+
+        var arrows;
+        if (KTUtil.isRTL()) {
+            arrows = {
+                leftArrow: `<i class="la la-angle-right"></i>`,
+                rightArrow: `<i class="la la-angle-left"></i>`
+            }
+        } else {
+            arrows = {
+                leftArrow: `<i class="la la-angle-left"></i>`,
+                rightArrow: `<i class="la la-angle-right"></i>`
+            }
+        }
+
+        // Private functions
+        var demos = function () {
+
+            // enable clear button
+            $(`#kt_datepicker_3, #kt_datepicker_3_validate`).datepicker({
+                rtl: KTUtil.isRTL(),
+                todayBtn: "linked",
+                clearBtn: true,
+                todayHighlight: true,
+                templates: arrows
+            });
+        }
+
+        return {
+    // public functions
+    init: function () {
+        demos();
+    }
+};
+    }();
+
+    jQuery(document).ready(function () {
+        KTBootstrapDatepicker.init();
+    });
+</script>';
+$this->scripts[] = '<script type="application/javascript">
+"use strict";
+
+// Class Definition
+var KTLogin = function() {
+	var _buttonSpinnerClasses = "spinner spinner-right spinner-white pr-15";
+
+	var _handleFormSignup = function() {
+		// Base elements
+		var wizardEl = KTUtil.getById("kt_login");
+		var form = KTUtil.getById("kt_login_signup_form");
+		var wizardObj;
+		var validations = [];
+
+		if (!form) {
+			return;
+		}
+
+		const strongPassword = function() {
+			return {
+				validate: function(input) {
+					const value = input.value;
+					if (value === "") {
+						return {
+							valid: true,
+						};
+					}
+
+					// Check the password strength
+					if (value.length < 8) {
+						return {
+							valid: false,
+							message: "The password must be more than 8 characters long",
+						};
+					}
+
+					// The password does not contain any uppercase character
+					if (value === value.toLowerCase()) {
+						return {
+							valid: false,
+							message: "The password must contain at least one upper case character",
+						};
+					}
+
+					// The password does not contain any lower character
+					if (value === value.toUpperCase()) {
+						return {
+							valid: false,
+							message: "The password must contain at least one lower case character",
+						};
+					}
+
+					// The password does not contain any digit
+					if (value.search(/[0-9]/) < 0) {
+						return {
+							valid: false,
+							message: "The password must contain at least one digit",
+						};
+					}
+
+					return {
+						valid: true,
+					};
+				},
+			};
+		};
+
+		const uniqueEmail = function() {
+			return {
+				validate: async function (input) {
+					const value = input.value;
+					if (!value) return {
+						valid: true
+					};
+
+					return {
+						valid: await FormValidation.utils.fetch("/isnewemail", {
+							method: "POST",
+							dataType: "json",
+							params: {
+								email: value
+							},
+						}).then(function (error) { // Return valid JSON
+								return error["canCreate"];
+						})
+					}
+				},
+			};
+		};
+
+		// Init form validation rules. For more info check the FormValidation plugin"s official documentation:https://formvalidation.io/
+		// Step 1
+		validations.push(FormValidation.formValidation(
+                form,
+			{
+				fields: {
+                    password: {
+                        validators: {
+                            notEmpty: {
+                                message: "Password is required"
+                            },
+                            strongPassword
+                        }
+                    },
+                    passwordConfirm: {
+                        validators: {
+                            notEmpty: {
+                                message: "The password confirmation is required"
+                                            },
+                            identical: {
+                                compare: function() {
+                                    return form.querySelector(`[name="password"]`).value;
+                                },
+                                message: "The password and its confirm are not the same"
+                                            }
+                        }
+                    },
+                    email: {
+                        validators: {
+                            notEmpty: {
+                                message: "Email is required"
+                            },
+                            emailAddress: {
+                                message: "The value is not a valid email address"
+                            },
+                            uniqueEmail: {
+                                message: "Email already exist"
+                            }
+                        }
+                    }
+                },
+				plugins: {
+    trigger: new FormValidation.plugins.Trigger(),
+					// Bootstrap Framework Integration
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						//eleInvalidClass: "",
+						eleValidClass: "",
+					})
+				}
+			}
+		).registerValidator("strongPassword", strongPassword).registerValidator("uniqueEmail", uniqueEmail));
+
+		// Step 2
+		validations.push(FormValidation.formValidation(
+                form,
+			{
+				fields: {
+    name: {
+        validators: {
+            notEmpty: {
+                message: "Name is required"
+							}
+        }
+    },
+    phone: {
+        validators: {
+            notEmpty: {
+                message: "Phone is required"
+							}
+        }
+    },
+    dateOfBirth: {
+        validations: {
+            notEmpty: {
+                message: "Date of birth is required"
+							}
+        }
+    }
+},
+				plugins: {
+    trigger: new FormValidation.plugins.Trigger(),
+					// Bootstrap Framework Integration
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						//eleInvalidClass: "",
+						eleValidClass: "",
+					})
+				}
+			}
+		));
+
+		// Initialize form wizard
+		wizardObj = new KTWizard(wizardEl, {
+    startStep: 1, // initial active step number
+			clickableSteps: false  // allow step clicking
+		});
+
+		// Validation before going to next page
+		wizardObj.on("change", function (wizard) {
+            if (wizard.getStep() > wizard.getNewStep()) {
+                return; // Skip if stepped back
+            }
+
+            // Validate form before change wizard step
+            var validator = validations[wizard.getStep() - 1]; // get validator for currnt step
+
+            if (validator) {
+                validator.validate().then(function (status) {
+                    if (status === "Valid") {
+                        wizard.goTo(wizard.getNewStep());
+					}
+                    KTUtil.scrollTop();
+                });
+            }
+
+            return false;  // Do not change wizard step, further action will be handled by he validator
+        });
+
+		// Change event
+		wizardObj.on("changed", function (wizard) {
+            KTUtil.scrollTop();
+        });
+
+		// Submit event
+		wizardObj.on("submit", function (wizard) {
+            form.submit();
+		});
+    }
+
+    // Public Functions
+    return {
+    init: function() {
+        _handleFormSignup();
+    }
+};
+}();
+
+// Class Initialization
+jQuery(document).ready(function() {
+    KTLogin.init();
+    $(window).keydown(function(event){
+    if(event.keyCode === 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>'
 ?>
-<!DOCTYPE html>
-<!--
-Template Name: Metronic - Bootstrap 4 HTML, React, Angular 11 & VueJS Admin Dashboard Theme
-Author: KeenThemes
-Website: http://www.keenthemes.com/
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Dribbble: www.dribbble.com/keenthemes
-Like: www.facebook.com/keenthemes
-Purchase: https://1.envato.market/EA4JP
-Renew Support: https://1.envato.market/EA4JP
-License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
--->
-<html lang="en">
-<!--begin::Head-->
-<head>
-    <base href="../../../../">
-    <meta charset="utf-8"/>
-    <title><?php echo $this->title ?></title>
-    <meta name="description" content="Singin page example"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <link rel="canonical" href="https://keenthemes.com/metronic"/>
-    <!--begin::Fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
-    <!--end::Fonts-->
-    <!--begin::Page Custom Styles(used by this page)-->
-    <link href="assets/css/pages/login/login-3.css" rel="stylesheet" type="text/css"/>
-    <!--end::Page Custom Styles-->
-    <!--begin::Global Theme Styles(used by all pages)-->
-    <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css"/>
-    <!--end::Global Theme Styles-->
-    <!--begin::Layout Themes(used by all pages)-->
-    <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="assets/media/logos/favicon.ico"/>
-</head>
-<!--end::Head-->
-<!--begin::Body-->
-<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled page-loading">
 <!--begin::Main-->
 <div class="d-flex flex-column flex-root">
     <!--begin::Login-->
@@ -132,7 +376,8 @@ License: You must have a valid license purchased only from themeforest(the above
                 <!--begin::Signin-->
                 <div class="login-form login-form-signup">
                     <!--begin::Form-->
-                    <form class="form" novalidate="novalidate" id="kt_login_signup_form" action="/register" method="post">
+                    <form class="form" novalidate="novalidate" id="kt_login_signup_form" action="/register"
+                          method="post">
                         <!--begin: Wizard Step 1-->
                         <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                             <!--begin::Title-->
@@ -144,26 +389,33 @@ License: You must have a valid license purchased only from themeforest(the above
                             <!--end::Title-->
                             <!--begin::Form Group-->
                             <div class="form-group">
-                                <label class="font-size-h6 font-weight-bolder text-dark">Your email</label>
+                                <?PHP
+                                echo new Field($model, '<label class="font-size-h6 font-weight-bolder text-dark">{{label}}</label>
                                 <input type="email"
                                        class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
-                                       name="email" placeholder="Your email" value=""/>
+                                       name="{{name}}" placeholder="{{label}}" value="{{value}}"/>',
+                                    'email')
+                                ?>
                             </div>
                             <!--end::Form Group-->
                             <!--begin::Form Group-->
                             <div class="form-group">
-                                <label class="font-size-h6 font-weight-bolder text-dark">Password</label>
+                                <?PHP
+                                echo new Field($model, '<label class="font-size-h6 font-weight-bolder text-dark">{{label}}</label>
                                 <input type="password"
                                        class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
-                                       name="password" placeholder="Password" value=""/>
+                                       name="{{name}}" placeholder="{{label}}" value="{{value}}"/>', 'password');
+                                ?>
                             </div>
                             <!--end::Form Group-->
                             <!--begin::Form Group-->
                             <div class="form-group">
-                                <label class="font-size-h6 font-weight-bolder text-dark">Confirm Password</label>
+                                <?PHP
+                                echo new Field($model, '<label class="font-size-h6 font-weight-bolder text-dark">{{label}}</label>
                                 <input type="password"
                                        class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
-                                       name="passwordConfirm" placeholder="Password Confirm" value=""/>
+                                       name="{{name}}" placeholder="{{label}}" value="{{value}}"/>', 'passwordConfirm')
+                                ?>
                             </div>
                             <!--end::Form Group-->
                         </div>
@@ -181,20 +433,24 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <div class="col-xl-8">
                                     <!--begin::Input-->
                                     <div class="form-group">
-                                        <label class="font-size-h6 font-weight-bolder text-dark">Your name</label>
+                                        <?PHP
+                                        echo new Field($model, '<label class="font-size-h6 font-weight-bolder text-dark">{{label}}</label>
                                         <input type="text"
                                                class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
-                                               name="name" placeholder="Your name" value=""/>
+                                               name="{{name}}" placeholder="{{label}}" value="{{value}}"/>', 'name');
+                                        ?>
                                     </div>
                                     <!--end::Input-->
                                 </div>
                                 <div class="col-xl-4">
                                     <!--begin::Input-->
                                     <div class="form-group">
-                                        <label class="font-size-h6 font-weight-bolder text-dark">Phone</label>
+                                        <?PHP
+                                        echo new Field($model, '<label class="font-size-h6 font-weight-bolder text-dark">{{label}}</label>
                                         <input type="text"
                                                class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6"
-                                               name="phone" placeholder="Phone" value=""/>
+                                               name="{{name}}" placeholder="{{label}}" value="{{value}}"/>', 'phone');
+                                        ?>
                                     </div>
                                     <!--end::Input-->
                                 </div>
@@ -205,36 +461,38 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <div class="col-xl-6">
                                     <!--begin::Input-->
                                     <div class="form-group">
-                                        <label class="font-size-h6 font-weight-bolder text-dark">Gender</label>
-                                        <!--												<input type="text" class="form-control h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="postcode" placeholder="Postcode" value="3000" />-->
+                                        <?PHP
+                                        echo new Field($model, '<label class="font-size-h6 font-weight-bolder text-dark">{{label}}</label>
                                         <div class="form-group row h-auto py-7 px-6 border-0 rounded-lg font-size-h6">
                                             <div class="col-9 col-form-label">
                                                 <div class="radio-inline">
                                                     <label class="radio radio-success">
-                                                        <input type="radio" name="gender" checked="checked" value="Male"/>
+                                                        <input type="radio" name="{{name}}" checked="checked" value="Male"/>
                                                         <span></span>
                                                         Male
                                                     </label>
                                                     <label class="radio radio-danger">
-                                                        <input type="radio" name="gender" value="Female"/>
+                                                        <input type="radio" name="{{name}}" value="Female"/>
                                                         <span></span>
                                                         Female
                                                     </label>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>', 'gender');
+                                        ?>
                                     </div>
                                     <!--end::Input-->
                                 </div>
                                 <div class="col-xl-6">
                                     <!--begin::Input-->
                                     <div class="form-group">
-                                        <label class="font-size-h6 font-weight-bolder text-dark">Date of Birth</label>
+                                        <?PHP
+                                        echo new Field($model, '<label class="font-size-h6 font-weight-bolder text-dark">{{label}}</label>
                                         <div class="form-group row">
                                             <div class="col">
                                                 <div class="input-group date">
-                                                    <input type="text" class="form-control" readonly value="05/19/2021"
-                                                           id="kt_datepicker_3" name="dateOfBirth"/>
+                                                    <input type="text" class="form-control" readonly value="07/27/1999"
+                                                           id="kt_datepicker_3" name="{{name}}"/>
                                                     <div class="input-group-append">
        <span class="input-group-text">
         <i class="la la-calendar"></i>
@@ -242,7 +500,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>', 'dateOfBirth')
+                                        ?>
                                     </div>
                                     <!--end::Input-->
                                 </div>
@@ -342,113 +601,3 @@ License: You must have a valid license purchased only from themeforest(the above
     </div>
     <!--end::Login-->
 </div>
-<!--end::Main-->
-<script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
-<!--begin::Global Config(global config for global JS scripts)-->
-<script>var KTAppSettings = {
-        "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
-        "colors": {
-            "theme": {
-                "base": {
-                    "white": "#ffffff",
-                    "primary": "#0BB783",
-                    "secondary": "#E5EAEE",
-                    "success": "#1BC5BD",
-                    "info": "#8950FC",
-                    "warning": "#FFA800",
-                    "danger": "#F64E60",
-                    "light": "#F3F6F9",
-                    "dark": "#212121"
-                },
-                "light": {
-                    "white": "#ffffff",
-                    "primary": "#D7F9EF",
-                    "secondary": "#ECF0F3",
-                    "success": "#C9F7F5",
-                    "info": "#EEE5FF",
-                    "warning": "#FFF4DE",
-                    "danger": "#FFE2E5",
-                    "light": "#F3F6F9",
-                    "dark": "#D6D6E0"
-                },
-                "inverse": {
-                    "white": "#ffffff",
-                    "primary": "#ffffff",
-                    "secondary": "#212121",
-                    "success": "#ffffff",
-                    "info": "#ffffff",
-                    "warning": "#ffffff",
-                    "danger": "#ffffff",
-                    "light": "#464E5F",
-                    "dark": "#ffffff"
-                }
-            },
-            "gray": {
-                "gray-100": "#F3F6F9",
-                "gray-200": "#ECF0F3",
-                "gray-300": "#E5EAEE",
-                "gray-400": "#D6D6E0",
-                "gray-500": "#B5B5C3",
-                "gray-600": "#80808F",
-                "gray-700": "#464E5F",
-                "gray-800": "#1B283F",
-                "gray-900": "#212121"
-            }
-        },
-        "font-family": "Poppins"
-    };</script>
-<!--end::Global Config-->
-<!--begin::Global Theme Bundle(used by all pages)-->
-<script src="assets/plugins/global/plugins.bundle.js"></script>
-<script src="assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
-<script src="assets/js/scripts.bundle.js"></script>
-<!--end::Global Theme Bundle-->
-<!--begin::Page Scripts(used by this page)-->
-<script src="assets/js/pages/custom/login/login-3.js"></script>
-<!--end::Page Scripts-->
-<script type="application/javascript">
-    // Class definition
-
-    var KTBootstrapDatepicker = function () {
-
-        var arrows;
-        if (KTUtil.isRTL()) {
-            arrows = {
-                leftArrow: '<i class="la la-angle-right"></i>',
-                rightArrow: '<i class="la la-angle-left"></i>'
-            }
-        } else {
-            arrows = {
-                leftArrow: '<i class="la la-angle-left"></i>',
-                rightArrow: '<i class="la la-angle-right"></i>'
-            }
-        }
-
-        // Private functions
-        var demos = function () {
-
-            // enable clear button
-            $('#kt_datepicker_3, #kt_datepicker_3_validate').datepicker({
-                rtl: KTUtil.isRTL(),
-                todayBtn: "linked",
-                clearBtn: true,
-                todayHighlight: true,
-                templates: arrows
-            });
-        }
-
-        return {
-            // public functions
-            init: function () {
-                demos();
-            }
-        };
-    }();
-
-    jQuery(document).ready(function () {
-        KTBootstrapDatepicker.init();
-    });
-</script>
-</body>
-<!--end::Body-->
-</html>
