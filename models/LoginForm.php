@@ -28,7 +28,7 @@ class LoginForm extends Model
         ];
     }
 
-    public function login()
+    public function login(bool $setSession = true): object|bool|array
     {
         $user = User::findOne(['email' => $this->email]);
         if (!$user) {
@@ -39,6 +39,9 @@ class LoginForm extends Model
             $this->addError('password', 'Password is incorrect');
             return false;
         }
-        return Application::$application->login($user);
+        if ($setSession) {
+            Application::$application->login($user);
+        }
+        return $user;
     }
 }

@@ -9,7 +9,7 @@ $questionRouter = new Router(Application::$application->request, Application::$a
 
 $questionRouter->get(Path::QUESTIONS[0], [QuestionController::class, 'questions']);
 
-$questionRouter->get(Path::ASK[0], [QuestionController::class, 'getAsk']);
+$questionRouter->get(Path::ASK[0], [QuestionController::class, 'ask']);
 $questionRouter->post(Path::ASK[0], [QuestionController::class, 'ask']);
 
 $questionRouter->get(Path::TAGS[0], [QuestionController::class, 'getTags']);

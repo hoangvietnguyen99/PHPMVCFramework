@@ -84,7 +84,6 @@ class Application
         $this->user = $user;
         $value = $user->getId();
         Application::$application->session->set('user', $value);
-        return $user;
     }
 
     public function logout()

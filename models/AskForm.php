@@ -4,9 +4,10 @@
 namespace app\models;
 
 
+use app\constants\Score;
 use app\core\Application;
 use app\core\Model;
-use app\core\Request;
+use app\utils\StringUtil;
 
 class AskForm extends Model
 {
@@ -37,7 +38,7 @@ class AskForm extends Model
 
     public function ask()
     {
-        $tags = json_decode($this->tags, true);
+        $tags = json_decode(StringUtil::removeSpecialDoubleQuote($this->tags), true);
         $this->tags = '';
         if (!$tags) {
             $this->addError('tags', 'Invalid tags');
@@ -64,8 +65,8 @@ class AskForm extends Model
             $item->count++;
             $item->insertOrUpdateOne();
         }
-
-        $question = new Question(Application::$application->user->getId());
+        $user = Application::$application->user;
+        $question = new Question($user->getId());
 
         $question->category[] = (object) ['_id' => $category->getId(), 'name' => $category->name];
         $question->content = $this->description;
@@ -73,8 +74,13 @@ class AskForm extends Model
         $question->title = $this->title;
 
         if ($question->insertOrUpdateOne()) {
+            $user->totalQuestions++;
+            $user->score += Score::NEW_PUBLISH_QUESTION;
+            $user->insertOrUpdateOne();
+
             return true;
         }
+
         return false;
     }
 }

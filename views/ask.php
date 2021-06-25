@@ -14,6 +14,80 @@ $user = Application::$application->user;
 
 $this->scripts[] = '<script src="assets/js/pages/crud/forms/editors/summernote.js"></script>';
 $this->scripts[] = '<script src="assets/js/pages/crud/forms/widgets/tagify.js"></script>';
+$this->scripts[] = '<script type="application/javascript">
+"use strict";
+
+// Class Definition
+var KTLogin = function() {
+	var _handleFormAsk = function() {
+		var form = KTUtil.getById("ask-form");
+
+		if (!form) {
+			return;
+		}
+
+		FormValidation
+		    .formValidation(
+		        form,
+		        {
+		            fields: {
+						title: {
+							validators: {
+								notEmpty: {
+									message: "Title is required"
+								}
+							}
+						},
+						category: {
+							validators: {
+								notEmpty: {
+									message: "Category is required"
+								}
+							}
+						},
+						description: {
+							validators: {
+								notEmpty: {
+									message: "Description is required"
+								}
+							}
+						},
+						tags: {
+							validators: {
+								notEmpty: {
+									message: "Tags is required"
+								}
+							}
+						},
+		            },
+		            plugins: {
+						trigger: new FormValidation.plugins.Trigger(),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+						defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+						bootstrap: new FormValidation.plugins.Bootstrap({
+						})
+		            }
+		        }
+		    )
+			.on("core.form.invalid", function() {
+				KTUtil.scrollTop();
+		    });
+    }
+
+    // Public Functions
+    return {
+        init: function() {
+            _handleFormAsk();
+        }
+    };
+}();
+
+// Class Initialization
+jQuery(document).ready(function() {
+    KTLogin.init();
+});
+
+</script>';
 ?>
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -706,122 +780,3 @@ $this->scripts[] = '<script src="assets/js/pages/crud/forms/widgets/tagify.js"><
     <!--end::Entry-->
 </div>
 <!--end::Content-->
-<?php
-$this->scripts[] = '<script type="application/javascript">
-
-"use strict";
-
-// Class Definition
-var KTLogin = function() {
-	var _buttonSpinnerClasses = "spinner spinner-right spinner-white pr-15";
-
-	var _handleFormAsk = function() {
-		var form = KTUtil.getById("ask-form");
-		var formSubmitUrl = KTUtil.attr(form, "action");
-		var formSubmitButton = KTUtil.getById("ask-form-submit");
-
-		if (!form) {
-			return;
-		}
-
-		FormValidation
-		    .formValidation(
-		        form,
-		        {
-		            fields: {
-						title: {
-							validators: {
-								notEmpty: {
-									message: "Title is required"
-								}
-							}
-						},
-						category: {
-							validators: {
-								notEmpty: {
-									message: "Category is required"
-								}
-							}
-						},
-						description: {
-							validators: {
-								notEmpty: {
-									message: "Description is required"
-								}
-							}
-						},
-						tags: {
-							validators: {
-								notEmpty: {
-									message: "Tags is required"
-								}
-							}
-						},
-		            },
-		            plugins: {
-						trigger: new FormValidation.plugins.Trigger(),
-						submitButton: new FormValidation.plugins.SubmitButton(),
-						bootstrap: new FormValidation.plugins.Bootstrap({
-						})
-		            }
-		        }
-		    )
-		    .on("core.form.valid", function() {
-				// Show loading state on button
-				KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
-				
-				var body = {
-				    title: form.querySelector(`[name="title"]`).value,
-				    category: form.querySelector(`[name="category"]`).value,
-				    description: form.querySelector(`[name="description"]`).value,
-				    tags: form.querySelector(`[name="tags"]`).value,
-				}
-				console.log(body);
-
-				// Form Validation & Ajax Submission: https://formvalidation.io/guide/examples/using-ajax-to-submit-the-form
-		        FormValidation.utils.fetch(formSubmitUrl, {
-		            method: "POST",
-					dataType: "json",
-		            params: body,
-		        }).then(function(error) { // Return valid JSON
-					// Release button
-					KTUtil.btnRelease(formSubmitButton);
-					console.log(error);
-
-					if (!error) {
-						document.location.href = "/questions";
-					} else {
-						Swal.fire({
-			                text: `Something wrong, check the form again.`,
-			                icon: "error",
-			                buttonsStyling: false,
-							confirmButtonText: "Ok, got it!",
-							customClass: {
-								confirmButton: "btn font-weight-bold btn-light-primary"
-							}
-			            }).then(function() {
-							KTUtil.scrollTop();
-						});
-					}
-		        });
-		    })
-			.on("core.form.invalid", function() {
-				KTUtil.scrollTop();
-		    });
-    }
-
-    // Public Functions
-    return {
-        init: function() {
-            _handleFormAsk();
-        }
-    };
-}();
-
-// Class Initialization
-jQuery(document).ready(function() {
-    KTLogin.init();
-});
-
-</script>'
-?>

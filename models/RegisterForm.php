@@ -6,7 +6,8 @@ namespace app\models;
 
 use app\constants\Gender;
 use app\core\Model;
-use MongoDB\BSON\UTCDateTime;
+use DateTime;
+use Exception;
 
 class RegisterForm extends Model
 {
@@ -39,13 +40,16 @@ class RegisterForm extends Model
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     public function register(): bool
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         $user = new User();
         $user->name = $this->name;
         $user->gender = $this->gender;
-        $user->dateOfBirth = new UTCDateTime(strtotime($this->dateOfBirth) * 1000);;
+        $user->dateOfBirth = new DateTime($this->dateOfBirth);
         $user->password = $this->password;
         $user->email = $this->email;
         $user->phone = $this->phone;

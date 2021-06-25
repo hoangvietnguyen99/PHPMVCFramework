@@ -8,6 +8,7 @@ use app\constants\Gender;
 use app\constants\Role;
 use app\constants\Tier;
 use app\core\db\DbModel;
+use DateTime;
 use MongoDB\BSON\UTCDateTime;
 
 class User extends DbModel
@@ -17,8 +18,8 @@ class User extends DbModel
     public string $phone = '';
     public string $email = '';
     public string $password = '';
-    public UTCDateTime $joinDate;
-    public ?UTCDateTime $dateOfBirth = null;
+    public DateTime $joinDate;
+    public DateTime $dateOfBirth;
     public string $imgPath = '';
     public string $gender = Gender::MALE;
     public int $totalQuestions = 0;
@@ -35,7 +36,7 @@ class User extends DbModel
     public function __construct()
     {
         parent::__construct();
-        $this->joinDate = new UTCDateTime(strtotime('now') * 1000);
+        $this->joinDate = new DateTime();
     }
 
     public static function collectionName(): string
@@ -52,12 +53,12 @@ class User extends DbModel
             'phone' => $this->phone,
             'email' => $this->email,
             'password' => $this->password,
-            'joinDate' => $this->joinDate,
-            'dateOfBirth' => $this->dateOfBirth,
+            'joinDate' => new UTCDateTime($this->joinDate->getTimestamp() * 1000),
+            'dateOfBirth' => new UTCDateTime($this->dateOfBirth->getTimestamp() * 1000),
             'imgPath' => $this->imgPath,
             'gender' => $this->gender,
-            'totalQuestions' => $this->totalQuestions,
-            'totalAnswers' => $this->totalAnswers,
+            'totalPostedQuestion' => $this->totalQuestions,
+            'totalPostedAnswser' => $this->totalAnswers,
             'totalLikes' => $this->totalLikes,
             'totalDislikes' => $this->totalDislikes,
             'tier' => $this->tier,
@@ -74,12 +75,12 @@ class User extends DbModel
         $this->phone = $data['phone'];
         $this->email = $data['email'];
         $this->password = $data['password'];
-        $this->joinDate = $data['joinDate'];
-        $this->dateOfBirth = $data['dateOfBirth'];
+        $this->joinDate = $data['joinDate']->toDateTime();
+        $this->dateOfBirth = $data['dateOfBirth']->toDateTime();
         $this->imgPath = $data['imgPath'];
         $this->gender = $data['gender'];
-        $this->totalQuestions = $data['totalQuestions'];
-        $this->totalAnswers = $data['totalAnswers'];
+        $this->totalQuestions = $data['totalPostedQuestion'];
+        $this->totalAnswers = $data['totalPostedAnswser'];
         $this->totalLikes = $data['totalLikes'];
         $this->totalDislikes = $data['totalDislikes'];
         $this->tier = $data['tier'];

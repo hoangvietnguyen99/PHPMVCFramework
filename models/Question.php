@@ -5,6 +5,7 @@ namespace app\models;
 
 
 use app\core\db\DbModel;
+use DateTime;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 
@@ -12,11 +13,12 @@ class Question extends DbModel
 {
     public string $title = '';
     public string $content = '';
-    public UTCDateTime $createdDate;
+    public bool $isDeleted = false;
+    public DateTime $createdDate;
     public ObjectId $author;
     public bool $isApproved = false;
     public ?ObjectId $approvedBy = null;
-    public ?UTCDateTime $publishDate = null;
+    public ?DateTime $publishDate = null;
     public array $category = [];
     public array $tags = [];
     public array $labels = [];
@@ -25,6 +27,8 @@ class Question extends DbModel
     public int $totalLikes = 0;
     public int $totalDislikes = 0;
     public int $totalViews = 0;
+    public float $averageRate = 0;
+    public int $totalAnswers = 0;
 
     /**
      * Question constructor.
@@ -34,7 +38,7 @@ class Question extends DbModel
     {
         parent::__construct();
         $this->author = $author;
-        $this->createdDate = new UTCDateTime(strtotime('now') * 1000);
+        $this->createdDate = new DateTime();
     }
 
 
@@ -47,20 +51,23 @@ class Question extends DbModel
     {
         return [
             '_id' => $this->_id,
+            'isDeleted' => $this->isDeleted,
+            'averageRate' => ($this->totalLikes - $this->totalDislikes) / (($this->totalLikes + $this->totalDislikes) || 1),
             'title' => $this->title,
             'content' => $this->content,
-            'createdDate' => $this->createdDate,
+            'createdAt' => new UTCDateTime($this->createdDate->getTimestamp() * 1000),
             'author' => $this->author,
-            'isApproved' => $this->isApproved,
+            'approved' => $this->isApproved,
             'approvedBy' => $this->approvedBy,
-            'publishDate' => $this->publishDate,
+            'publishDay' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
             'category' => $this->category,
             'tags' => $this->tags,
             'labels' => $this->labels,
             'answers' => $this->answers,
-            'totalLikes' => $this->totalLikes,
-            'totalDislikes' => $this->totalDislikes,
+            'numofLiked' => $this->totalLikes,
+            'numofDisliked' => $this->totalDislikes,
             'totalViews' => $this->totalViews,
+            'totalAnwser' => count($this->answers),
         ];
     }
 
@@ -68,15 +75,18 @@ class Question extends DbModel
     {
         $this->_id = $data['_id'];
         $this->title = $data['title'];
+        $this->isDeleted = $data['isDeleted'];
         $this->content = $data['content'];
-        $this->createdDate = $data['createdDate'];
+        $this->createdDate = $data['createdAt']->toDateTime();
         $this->author = $data['author'];
-        $this->isApproved = $data['isApproved'];
+        $this->isApproved = $data['approved'];
+        $this->averageRate = $data['averageRate'];
         $this->approvedBy = $data['approvedBy'];
-        $this->publishDate = $data['publishDate'];
-        $this->totalLikes = $data['totalLikes'];
-        $this->totalDislikes = $data['totalDislikes'];
+        $this->publishDate = $data['publishDay'] ? $data['publishDay']->toDateTime() : null;
+        $this->totalLikes = $data['numofLiked'];
+        $this->totalDislikes = $data['numofDisliked'];
         $this->totalViews = $data['totalViews'];
+        $this->totalAnswers = $data['totalAnwser'];
         foreach ($data['category'] as $category) {
             $this->category[] = $category;
         }

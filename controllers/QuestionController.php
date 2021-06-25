@@ -23,24 +23,21 @@ class QuestionController extends Controller
         $this->registerMiddleware(new AuthMiddleware(['getAsk', 'ask']));
     }
 
-    public function getAsk()
-    {
-        $categories = Category::find();
-        return $this->render('ask', [
-            'model' => new AskForm(),
-            'categories' => $categories
-        ]);
-    }
-
     public function ask(Request $request, Response $response)
     {
         $askForm = new AskForm();
-        $askForm->loadData($request->body);
-        if ($askForm->validate() && $askForm->ask()) {
-            Application::$application->session->setFlash('success', 'Your question is successfully submitted.');
-            return $response->send(201);
+        if ($request->getMethod() === 'post') {
+            $askForm->loadData($request->body);
+            if ($askForm->validate() && $askForm->ask()) {
+                Application::$application->session->setFlash('success', 'Your question is successfully submitted.');
+                return $response->redirect('/questions');
+            }
         }
-        return $response->send(400, $askForm->errors);
+        $categories = Category::find();
+        return $this->render('ask', [
+            'model' => $askForm,
+            'categories' => $categories
+        ]);
     }
 
     public function questions()
