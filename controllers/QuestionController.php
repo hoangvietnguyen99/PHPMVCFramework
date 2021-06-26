@@ -20,7 +20,7 @@ class QuestionController extends Controller
      */
     public function __construct()
     {
-        $this->registerMiddleware(new AuthMiddleware(['getAsk', 'ask']));
+        $this->registerMiddleware(new AuthMiddleware(['ask']));
     }
 
     public function ask(Request $request, Response $response)
@@ -43,11 +43,5 @@ class QuestionController extends Controller
     public function questions()
     {
         return $this->render('questions');
-    }
-
-    public function getTags(Request $request, Response $response)
-    {
-        $tags = Tag::find();
-        return $response->send(200, $tags);
     }
 }

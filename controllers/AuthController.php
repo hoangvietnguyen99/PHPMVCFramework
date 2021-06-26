@@ -82,13 +82,4 @@ class AuthController extends Controller
         Application::$application->session->setFlash('success', 'See you later');
         return $response->redirect('/');
     }
-
-    public function isNewEmail(Request $request, Response $response)
-    {
-        $data = $request->body;
-        if (!isset($data['email'])) return $response->send(200, ['canCreate' => false]);
-        $user = User::findOne(['email' => $data['email']]);
-        if ($user) return $response->send(200, ['canCreate' => false]);
-        return $response->send(200, ['canCreate' => true]);
-    }
 }

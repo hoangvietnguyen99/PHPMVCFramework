@@ -8,6 +8,12 @@ use ReflectionClass;
 
 final class Path
 {
+    static function getConstants(): array
+    {
+        $oClass = new ReflectionClass(__CLASS__);
+        return $oClass->getConstants();
+    }
+
     public const HOME = ['/', 'Home'];
 
     public const PROFILE = ['/profile', 'Profile'];
@@ -26,11 +32,10 @@ final class Path
     public const FORGOT = ['/forgot', 'Forgot Password'];
 
     public const CATEGORIES = ['/categories', 'Categories'];
-    public const TAGS = ['/tags', 'Tags'];
 
-    static function getConstants(): array
-    {
-        $oClass = new ReflectionClass(__CLASS__);
-        return $oClass->getConstants();
-    }
+    public const API = ['/api'];
+    public const API_IS_NEW_EMAIL = [self::API[0].'/isnewemail'];
+    public const API_LOGIN = [self::API[0].'/login'];
+    public const API_ADD_CATEGORIES = [self::API[0].'/categories'];
+    public const API_GET_TAGS = [self::API[0].'/tags'];
 }

@@ -5,6 +5,9 @@ require_once __DIR__ . "/../vendor/autoload.php";
 use app\core\Application;
 use app\core\Router;
 use app\models\User;
+use app\routes\ApiRouter;
+use app\routes\AuthRouter;
+use app\routes\QuestionRouter;
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
@@ -24,23 +27,20 @@ $config = [
 
 $app = new Application(dirname(__DIR__), $config);
 
+$request = $app->request;
+$response = $app->response;
+
 /**
- * @var $authRouter Router
  * @var $siteRouter Router
  * @var $profileRouter Router
- * @var $adminRouter Router
- * @var $questionRouter Router
  */
-include_once __DIR__.'/../routes/AuthRoutes.php';
 include_once __DIR__.'/../routes/SiteRoutes.php';
 include_once __DIR__.'/../routes/ProfileRoutes.php';
-include_once __DIR__.'/../routes/AdminRoutes.php';
-include_once __DIR__.'/../routes/QuestionRoutes.php';
 
-$app->routers[] = $authRouter;
+$app->routers[] = new AuthRouter($request, $response);
 $app->routers[] = $siteRouter;
 $app->routers[] = $profileRouter;
-$app->routers[] = $adminRouter;
-$app->routers[] = $questionRouter;
+$app->routers[] = new ApiRouter($request, $response);
+$app->routers[] = new QuestionRouter($request, $response);
 
 $app->run();
