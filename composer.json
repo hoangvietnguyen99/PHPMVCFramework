@@ -16,6 +16,6 @@
     "mongodb/mongodb": "^1.8",
     "vlucas/phpdotenv": "^5.3",
     "ext-mongodb": "*",
-    "nesbot/carbon": "^2.49"
+    "firebase/php-jwt": "^5.4"
   }
 }

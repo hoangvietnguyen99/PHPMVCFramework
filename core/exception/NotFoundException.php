@@ -4,8 +4,10 @@
 namespace app\core\exception;
 
 
-class NotFoundException extends \Exception
+class NotFoundException extends BaseException
 {
-    protected $code = 404;
-    protected $message = 'Not found';
+    public function __construct($renderWithView = true)
+    {
+        parent::__construct('Not found', 404, $renderWithView);
+    }
 }

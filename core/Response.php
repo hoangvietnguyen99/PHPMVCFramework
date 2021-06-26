@@ -4,6 +4,8 @@
 namespace app\core;
 
 
+use JetBrains\PhpStorm\NoReturn;
+
 class Response
 {
     public function statusCode(int $code)
@@ -17,9 +19,11 @@ class Response
         return true;
     }
 
-    public function send(int $code, $body = null): bool|string
+    #[NoReturn] public function send(int $code, $body = null)
     {
+        header("Content-Type: application/json");
         $this->statusCode($code);
-        return json_encode($body);
+        echo json_encode($body);
+        exit();
     }
 }

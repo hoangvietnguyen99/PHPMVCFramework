@@ -4,8 +4,10 @@
 namespace app\core\exception;
 
 
-class ForbiddenException extends \Exception
+class ForbiddenException extends BaseException
 {
-    protected $code = 403;
-    protected $message = 'Forbidden';
+    public function __construct($renderWithView = true)
+    {
+        parent::__construct('Forbidden', 403, $renderWithView);
+    }
 }

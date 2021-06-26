@@ -4,6 +4,7 @@ namespace app\core;
 
 
 use app\core\db\Database;
+use app\core\exception\BaseException;
 use app\core\exception\NotFoundException;
 use app\models\User;
 
@@ -28,7 +29,7 @@ class Application
     public ?User $user;
     public View $view;
     public string $layout = 'main';
-    public JWT $jwt;
+    public JWTHandler $jwt;
 
     public function __construct(string $rootPath, array $config)
     {
@@ -41,7 +42,7 @@ class Application
         $this->database = new Database($config["db"]);
         $this->session = new Session();
         $this->view = new View();
-        $this->jwt = new JWT($config['jwt']);
+        $this->jwt = new JWTHandler($config['jwt']);
 
         $userId = Application::$application->session->get('user');
         if ($userId) {
@@ -71,11 +72,15 @@ class Application
                     'exception' => new NotFoundException()
                 ]);
             }
-        } catch (\Exception $exception) {
-            $this->response->statusCode($exception->getCode());
-            echo $this->view->renderView('_error', [
-                'exception' => $exception
-            ]);
+        } catch (BaseException $exception) {
+            if ($exception->renderWithView) {
+                $this->response->statusCode($exception->getCode());
+                echo $this->view->renderView('_error', [
+                    'exception' => $exception
+                ]);
+            } else {
+                $this->response->send($exception->getCode(), ['message' => $exception->getMessage()]);
+            }
         }
     }
 
