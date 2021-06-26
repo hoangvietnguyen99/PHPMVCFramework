@@ -7,6 +7,7 @@ namespace app\core\db;
 use app\core\Application;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Persistable;
+use MongoDB\Collection;
 
 abstract class DbModel implements Persistable
 {
@@ -34,33 +35,44 @@ abstract class DbModel implements Persistable
         }
     }
 
+    public static function getCollection(): Collection
+    {
+        $collectionName = static::collectionName();
+        return Application::$application->database->getCollection($collectionName);
+    }
+
     abstract public static function collectionName(): string;
 
-    public function insertOrUpdateOne($returnItem = true)
+    public function insertOrUpdateOne($returnItem = true, $options = [])
     {
-        $collectionName = $this->collectionName();
-        $collection = Application::$application->database->getCollection($collectionName);
-        $updateResult = $collection->updateOne(['_id' => $this->getId()], ['$set' => $this], ['upsert' => true])->getUpsertedId();
+        $collection = $this->getCollection();
+        $options['upsert'] = true;
+        $updateResult = $collection->updateOne(['_id' => $this->getId()], ['$set' => $this], $options)->getUpsertedId();
         if (!$returnItem) return $updateResult;
-        return self::findOne(['_id' => $updateResult]);
+        return static::findOne(['_id' => $updateResult]);
     }
 
-    public static function findOne($condition)
+    public static function findOne($filter = [], $option = [])
     {
-        $collectionName = static::collectionName();
-        $collection = Application::$application->database->getCollection($collectionName);
-        return $collection->findOne($condition);
+        $collection = static::getCollection();
+        return $collection->findOne($filter, $option);
     }
 
-    public static function find($condition = [])
+    public static function find($filter = [], $options = []): array
     {
-        $collectionName = static::collectionName();
-        $collection = Application::$application->database->getCollection($collectionName);
-        $documents = $collection->find($condition);
+        $collection = static::getCollection();
+        $documents = $collection->find($filter, $options);
         $results = [];
         foreach ($documents as $document) {
             $results[] = $document;
         }
         return $results;
+    }
+
+    public static function deleteOne(array|object $filter, $options = []): int
+    {
+        $collection = static::getCollection();
+        $result = $collection->deleteOne($filter, $options);
+        return $result->getDeletedCount();
     }
 }

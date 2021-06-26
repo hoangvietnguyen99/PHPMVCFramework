@@ -13,12 +13,11 @@ $this->title = 'Ask';
 $user = Application::$application->user;
 
 $this->scripts[] = '<script src="assets/js/pages/crud/forms/editors/summernote.js"></script>';
-$this->scripts[] = '<script src="assets/js/pages/crud/forms/widgets/tagify.js"></script>';
 $this->scripts[] = '<script type="application/javascript">
 "use strict";
 
 // Class Definition
-var KTLogin = function() {
+var KTAsk = function() {
 	var _handleFormAsk = function() {
 		var form = KTUtil.getById("ask-form");
 
@@ -82,7 +81,7 @@ var KTLogin = function() {
     };
 }();
 
-var KTTagifyDemos = function() {
+var KTTagify = function() {
     // Private functions
     var demo1 = function() {
         fetch("/api/tags")
@@ -164,8 +163,8 @@ var KTTagifyDemos = function() {
 }();
 // Class Initialization
 jQuery(document).ready(function() {
-    KTLogin.init();
-    KTTagifyDemos.init();
+    KTAsk.init();
+    KTTagify.init();
 });
 
 </script>';

@@ -127,7 +127,7 @@ var KTLogin = function() {
 					};
 
 					return {
-						valid: await FormValidation.utils.fetch("/isnewemail", {
+						valid: await FormValidation.utils.fetch("/api/isnewemail", {
 							method: "POST",
 							dataType: "json",
 							params: {
