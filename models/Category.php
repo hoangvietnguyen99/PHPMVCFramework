@@ -5,12 +5,21 @@ namespace app\models;
 
 
 use app\core\db\DbModel;
+use DateTime;
+use MongoDB\BSON\UTCDateTime;
 
 class Category extends DbModel
 {
     public string $name = '';
     public int $count = 0;
     public bool $isDeleted = false;
+    public DateTime $createdDate;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->createdDate = new DateTime();
+    }
 
     public static function collectionName(): string
     {
@@ -23,7 +32,8 @@ class Category extends DbModel
             '_id' => $this->_id,
             'name' => $this->name,
             'count' => $this->count,
-            'isDeleted' => $this->isDeleted
+            'isDeleted' => $this->isDeleted,
+            'createdAt' => new UTCDateTime($this->createdDate->getTimestamp() * 1000)
         ];
     }
 
@@ -33,5 +43,6 @@ class Category extends DbModel
         $this->name = $data['name'];
         $this->count = $data['count'];
         $this->isDeleted = $data['isDeleted'];
+        $this->createdDate = $data['createdAt']->toDateTime();
     }
 }

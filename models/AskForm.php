@@ -8,6 +8,7 @@ use app\constants\Score;
 use app\core\Application;
 use app\core\Model;
 use app\utils\StringUtil;
+use DateTime;
 
 class AskForm extends Model
 {
@@ -63,6 +64,7 @@ class AskForm extends Model
         $category->insertOrUpdateOne();
         foreach ($tagArray as $item) {
             $item->count++;
+            $item->lastUpdatedDate = new DateTime();
             $item->insertOrUpdateOne();
         }
         $user = Application::$application->user;
