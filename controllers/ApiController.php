@@ -14,6 +14,7 @@ use app\models\LoginForm;
 use app\models\Tag;
 use app\models\User;
 use Exception;
+use JetBrains\PhpStorm\NoReturn;
 
 class ApiController extends Controller
 {
@@ -27,7 +28,7 @@ class ApiController extends Controller
     /**
      * @throws Exception
      */
-    public function logIn(Request $request, Response $response)
+    #[NoReturn] public function logIn(Request $request, Response $response)
     {
         $loginForm = new LoginForm();
         $loginForm->loadData($request->body);
@@ -43,13 +44,13 @@ class ApiController extends Controller
         $response->send(401, $loginForm->errors);
     }
 
-    public function getTags(Request $request, Response $response)
+    #[NoReturn] public function getTags(Request $request, Response $response)
     {
         $tags = Tag::find();
         $response->send(200, $tags);
     }
 
-    public function addCategories(Request $request, Response $response)
+    #[NoReturn] public function addCategories(Request $request, Response $response)
     {
         $body = $request->body;
         foreach ($body as $item) {
@@ -60,7 +61,7 @@ class ApiController extends Controller
         $response->send(201);
     }
 
-    public function isNewEmail(Request $request, Response $response)
+    #[NoReturn] public function isNewEmail(Request $request, Response $response)
     {
         $data = $request->body;
         if (!isset($data['email'])) $response->send(200, ['canCreate' => false]);
