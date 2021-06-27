@@ -12,7 +12,7 @@ use app\middlewares\AuthMiddleware;
 use app\models\AskForm;
 use app\models\Category;
 use app\models\Question;
-use app\models\ReplyForm;
+use app\models\AnswerForm;
 use app\models\Tag;
 use MongoDB\BSON\ObjectId;
 
@@ -32,7 +32,7 @@ class QuestionController extends Controller
      */
     public function reply(Request $request, Response $response)
     {
-        $replyForm = new ReplyForm();
+        $replyForm = new AnswerForm();
         $replyForm->loadData($request->body);
         if ($replyForm->validate() && $replyForm->reply()) {
             Application::$application->session->setFlash('success', 'Your reply is successfully submitted.');
@@ -70,9 +70,12 @@ class QuestionController extends Controller
     {
         $questionId = $request->query['id'] ?? null;
         if ($questionId) {
+            /** @var Question $question */
             $question = Question::findOne(['_id' => new ObjectId($questionId)]);
             if (!$question) throw new NotFoundException();
-            $replyForm = new ReplyForm();
+            $question->totalViews++;
+            $question->insertOrUpdateOne();
+            $replyForm = new AnswerForm();
             $replyForm->questionId = $questionId;
             return $this->render('question', [
                 'question' => $question,

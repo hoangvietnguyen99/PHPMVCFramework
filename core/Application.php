@@ -7,6 +7,7 @@ use app\core\db\Database;
 use app\core\exception\BaseException;
 use app\core\exception\NotFoundException;
 use app\models\User;
+use Exception;
 
 /**
  * Class Application
@@ -66,20 +67,22 @@ class Application
                     break;
                 }
             }
-            if (!$result) {
-                $this->response->statusCode(404);
-                echo $this->view->renderView('_error', [
-                    'exception' => new NotFoundException()
-                ]);
-            }
-        } catch (BaseException $exception) {
-            if ($exception->renderWithView) {
-                $this->response->statusCode($exception->getCode());
+            if (!$result) throw new NotFoundException();
+        } catch (Exception $exception) {
+            if ($exception instanceof BaseException) {
+                if ($exception->renderWithView) {
+                    $this->response->statusCode($exception->getCode());
+                    echo $this->view->renderView('_error', [
+                        'exception' => $exception
+                    ]);
+                } else {
+                    $this->response->send($exception->getCode(), ['message' => $exception->getMessage()]);
+                }
+            } else {
+                $this->response->statusCode(500);
                 echo $this->view->renderView('_error', [
                     'exception' => $exception
                 ]);
-            } else {
-                $this->response->send($exception->getCode(), ['message' => $exception->getMessage()]);
             }
         }
     }

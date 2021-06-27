@@ -19,6 +19,8 @@ class Answer extends DbModel
     public ?DateTime $publishDate = null;
     public int $totalLikes = 0;
     public int $totalDislikes = 0;
+    /** @var Reply[] List of reply */
+    public array $replies = [];
 
     /**
      * Answer constructor.
@@ -52,6 +54,7 @@ class Answer extends DbModel
             'publishDate' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
             'totalLikes' => $this->totalLikes,
             'totalDislikes' => $this->totalDislikes,
+            'replies' => $this->replies,
         ];
     }
 
@@ -69,5 +72,8 @@ class Answer extends DbModel
         $this->publishDate = $data['publishDate'] ? $data['publishDate']->toDateTime() : null;
         $this->totalLikes = $data['totalLikes'];
         $this->totalDislikes = $data['totalDislikes'];
+        foreach ($data['replies'] as $reply) {
+            $this->replies[] = $reply;
+        }
     }
 }

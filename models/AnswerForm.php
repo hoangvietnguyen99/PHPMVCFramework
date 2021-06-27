@@ -10,7 +10,7 @@ use app\core\exception\NotFoundException;
 use app\core\Model;
 use MongoDB\BSON\ObjectId;
 
-class ReplyForm extends Model
+class AnswerForm extends Model
 {
     public string $reply = '';
     public string $questionId = '';
