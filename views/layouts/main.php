@@ -989,7 +989,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <!--begin::Header Nav-->
                                 <ul class="menu-nav">
                                     <?PHP if (!Application::isGuest() && $user->role === Role::ADMIN): ?>
-                                    <li class="menu-item menu-item-open menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here" data-menu-toggle="hover" aria-haspopup="true">
+                                    <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
                                         <a href="/admin" class="menu-link">
                                             <span class="menu-text">Admin Page</span>
                                             <span class="menu-desc">Manage resources of website</span>

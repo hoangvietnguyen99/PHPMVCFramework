@@ -77,7 +77,6 @@ class AskForm extends Model
 
         if ($question->insertOrUpdateOne()) {
             $user->totalQuestions++;
-            $user->score += Score::NEW_PUBLISH_QUESTION;
             $user->insertOrUpdateOne();
 
             return true;

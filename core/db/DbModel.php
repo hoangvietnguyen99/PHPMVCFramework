@@ -47,7 +47,7 @@ abstract class DbModel implements Persistable
     {
         $collection = $this->getCollection();
         $options['upsert'] = true;
-        $updateResult = $collection->updateOne(['_id' => $this->getId()], ['$set' => $this], $options)->getUpsertedId();
+        $updateResult = $collection->updateOne(['_id' => $this->getId()], ['$set' => $this], $options)->getUpsertedId() ?? $this->getId();
         if (!$returnItem) return $updateResult;
         return static::findOne(['_id' => $updateResult]);
     }

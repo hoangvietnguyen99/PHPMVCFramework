@@ -23,6 +23,7 @@ final class Path
 
     public const QUESTIONS = ['/questions', 'Questions'];
     public const ASK = ['/ask', 'Ask'];
+    public const REPLY = ['/reply', 'Reply'];
 
     public const IS_NEW_EMAIL = ['/isnewemail', 'Is New Email'];
 

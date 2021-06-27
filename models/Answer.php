@@ -5,17 +5,18 @@ namespace app\models;
 
 
 use app\core\db\DbModel;
+use DateTime;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 
 class Answer extends DbModel
 {
     public string $content = '';
-    public UTCDateTime $createdDate;
+    public DateTime $createdDate;
     public ObjectId $author;
     public bool $isApproved = false;
     public ?ObjectId $approvedBy = null;
-    public ?UTCDateTime $publishDate = null;
+    public ?DateTime $publishDate = null;
     public int $totalLikes = 0;
     public int $totalDislikes = 0;
 
@@ -27,7 +28,7 @@ class Answer extends DbModel
     {
         parent::__construct();
         $this->author = $author;
-        $this->createdDate = new UTCDateTime(strtotime('now') * 1000);
+        $this->createdDate = new DateTime();
     }
 
 
@@ -44,11 +45,11 @@ class Answer extends DbModel
         return [
             '_id' => $this->_id,
             'content' => $this->content,
-            'createdDate' => $this->createdDate,
+            'createdDate' => new UTCDateTime($this->createdDate->getTimestamp() * 1000),
             'author' => $this->author,
             'isApproved' => $this->isApproved,
             'approvedBy' => $this->approvedBy,
-            'publishDate' => $this->publishDate,
+            'publishDate' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
             'totalLikes' => $this->totalLikes,
             'totalDislikes' => $this->totalDislikes,
         ];
@@ -61,11 +62,11 @@ class Answer extends DbModel
     {
         $this->_id = $data['_id'];
         $this->content = $data['content'];
-        $this->createdDate = $data['createdDate'];
+        $this->createdDate = $data['createdDate']->toDateTime();
         $this->author = $data['author'];
         $this->isApproved = $data['isApproved'];
         $this->approvedBy = $data['approvedBy'];
-        $this->publishDate = $data['publishDate'];
+        $this->publishDate = $data['publishDate'] ? $data['publishDate']->toDateTime() : null;
         $this->totalLikes = $data['totalLikes'];
         $this->totalDislikes = $data['totalDislikes'];
     }

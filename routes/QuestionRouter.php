@@ -17,6 +17,7 @@ final class QuestionRouter extends Router
         parent::__construct($request, $response);
 
         $this->get(Path::QUESTIONS[0], [QuestionController::class, 'questions']);
+        $this->post(Path::REPLY[0], [QuestionController::class, 'reply']);
 
         $this->get(Path::ASK[0], [QuestionController::class, 'ask']);
         $this->post(Path::ASK[0], [QuestionController::class, 'ask']);

@@ -5,12 +5,16 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
+use app\core\exception\NotFoundException;
 use app\core\Request;
 use app\core\Response;
 use app\middlewares\AuthMiddleware;
 use app\models\AskForm;
 use app\models\Category;
+use app\models\Question;
+use app\models\ReplyForm;
 use app\models\Tag;
+use MongoDB\BSON\ObjectId;
 
 class QuestionController extends Controller
 {
@@ -21,6 +25,25 @@ class QuestionController extends Controller
     public function __construct()
     {
         $this->registerMiddleware(new AuthMiddleware(['ask']));
+    }
+
+    /**
+     * @throws NotFoundException
+     */
+    public function reply(Request $request, Response $response)
+    {
+        $replyForm = new ReplyForm();
+        $replyForm->loadData($request->body);
+        if ($replyForm->validate() && $replyForm->reply()) {
+            Application::$application->session->setFlash('success', 'Your reply is successfully submitted.');
+            return $response->redirect('/questions?id=' . $replyForm->questionId);
+        }
+        $question = Question::findOne(['_id' => new ObjectId($replyForm->questionId)]);
+        if (!$question) throw new NotFoundException();
+        return $this->render('question', [
+            'question' => $question,
+            'model' => $replyForm
+        ]);
     }
 
     public function ask(Request $request, Response $response)
@@ -40,8 +63,22 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function questions()
+    /**
+     * @throws NotFoundException
+     */
+    public function questions(Request $request)
     {
+        $questionId = $request->query['id'] ?? null;
+        if ($questionId) {
+            $question = Question::findOne(['_id' => new ObjectId($questionId)]);
+            if (!$question) throw new NotFoundException();
+            $replyForm = new ReplyForm();
+            $replyForm->questionId = $questionId;
+            return $this->render('question', [
+                'question' => $question,
+                'model' => $replyForm
+            ]);
+        }
         return $this->render('questions');
     }
 }
