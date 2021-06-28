@@ -140,7 +140,21 @@ var KTCardTools = function () {
                 message: "Please wait..."
             });
 
-            // update the content here
+            
+             var myHeaders = new Headers();
+             myHeaders.append("Content-Type", "application/json");
+				
+             var requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: JSON.stringify(body)
+             };
+				
+            fetch("/api/answers?question_id=60d6e4997db50905dc7034fb", requestOptions)
+            .then(response => response.text())
+            .then(text => {
+                console.log(text);
+            });
 
             setTimeout(function() {
                 KTApp.unblock(card.getSelf());
@@ -312,29 +326,48 @@ jQuery(document).ready(function() {
                                         <div class="d-flex align-items-center">
                                             <a href="#"
                                                class="btn btn-hover-text-primary btn-hover-icon-primary btn-sm btn-text-primary bg-hover-light-primary rounded font-weight-bolder font-size-sm p-2 mr-2">
-                                                <span class="svg-icon svg-icon-primary svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-up.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <span class="svg-icon svg-icon-primary svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-up.svg--><svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                            height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon points="0 0 24 0 24 24 0 24"/>
-        <path d="M8.2928955,10.2071068 C7.90237121,9.81658249 7.90237121,9.18341751 8.2928955,8.79289322 C8.6834198,8.40236893 9.31658478,8.40236893 9.70710907,8.79289322 L15.7071091,14.7928932 C16.085688,15.1714722 16.0989336,15.7810586 15.7371564,16.1757246 L10.2371564,22.1757246 C9.86396402,22.5828436 9.23139665,22.6103465 8.82427766,22.2371541 C8.41715867,21.8639617 8.38965574,21.2313944 8.76284815,20.8242754 L13.6158645,15.5300757 L8.2928955,10.2071068 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 15.500003) scale(-1, 1) rotate(-90.000000) translate(-12.000003, -15.500003) "/>
-        <path d="M6.70710678,12.2071104 C6.31658249,12.5976347 5.68341751,12.5976347 5.29289322,12.2071104 C4.90236893,11.8165861 4.90236893,11.1834211 5.29289322,10.7928968 L11.2928932,4.79289682 C11.6714722,4.41431789 12.2810586,4.40107226 12.6757246,4.76284946 L18.6757246,10.2628495 C19.0828436,10.6360419 19.1103465,11.2686092 18.7371541,11.6757282 C18.3639617,12.0828472 17.7313944,12.1103502 17.3242754,11.7371577 L12.0300757,6.88414142 L6.70710678,12.2071104 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(12.000003, 8.500003) scale(-1, 1) rotate(-360.000000) translate(-12.000003, -8.500003) "/>
+        <path d="M8.2928955,10.2071068 C7.90237121,9.81658249 7.90237121,9.18341751 8.2928955,8.79289322 C8.6834198,8.40236893 9.31658478,8.40236893 9.70710907,8.79289322 L15.7071091,14.7928932 C16.085688,15.1714722 16.0989336,15.7810586 15.7371564,16.1757246 L10.2371564,22.1757246 C9.86396402,22.5828436 9.23139665,22.6103465 8.82427766,22.2371541 C8.41715867,21.8639617 8.38965574,21.2313944 8.76284815,20.8242754 L13.6158645,15.5300757 L8.2928955,10.2071068 Z"
+              fill="#000000" fill-rule="nonzero"
+              transform="translate(12.000003, 15.500003) scale(-1, 1) rotate(-90.000000) translate(-12.000003, -15.500003) "/>
+        <path d="M6.70710678,12.2071104 C6.31658249,12.5976347 5.68341751,12.5976347 5.29289322,12.2071104 C4.90236893,11.8165861 4.90236893,11.1834211 5.29289322,10.7928968 L11.2928932,4.79289682 C11.6714722,4.41431789 12.2810586,4.40107226 12.6757246,4.76284946 L18.6757246,10.2628495 C19.0828436,10.6360419 19.1103465,11.2686092 18.7371541,11.6757282 C18.3639617,12.0828472 17.7313944,12.1103502 17.3242754,11.7371577 L12.0300757,6.88414142 L6.70710678,12.2071104 Z"
+              fill="#000000" fill-rule="nonzero" opacity="0.3"
+              transform="translate(12.000003, 8.500003) scale(-1, 1) rotate(-360.000000) translate(-12.000003, -8.500003) "/>
     </g>
 </svg><!--end::Svg Icon--></span><?php echo $question->totalLikes ?></a>
                                             <a href="#"
                                                class="btn btn-hover-text-danger btn-hover-icon-danger btn-sm btn-text-danger bg-hover-light-danger rounded font-weight-bolder font-size-sm p-2 mr-2">
-                                                <span class="svg-icon svg-icon-danger svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-down.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <span class="svg-icon svg-icon-danger svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-down.svg--><svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                            height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon points="0 0 24 0 24 24 0 24"/>
-        <path d="M8.2928955,3.20710089 C7.90237121,2.8165766 7.90237121,2.18341162 8.2928955,1.79288733 C8.6834198,1.40236304 9.31658478,1.40236304 9.70710907,1.79288733 L15.7071091,7.79288733 C16.085688,8.17146626 16.0989336,8.7810527 15.7371564,9.17571874 L10.2371564,15.1757187 C9.86396402,15.5828377 9.23139665,15.6103407 8.82427766,15.2371482 C8.41715867,14.8639558 8.38965574,14.2313885 8.76284815,13.8242695 L13.6158645,8.53006986 L8.2928955,3.20710089 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 8.499997) scale(-1, -1) rotate(-90.000000) translate(-12.000003, -8.499997) "/>
-        <path d="M6.70710678,19.2071045 C6.31658249,19.5976288 5.68341751,19.5976288 5.29289322,19.2071045 C4.90236893,18.8165802 4.90236893,18.1834152 5.29289322,17.7928909 L11.2928932,11.7928909 C11.6714722,11.414312 12.2810586,11.4010664 12.6757246,11.7628436 L18.6757246,17.2628436 C19.0828436,17.636036 19.1103465,18.2686034 18.7371541,18.6757223 C18.3639617,19.0828413 17.7313944,19.1103443 17.3242754,18.7371519 L12.0300757,13.8841355 L6.70710678,19.2071045 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(12.000003, 15.499997) scale(-1, -1) rotate(-360.000000) translate(-12.000003, -15.499997) "/>
+        <path d="M8.2928955,3.20710089 C7.90237121,2.8165766 7.90237121,2.18341162 8.2928955,1.79288733 C8.6834198,1.40236304 9.31658478,1.40236304 9.70710907,1.79288733 L15.7071091,7.79288733 C16.085688,8.17146626 16.0989336,8.7810527 15.7371564,9.17571874 L10.2371564,15.1757187 C9.86396402,15.5828377 9.23139665,15.6103407 8.82427766,15.2371482 C8.41715867,14.8639558 8.38965574,14.2313885 8.76284815,13.8242695 L13.6158645,8.53006986 L8.2928955,3.20710089 Z"
+              fill="#000000" fill-rule="nonzero"
+              transform="translate(12.000003, 8.499997) scale(-1, -1) rotate(-90.000000) translate(-12.000003, -8.499997) "/>
+        <path d="M6.70710678,19.2071045 C6.31658249,19.5976288 5.68341751,19.5976288 5.29289322,19.2071045 C4.90236893,18.8165802 4.90236893,18.1834152 5.29289322,17.7928909 L11.2928932,11.7928909 C11.6714722,11.414312 12.2810586,11.4010664 12.6757246,11.7628436 L18.6757246,17.2628436 C19.0828436,17.636036 19.1103465,18.2686034 18.7371541,18.6757223 C18.3639617,19.0828413 17.7313944,19.1103443 17.3242754,18.7371519 L12.0300757,13.8841355 L6.70710678,19.2071045 Z"
+              fill="#000000" fill-rule="nonzero" opacity="0.3"
+              transform="translate(12.000003, 15.499997) scale(-1, -1) rotate(-360.000000) translate(-12.000003, -15.499997) "/>
     </g>
 </svg><!--end::Svg Icon--></span><?php echo $question->totalDislikes ?></a>
                                             <a href="#"
                                                class="btn btn-hover-text-success btn-hover-icon-success btn-sm btn-text-success bg-hover-light-success rounded font-weight-bolder font-size-sm p-2">
-                                                <span class="svg-icon svg-icon-success svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\General\Visible.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <span class="svg-icon svg-icon-success svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\General\Visible.svg--><svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                            height="24px" viewBox="0 0 24 24" version="1.1">
                                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                         <rect x="0" y="0" width="24" height="24"/>
-                                                        <path d="M3,12 C3,12 5.45454545,6 12,6 C16.9090909,6 21,12 21,12 C21,12 16.9090909,18 12,18 C5.45454545,18 3,12 3,12 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-                                                        <path d="M12,15 C10.3431458,15 9,13.6568542 9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 Z" fill="#000000" opacity="0.3"/>
+                                                        <path d="M3,12 C3,12 5.45454545,6 12,6 C16.9090909,6 21,12 21,12 C21,12 16.9090909,18 12,18 C5.45454545,18 3,12 3,12 Z"
+                                                              fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                                                        <path d="M12,15 C10.3431458,15 9,13.6568542 9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 Z"
+                                                              fill="#000000" opacity="0.3"/>
                                                     </g>
                                                 </svg><!--end::Svg Icon--></span><?php echo $question->totalViews ?></a>
                                         </div>
@@ -383,7 +416,7 @@ jQuery(document).ready(function() {
                                 <!--begin::Symbol-->
                                         <div class="symbol symbol-40 symbol-light-success mr-5 mt-1">
 																<span class="symbol-label">
-																	<img src="'.$answerAuthor->imgPath.'" class="h-75 align-self-end" alt="">
+																	<img src="' . $answerAuthor->imgPath . '" class="h-75 align-self-end" alt="">
 																</span>
                                         </div>
                                         <!--end::Symbol-->
@@ -468,7 +501,7 @@ jQuery(document).ready(function() {
         <path d="M8.2928955,10.2071068 C7.90237121,9.81658249 7.90237121,9.18341751 8.2928955,8.79289322 C8.6834198,8.40236893 9.31658478,8.40236893 9.70710907,8.79289322 L15.7071091,14.7928932 C16.085688,15.1714722 16.0989336,15.7810586 15.7371564,16.1757246 L10.2371564,22.1757246 C9.86396402,22.5828436 9.23139665,22.6103465 8.82427766,22.2371541 C8.41715867,21.8639617 8.38965574,21.2313944 8.76284815,20.8242754 L13.6158645,15.5300757 L8.2928955,10.2071068 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 15.500003) scale(-1, 1) rotate(-90.000000) translate(-12.000003, -15.500003) "/>
         <path d="M6.70710678,12.2071104 C6.31658249,12.5976347 5.68341751,12.5976347 5.29289322,12.2071104 C4.90236893,11.8165861 4.90236893,11.1834211 5.29289322,10.7928968 L11.2928932,4.79289682 C11.6714722,4.41431789 12.2810586,4.40107226 12.6757246,4.76284946 L18.6757246,10.2628495 C19.0828436,10.6360419 19.1103465,11.2686092 18.7371541,11.6757282 C18.3639617,12.0828472 17.7313944,12.1103502 17.3242754,11.7371577 L12.0300757,6.88414142 L6.70710678,12.2071104 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(12.000003, 8.500003) scale(-1, 1) rotate(-360.000000) translate(-12.000003, -8.500003) "/>
     </g>
-</svg><!--end::Svg Icon--></span>'.$answer->totalLikes.'</a>
+</svg><!--end::Svg Icon--></span>' . $answer->totalLikes . '</a>
                                             <a href="#"
                                                class="btn btn-hover-text-danger btn-hover-icon-danger btn-sm btn-text-danger bg-hover-light-danger rounded font-weight-bolder font-size-sm p-2 mr-2">
                                                 <span class="svg-icon svg-icon-danger svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-down.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -477,7 +510,7 @@ jQuery(document).ready(function() {
         <path d="M8.2928955,3.20710089 C7.90237121,2.8165766 7.90237121,2.18341162 8.2928955,1.79288733 C8.6834198,1.40236304 9.31658478,1.40236304 9.70710907,1.79288733 L15.7071091,7.79288733 C16.085688,8.17146626 16.0989336,8.7810527 15.7371564,9.17571874 L10.2371564,15.1757187 C9.86396402,15.5828377 9.23139665,15.6103407 8.82427766,15.2371482 C8.41715867,14.8639558 8.38965574,14.2313885 8.76284815,13.8242695 L13.6158645,8.53006986 L8.2928955,3.20710089 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 8.499997) scale(-1, -1) rotate(-90.000000) translate(-12.000003, -8.499997) "/>
         <path d="M6.70710678,19.2071045 C6.31658249,19.5976288 5.68341751,19.5976288 5.29289322,19.2071045 C4.90236893,18.8165802 4.90236893,18.1834152 5.29289322,17.7928909 L11.2928932,11.7928909 C11.6714722,11.414312 12.2810586,11.4010664 12.6757246,11.7628436 L18.6757246,17.2628436 C19.0828436,17.636036 19.1103465,18.2686034 18.7371541,18.6757223 C18.3639617,19.0828413 17.7313944,19.1103443 17.3242754,18.7371519 L12.0300757,13.8841355 L6.70710678,19.2071045 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(12.000003, 15.499997) scale(-1, -1) rotate(-360.000000) translate(-12.000003, -15.499997) "/>
     </g>
-</svg><!--end::Svg Icon--></span>'.$answer->totalDislikes.'</a>
+</svg><!--end::Svg Icon--></span>' . $answer->totalDislikes . '</a>
                                     </div>
                                     <!--end::Action-->';
                                     foreach ($answer->replies as $reply) {
@@ -488,7 +521,7 @@ jQuery(document).ready(function() {
                                         <!--begin::Symbol-->
                                         <div class="symbol symbol-40 symbol-light-success mr-5 mt-1">
 																<span class="symbol-label">
-																	<img src="'.$replyAuthor->imgPath.'" class="h-75 align-self-end" alt="">
+																	<img src="' . $replyAuthor->imgPath . '" class="h-75 align-self-end" alt="">
 																</span>
                                         </div>
                                         <!--end::Symbol-->
@@ -496,10 +529,10 @@ jQuery(document).ready(function() {
                                         <div class="d-flex flex-column flex-row-fluid">
                                             <!--begin::Info-->
                                             <div class="d-flex align-items-center flex-wrap">
-                                                <a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder pr-6">'.$replyAuthor->name.'</a>
-                                                <span class="text-muted font-weight-normal flex-grow-1 font-size-sm">'.DateTimeUtil::getDiffForHumans($reply->createdDate).'</span>
+                                                <a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder pr-6">' . $replyAuthor->name . '</a>
+                                                <span class="text-muted font-weight-normal flex-grow-1 font-size-sm">' . DateTimeUtil::getDiffForHumans($reply->createdDate) . '</span>
                                             </div>
-                                            <span class="text-dark-75 font-size-sm font-weight-normal pt-1">'.$reply->content.'</span>
+                                            <span class="text-dark-75 font-size-sm font-weight-normal pt-1">' . $reply->content . '</span>
                                             <!--end::Info-->
                                         </div>
                                         <!--end::Info-->
@@ -514,14 +547,11 @@ jQuery(document).ready(function() {
                             <div class="separator separator-solid mt-5 mb-4"></div>
                             <!--end::Separator-->
                             <!--begin::Editor-->
-                            <form class="position-relative">
-                                <textarea id="kt_forms_widget_5_input" class="form-control border-0 p-0 pr-10 resize-none" rows="1" placeholder="Reply..." style="overflow: hidden; word-wrap: break-word; height: 19px;"></textarea>
+                            <form class="position-relative" id="reply_answer_form">
+                                <textarea class="form-control border-0 p-0 pr-10 resize-none" rows="1" placeholder="Reply..." style="overflow: hidden; word-wrap: break-word; height: 19px;"></textarea>
                                 <div class="position-absolute top-0 right-0 mt-n1 mr-n2">
-														<span class="btn btn-icon btn-sm btn-hover-icon-primary">
-															<i class="flaticon2-clip-symbol icon-ms"></i>
-														</span>
-                                    <span class="btn btn-icon btn-sm btn-hover-icon-primary">
-															<i class="flaticon2-pin icon-ms"></i>
+														<span id="submit_reply_answer_form" class="btn btn-icon btn-sm btn-hover-icon-primary">
+															<i class="fa fa-comment-alt text-success mr-5"></i>
 														</span>
                                 </div>
                             </form>
@@ -550,16 +580,16 @@ jQuery(document).ready(function() {
                                 <div class="card-body">
                                     <div class="form-group" hidden>
                                         <?php echo new Field($model,
-                                        '<label for="question_id_input">{{label}}</label>
+                                            '<label for="question_id_input">{{label}}</label>
                                         <input id="question_id_input" type="text" name="{{name}}"
                                                value="{{value}}">',
-                                        'questionId') ?>
+                                            'questionId') ?>
                                     </div>
                                     <div class="form-group">
                                         <?php echo new Field($model,
-                                        '<label hidden for="reply_input">{{label}}</label>
+                                            '<label hidden for="reply_input">{{label}}</label>
                                         <textarea name="{{name}}" class="summernote" id="reply_input">{{value}}</textarea>',
-                                        'reply') ?>
+                                            'reply') ?>
                                     </div>
                                 </div>
                                 <div class="card-footer">
