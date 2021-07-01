@@ -265,6 +265,21 @@ var KTLogin = function() {
 
 		// Submit event
 		wizardObj.on("submit", function (wizard) {
+		    var file = document.getElementById("profile_avatar");
+            var form = new FormData();
+            form.append("image", file.files[0])
+            
+            var url = "https://api.imgbb.com/1/upload?key=6d41627063c7d863fb02b56691d49251";
+            var settings = {
+                "method": "POST",
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": form
+            };
+            
+            fetch(url, )
+		    
             form.submit();
 		});
     }
@@ -287,7 +302,29 @@ jQuery(document).ready(function() {
     }
   });
 });
-</script>'
+</script>';
+$this->scripts[] = '<script type="application/javascript">
+"use strict";
+
+// Class definition
+var KTImageInputDemo = function () {
+	// Private functions
+	var initDemos = function () {
+		var avatar = new KTImageInput("register_avatar_input");
+	}
+
+	return {
+		// public functions
+		init: function() {
+			initDemos();
+		}
+	};
+}();
+
+KTUtil.ready(function() {
+	KTImageInputDemo.init();
+});
+</script>';
 ?>
 <!--begin::Main-->
 <div class="d-flex flex-column flex-root">
@@ -516,6 +553,23 @@ jQuery(document).ready(function() {
                                 <h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Complete</h3>
                                 <div class="text-muted font-weight-bold font-size-h4">Complete Your Signup And Become A
                                     Member!
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 col-form-label text-right">Add a profile avatar:</label>
+                                <div class="col-lg-9 col-xl-6">
+                                    <div class="image-input image-input-outline" id="register_avatar_input">
+                                        <div class="image-input-wrapper" style="background-image: url(assets/media/users/100_1.jpg)"></div>
+                                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                                            <i class="fa fa-pen icon-sm text-muted"></i>
+                                            <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" />
+                                            <input type="hidden" name="profile_avatar_remove" />
+                                        </label>
+                                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+															<i class="ki ki-bold-close icon-xs text-muted"></i>
+														</span>
+                                    </div>
+                                    <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
                                 </div>
                             </div>
                             <!--end::Title-->

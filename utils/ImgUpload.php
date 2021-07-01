@@ -4,7 +4,7 @@
 namespace app\utils;
 
 
-class ImgbbUpload
+final class ImgUpload
 {
 
 }
