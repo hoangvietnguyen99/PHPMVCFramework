@@ -52,10 +52,6 @@ class Request
 //                }
 //            }
 //        }
-        echo '<pre>';
-        var_dump($_FILES);
-        echo '</pre>';
-        exit;
     }
 
     public function getMethod()

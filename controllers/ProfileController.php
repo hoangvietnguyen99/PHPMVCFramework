@@ -5,7 +5,10 @@ namespace app\controllers;
 
 
 use app\core\Controller;
+use app\core\Request;
 use app\middlewares\AuthMiddleware;
+use app\models\User;
+use MongoDB\BSON\ObjectId;
 
 class ProfileController extends Controller
 {
@@ -19,7 +22,11 @@ class ProfileController extends Controller
         $this->registerMiddleware(new AuthMiddleware());
     }
 
-    public function profile() {
-        return $this->render('profile');
+    public function profile(Request $request) {
+        $user = User::findOne(['_id' => new ObjectId($request->query['id'])]);
+
+        return $this->render('profile', [
+            'user' => $user
+        ]);
     }
 }

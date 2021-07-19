@@ -15,12 +15,13 @@ class Question extends DbModel
     public string $content = '';
     public bool $isDeleted = false;
     public DateTime $createdDate;
-    public ObjectId $author;
+    public User $author;
     public bool $isApproved = false;
     public ?ObjectId $approvedBy = null;
     public ?DateTime $publishDate = null;
     public array $category = [];
     public array $tags = [];
+    /** @var Label[] $labels */
     public array $labels = [];
     /** @var Answer[] $answers */
     public array $answers = [];
@@ -32,9 +33,9 @@ class Question extends DbModel
 
     /**
      * Question constructor.
-     * @param ObjectId $author
+     * @param User $author
      */
-    public function __construct(ObjectId $author)
+    public function __construct(User $author)
     {
         parent::__construct();
         $this->author = $author;
@@ -56,9 +57,10 @@ class Question extends DbModel
             'title' => $this->title,
             'content' => $this->content,
             'createdAt' => new UTCDateTime($this->createdDate->getTimestamp() * 1000),
-            'author' => $this->author,
+            'author' => $this->author->_id,
+            'authorName' => $this->author->name,
             'approved' => $this->isApproved,
-            'approvedBy' => $this->approvedBy,
+            'appovedBy' => $this->approvedBy,
             'publishDay' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
             'category' => $this->category,
             'tags' => $this->tags,
@@ -67,7 +69,7 @@ class Question extends DbModel
             'numofLiked' => $this->totalLikes,
             'numofDisliked' => $this->totalDislikes,
             'totalViews' => $this->totalViews,
-            'totalAnwser' => count($this->answers),
+            'totalAnswer' => count($this->answers),
         ];
     }
 
@@ -78,7 +80,7 @@ class Question extends DbModel
         $this->isDeleted = $data['isDeleted'];
         $this->content = $data['content'];
         $this->createdDate = $data['createdAt']->toDateTime();
-        $this->author = $data['author'];
+        $this->author = User::findOne(['_id' => $data['author']]);
         $this->isApproved = $data['approved'];
         $this->averageRate = $data['averageRate'];
         $this->approvedBy = $data['approvedBy'];
@@ -86,7 +88,7 @@ class Question extends DbModel
         $this->totalLikes = $data['numofLiked'];
         $this->totalDislikes = $data['numofDisliked'];
         $this->totalViews = $data['totalViews'];
-        $this->totalAnswers = $data['totalAnwser'];
+        $this->totalAnswers = $data['totalAnswer'];
         foreach ($data['category'] as $category) {
             $this->category[] = $category;
         }

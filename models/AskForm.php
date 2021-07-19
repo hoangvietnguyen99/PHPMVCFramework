@@ -68,7 +68,7 @@ class AskForm extends Model
             $item->insertOrUpdateOne();
         }
         $user = Application::$application->user;
-        $question = new Question($user->getId());
+        $question = new Question($user);
 
         $question->category[] = (object) ['_id' => $category->getId(), 'name' => $category->name];
         $question->content = $this->description;

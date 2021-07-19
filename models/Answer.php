@@ -47,8 +47,9 @@ class Answer extends DbModel
         return [
             '_id' => $this->_id,
             'content' => $this->content,
-            'createdDate' => new UTCDateTime($this->createdDate->getTimestamp() * 1000),
+            'createdAt' => new UTCDateTime($this->createdDate->getTimestamp() * 1000),
             'author' => $this->author,
+            'authorName' => '',
             'isApproved' => $this->isApproved,
             'approvedBy' => $this->approvedBy,
             'publishDate' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
@@ -65,10 +66,10 @@ class Answer extends DbModel
     {
         $this->_id = $data['_id'];
         $this->content = $data['content'];
-        $this->createdDate = $data['createdDate']->toDateTime();
+        $this->createdDate = $data['createdAt']->toDateTime();
         $this->author = $data['author'];
         $this->isApproved = $data['isApproved'];
-        $this->approvedBy = $data['approvedBy'];
+        $this->approvedBy = $data['appovedBy'];
         $this->publishDate = $data['publishDate'] ? $data['publishDate']->toDateTime() : null;
         $this->totalLikes = $data['totalLikes'];
         $this->totalDislikes = $data['totalDislikes'];
