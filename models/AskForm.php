@@ -70,9 +70,11 @@ class AskForm extends Model
         $user = Application::$application->user;
         $question = new Question($user);
 
-        $question->category[] = (object) ['_id' => $category->getId(), 'name' => $category->name];
+//        $question->category[] = (object) ['_id' => $category->getId(), 'name' => $category->name];
+        $question->categories[] = $category;
         $question->content = $this->description;
-        $question->tags = array_map(fn($tag) => (object)['_id' => $tag->getId(), 'name' => $tag->name], $tagArray);
+//        $question->tags = array_map(fn($tag) => (object)['_id' => $tag->getId(), 'name' => $tag->name], $tagArray);
+        $question->tags = $tagArray;
         $question->title = $this->title;
 
         if ($question->insertOrUpdateOne()) {

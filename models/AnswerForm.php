@@ -46,7 +46,7 @@ class AnswerForm extends Model
         if (!$question) throw new NotFoundException();
         /** @var User $questionAuthor */
         $answerAuthor = Application::$application->user;
-        $answer = new Answer($answerAuthor->getId());
+        $answer = new Answer($answerAuthor);
         $answer->content = $this->reply;
         $answerAuthor->totalAnswers++;
         if ($answerAuthor->insertOrUpdateOne()) {

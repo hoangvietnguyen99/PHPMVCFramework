@@ -10,11 +10,7 @@ use app\utils\DateTimeUtil;
 
 /** @var $question Question */
 /** @var $this View */
-/** @var $author User */
 /** @var $model AnswerForm */
-
-$author = User::findOne(['_id' => $question->author]);
-if (!$author) throw new NotFoundException();
 
 $this->scripts[] = '<script src="assets/js/pages/crud/forms/editors/summernote.js"></script>';
 $this->scripts[] = '<script type="application/javascript">
@@ -237,8 +233,9 @@ jQuery(document).ready(function() {
                             <div class="card-body">
                                 <!--begin::Container-->
                                 <div>
-                                    <?php foreach ($question->category as $category) {
-                                        echo '<a href="' . "/questions?category={$category->_id->__toString()}" . '" class="btn btn-light-primary font-weight-bold mr-2 mb-2">' . $category->name . '</a>';
+                                    Categories:
+                                    <?php foreach ($question->categories as $category) {
+                                        echo '<a href="' . "/questions?category={$category->getId()->__toString()}" . '" class="btn btn-light-primary font-weight-bold mr-2 mb-2">' . $category->name . '</a>';
                                     } ?>
                                     <!--begin::Header-->
                                     <div class="d-flex align-items-center pb-4">
@@ -317,7 +314,7 @@ jQuery(document).ready(function() {
                                     <!--begin::Body-->
                                     <div>
                                         <?php foreach ($question->tags as $tag) {
-                                            echo '<a href="' . "/questions?tag={$tag->_id->__toString()}" . '" class="btn btn-text-success btn-hover-light-success font-weight-bold mr-2 mb-2">#' . $tag->name . '</a>';
+                                            echo '<a href="' . "/questions?tag={$tag->getId()->__toString()}" . '" class="btn btn-text-success btn-hover-light-success font-weight-bold mr-2 mb-2">#' . $tag->name . '</a>';
                                         } ?>
                                         <!--begin::Text-->
                                         <?php echo htmlspecialchars_decode($question->content) ?>
@@ -404,8 +401,6 @@ jQuery(document).ready(function() {
                             <div class="card-body">
                                 <?php
                                 foreach ($question->answers as $answer) {
-                                    /** @var User $answerAuthor */
-                                    $answerAuthor = User::findOne(['_id' => $answer->author]);
                                     echo '<div class="card card-custom gutter-b">
                             <!--begin::Body-->
                             <div class="card-body">
@@ -416,13 +411,13 @@ jQuery(document).ready(function() {
                                 <!--begin::Symbol-->
                                         <div class="symbol symbol-40 symbol-light-success mr-5 mt-1">
 																<span class="symbol-label">
-																	<img src="' . $answerAuthor->imgPath . '" class="h-75 align-self-end" alt="">
+																	<img src="' . $answer->author->imgPath . '" class="h-75 align-self-end" alt="">
 																</span>
                                         </div>
                                         <!--end::Symbol-->
                                     <!--begin::Info-->
                                     <div class="d-flex flex-column flex-grow-1">
-                                        <a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">' . $answerAuthor->name . '</a>
+                                        <a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">' . $answer->author->name . '</a>
                                         <span class="text-muted font-weight-bold">' . DateTimeUtil::getDiffForHumans($answer->createdDate) . '</span>
                                     </div>
                                     <!--end::Info-->
@@ -514,14 +509,12 @@ jQuery(document).ready(function() {
                                     </div>
                                     <!--end::Action-->';
                                     foreach ($answer->replies as $reply) {
-                                        /** @var User $replyAuthor */
-                                        $replyAuthor = User::findOne(['_id' => $reply->author]);
                                         echo '<!--begin::Item-->
                                     <div class="d-flex py-5">
                                         <!--begin::Symbol-->
                                         <div class="symbol symbol-40 symbol-light-success mr-5 mt-1">
 																<span class="symbol-label">
-																	<img src="' . $replyAuthor->imgPath . '" class="h-75 align-self-end" alt="">
+																	<img src="' . $reply->author->imgPath . '" class="h-75 align-self-end" alt="">
 																</span>
                                         </div>
                                         <!--end::Symbol-->
@@ -529,7 +522,7 @@ jQuery(document).ready(function() {
                                         <div class="d-flex flex-column flex-row-fluid">
                                             <!--begin::Info-->
                                             <div class="d-flex align-items-center flex-wrap">
-                                                <a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder pr-6">' . $replyAuthor->name . '</a>
+                                                <a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder pr-6">' . $reply->author->name . '</a>
                                                 <span class="text-muted font-weight-normal flex-grow-1 font-size-sm">' . DateTimeUtil::getDiffForHumans($reply->createdDate) . '</span>
                                             </div>
                                             <span class="text-dark-75 font-size-sm font-weight-normal pt-1">' . $reply->content . '</span>
@@ -618,22 +611,22 @@ jQuery(document).ready(function() {
                                     <!--begin::Symbol-->
                                     <div class="symbol symbol-120 symbol-circle symbol-success overflow-hidden">
 																<span class="symbol-label">
-																	<img src="<?php echo $author->imgPath ?>"
+																	<img src="<?php echo $question->author->imgPath ?>"
                                                                          class="h-75 align-self-end" alt=""/>
 																</span>
                                     </div>
                                     <!--end::Symbol-->
                                     <!--begin::Username-->
                                     <a href="#"
-                                       class="card-title font-weight-bolder text-dark-75 text-hover-primary font-size-h4 m-0 pt-7 pb-1"><?php echo $author->name ?></a>
+                                       class="card-title font-weight-bolder text-dark-75 text-hover-primary font-size-h4 m-0 pt-7 pb-1"><?php echo $question->author->name ?></a>
                                     <!--end::Username-->
                                     <!--begin::Info-->
                                     <div class="font-weight-bold text-dark-50 font-size-sm pb-6 text-center">
-                                        Join <?php echo DateTimeUtil::getDiffForHumans($author->joinDate) ?>
+                                        Join <?php echo DateTimeUtil::getDiffForHumans($question->author->joinDate) ?>
                                         <br>
-                                        Tier: <?php echo $author->tier ?>
+                                        Tier: <?php echo $question->author->tier ?>
                                         <br>
-                                        Score: <?php echo $author->score ?>
+                                        Score: <?php echo $question->author->score ?>
                                     </div>
                                     <!--end::Info-->
                                 </div>

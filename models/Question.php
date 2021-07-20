@@ -17,9 +17,11 @@ class Question extends DbModel
     public DateTime $createdDate;
     public User $author;
     public bool $isApproved = false;
-    public ?ObjectId $approvedBy = null;
+    public ?User $approvedBy = null;
     public ?DateTime $publishDate = null;
-    public array $category = [];
+    /** @var Category[] $categories */
+    public array $categories = [];
+    /** @var Tag[] $tags */
     public array $tags = [];
     /** @var Label[] $labels */
     public array $labels = [];
@@ -60,9 +62,9 @@ class Question extends DbModel
             'author' => $this->author->_id,
             'authorName' => $this->author->name,
             'approved' => $this->isApproved,
-            'appovedBy' => $this->approvedBy,
+            'appovedBy' => $this->approvedBy ? $this->approvedBy->_id : null,
             'publishDay' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
-            'category' => $this->category,
+            'category' => $this->categories,
             'tags' => $this->tags,
             'labels' => $this->labels,
             'answers' => $this->answers,
@@ -83,20 +85,20 @@ class Question extends DbModel
         $this->author = User::findOne(['_id' => $data['author']]);
         $this->isApproved = $data['approved'];
         $this->averageRate = $data['averageRate'];
-        $this->approvedBy = $data['approvedBy'];
+        $this->approvedBy = $data['appovedBy'] ? User::findOne(['_id' => $data['appovedBy']]) : null;
         $this->publishDate = $data['publishDay'] ? $data['publishDay']->toDateTime() : null;
         $this->totalLikes = $data['numofLiked'];
         $this->totalDislikes = $data['numofDisliked'];
         $this->totalViews = $data['totalViews'];
         $this->totalAnswers = $data['totalAnswer'];
         foreach ($data['category'] as $category) {
-            $this->category[] = $category;
+            $this->categories[] = Category::findOne(['_id' => $category->_id]);
         }
         foreach ($data['tags'] as $tag) {
-            $this->tags[] = $tag;
+            $this->tags[] = Tag::findOne(['_id' => $tag->_id]);
         }
         foreach ($data['labels'] as $label) {
-            $this->labels[] = $label;
+            $this->labels[] = Label::findOne(['_id' => $label->_id]);
         }
         foreach ($data['answers'] as $answer) {
             $this->answers[] = $answer;
