@@ -64,9 +64,18 @@ class Question extends DbModel
             'approved' => $this->isApproved,
             'appovedBy' => $this->approvedBy ? $this->approvedBy->_id : null,
             'publishDay' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
-            'category' => $this->categories,
-            'tags' => $this->tags,
-            'labels' => $this->labels,
+            'category' => array_map(fn($item) => [
+                '_id' => $item->getId(),
+                'name' => $item->name
+            ], $this->categories),
+            'tags' => array_map(fn($item) => [
+                '_id' => $item->getId(),
+                'name' => $item->name
+            ], $this->tags),
+            'labels' => array_map(fn($item) => [
+                '_id' => $item->getId(),
+                'name' => $item->name
+            ], $this->labels),
             'answers' => $this->answers,
             'numofLiked' => $this->totalLikes,
             'numofDisliked' => $this->totalDislikes,
