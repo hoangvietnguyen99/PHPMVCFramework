@@ -62,12 +62,16 @@ var KTAsk = function() {
 		            plugins: {
 						trigger: new FormValidation.plugins.Trigger(),
 						submitButton: new FormValidation.plugins.SubmitButton(),
-						defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+//						defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
 						bootstrap: new FormValidation.plugins.Bootstrap({
 						})
 		            }
 		        }
 		    )
+		    .on("core.form.valid", function() {
+		        form.submit();
+		        window.location.href = "/questions";
+		    })
 			.on("core.form.invalid", function() {
 				KTUtil.scrollTop();
 		    });

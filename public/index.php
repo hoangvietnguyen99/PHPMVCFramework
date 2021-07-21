@@ -23,6 +23,10 @@ $config = [
     ],
     "jwt" => [
         "SECRET" => $_ENV["SECRET"]
+    ],
+    "cloudinary" => [
+        "SECRET" => $_ENV["CLOUDINARY_API_SECRET"],
+        "KEY" => $_ENV["CLOUDINARY_API_KEY"]
     ]
 ];
 

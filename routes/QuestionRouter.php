@@ -5,6 +5,7 @@ namespace app\routes;
 
 
 use app\constants\Path;
+use app\controllers\ProfileController;
 use app\controllers\QuestionController;
 use app\core\Request;
 use app\core\Response;
@@ -21,5 +22,7 @@ final class QuestionRouter extends Router
 
         $this->get(Path::ASK[0], [QuestionController::class, 'ask']);
         $this->post(Path::ASK[0], [QuestionController::class, 'ask']);
+
+        $this->get(Path::PROFILE_CHANGE_PASSWORD[0], [ProfileController::class, 'changePassword']);
     }
 }

@@ -5,6 +5,7 @@ namespace app\controllers;
 
 
 use app\core\Application;
+use app\core\CloudinaryUploadHandler;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
@@ -68,5 +69,11 @@ class ApiController extends Controller
         $user = User::findOne(['email' => $data['email']]);
         if ($user) $response->send(200, ['canCreate' => false]);
         $response->send(200, ['canCreate' => true]);
+    }
+
+    #[NoReturn] public function getCloudinarySignature(Request $request, Response $response)
+    {
+        $data = $request->query;
+        $response->send(200, Application::$application->cloudinaryUploadHandler->getSignature($data['public_id'] ?? ''));
     }
 }

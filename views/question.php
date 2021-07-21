@@ -233,7 +233,6 @@ jQuery(document).ready(function() {
                             <div class="card-body">
                                 <!--begin::Container-->
                                 <div>
-                                    Categories:
                                     <?php foreach ($question->categories as $category) {
                                         echo '<a href="' . "/questions?category={$category->getId()->__toString()}" . '" class="btn btn-light-primary font-weight-bold mr-2 mb-2">' . $category->name . '</a>';
                                     } ?>
@@ -313,6 +312,7 @@ jQuery(document).ready(function() {
                                     <!--end::Header-->
                                     <!--begin::Body-->
                                     <div>
+                                        Tags:
                                         <?php foreach ($question->tags as $tag) {
                                             echo '<a href="' . "/questions?tag={$tag->getId()->__toString()}" . '" class="btn btn-text-success btn-hover-light-success font-weight-bold mr-2 mb-2">#' . $tag->name . '</a>';
                                         } ?>
@@ -382,7 +382,7 @@ jQuery(document).ready(function() {
                              data-card="true" id="answers_card">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <h3 class="card-label">Answers: <?php echo count($question->answers) ?></h3>
+                                    <h3 class="card-label">Other's Answers: <?php echo count($question->answers) ?></h3>
                                 </div>
                                 <div class="card-toolbar">
                                     <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-1"
@@ -560,7 +560,7 @@ jQuery(document).ready(function() {
                         <div class="card card-custom gutter-b card-collapsed" data-card="true" id="reply_card">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <h3 class="card-label">Reply</h3>
+                                    <h3 class="card-label">Your answer</h3>
                                 </div>
                                 <div class="card-toolbar">
                                     <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-1"

@@ -3,6 +3,7 @@
 
 /** @var $model RegisterForm */
 
+use app\constants\Path;
 use app\core\form\Field;
 use app\core\View;
 use app\models\RegisterForm;
@@ -143,97 +144,91 @@ var KTLogin = function() {
 
 		// Init form validation rules. For more info check the FormValidation plugin"s official documentation:https://formvalidation.io/
 		// Step 1
-		validations.push(FormValidation.formValidation(
-                form,
-			{
-				fields: {
-                    password: {
-                        validators: {
-                            notEmpty: {
-                                message: "Password is required"
-                            },
-                            strongPassword
-                        }
-                    },
-                    passwordConfirm: {
-                        validators: {
-                            notEmpty: {
-                                message: "The password confirmation is required"
-                                            },
-                            identical: {
-                                compare: function() {
-                                    return form.querySelector(`[name="password"]`).value;
-                                },
-                                message: "The password and its confirm are not the same"
-                                            }
-                        }
-                    },
-                    email: {
-                        validators: {
-                            notEmpty: {
-                                message: "Email is required"
-                            },
-                            emailAddress: {
-                                message: "The value is not a valid email address"
-                            },
-                            uniqueEmail: {
-                                message: "Email already exist"
-                            }
-                        }
+		validations.push(FormValidation.formValidation(form, {
+            fields: {
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: "Password is required"
+                        },
+                        strongPassword
                     }
                 },
-				plugins: {
-    trigger: new FormValidation.plugins.Trigger(),
-					// Bootstrap Framework Integration
-					bootstrap: new FormValidation.plugins.Bootstrap({
-						//eleInvalidClass: "",
-						eleValidClass: "",
-					})
-				}
-			}
-		).registerValidator("strongPassword", strongPassword).registerValidator("uniqueEmail", uniqueEmail));
+                passwordConfirm: {
+                    validators: {
+                        notEmpty: {
+                            message: "The password confirmation is required"
+                                        },
+                        identical: {
+                            compare: function() {
+                                return form.querySelector(`[name="password"]`).value;
+                            },
+                            message: "The password and its confirm are not the same"
+                                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: "Email is required"
+                        },
+                        emailAddress: {
+                            message: "The value is not a valid email address"
+                        },
+                        uniqueEmail: {
+                            message: "Email already exist"
+                        }
+                    }
+                }
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                // Bootstrap Framework Integration
+                bootstrap: new FormValidation.plugins.Bootstrap({
+                    //eleInvalidClass: "",
+                    eleValidClass: "",
+                })
+            }
+		}).registerValidator("strongPassword", strongPassword).registerValidator("uniqueEmail", uniqueEmail));
 
 		// Step 2
-		validations.push(FormValidation.formValidation(
-                form,
-			{
-				fields: {
-    name: {
-        validators: {
-            notEmpty: {
-                message: "Name is required"
-							}
-        }
-    },
-    phone: {
-        validators: {
-            notEmpty: {
-                message: "Phone is required"
-							}
-        }
-    },
-    dateOfBirth: {
-        validations: {
-            notEmpty: {
-                message: "Date of birth is required"
-							}
-        }
-    }
-},
-				plugins: {
-    trigger: new FormValidation.plugins.Trigger(),
-					// Bootstrap Framework Integration
-					bootstrap: new FormValidation.plugins.Bootstrap({
-						//eleInvalidClass: "",
-						eleValidClass: "",
-					})
-				}
-			}
-		));
+		validations.push(FormValidation.formValidation(form, {
+			fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: "Name is required"
+                                        }
+                    }
+                },
+                phone: {
+                    validators: {
+                        notEmpty: {
+                            message: "Phone is required"
+                                        }
+                    }
+                },
+                dateOfBirth: {
+                    validations: {
+                        notEmpty: {
+                            message: "Date of birth is required"
+                                        }
+                    }
+                }
+            },
+			plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                // Bootstrap Framework Integration
+                bootstrap: new FormValidation.plugins.Bootstrap({
+                    //eleInvalidClass: "",
+                    eleValidClass: "",
+                })
+            }
+		}));
 
 		// Initialize form wizard
 		wizardObj = new KTWizard(wizardEl, {
-    startStep: 1, // initial active step number
+            startStep: 1, // initial active step number
 			clickableSteps: false  // allow step clicking
 		});
 
@@ -265,31 +260,51 @@ var KTLogin = function() {
 
 		// Submit event
 		wizardObj.on("submit", function (wizard) {
-		    var file = document.getElementById("profile_avatar");
-            var form = new FormData();
-            form.append("image", file.files[0])
-            
-            var url = "https://api.imgbb.com/1/upload?key=6d41627063c7d863fb02b56691d49251";
-            var settings = {
-                "method": "POST",
-                "processData": false,
-                "mimeType": "multipart/form-data",
-                "contentType": false,
-                "data": form
-            };
-            
-            fetch(url, )
+		    fetch("'.Path::API_GET_CLOUDINARY_SIGNATURE[0].'")
+		        .then(response => {
+		            response.text().then(text => {
+		                text = JSON.parse(text);
+		                console.log(text);
+		                if (response.status === 200) {
+		                    const {signature, timestamp, api_key, url, public_id} = text;
+		                    const files = document.querySelector("[type=file]").files;
+		                    		                    
+                            const formData = new FormData();
+                            
+                            for (let i = 0; i < files.length; i++) {
+                                let file = files[i];
+                                formData.append("file", file);
+                                formData.append("api_key", api_key);
+                                formData.append("timestamp", timestamp);
+                                formData.append("public_id", public_id);
+                                formData.append("signature", signature);
+                                                            
+                                fetch(url, {
+                                  method: "POST",
+                                  body: formData
+                                }).then((response) => {
+                                    if (response.status === 200) {
+                                        response.text().then(text => {
+                                            form.imgPath.value = JSON.parse(text).url;
+                                            form.submit();
+                                        })
+                                    }
+                                });
+                            }
+		                }
+		            })
+		        })
 		    
-            form.submit();
+//            form.submit();
 		});
     }
 
     // Public Functions
     return {
-    init: function() {
-        _handleFormSignup();
-    }
-};
+        init: function() {
+            _handleFormSignup();
+        }
+    };
 }();
 
 // Class Initialization
@@ -571,6 +586,14 @@ KTUtil.ready(function() {
                                     </div>
                                     <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
                                 </div>
+                            </div>
+                            <div class="form-group" hidden>
+                                <?PHP
+                                echo new Field($model, '<label class="font-size-h6 font-weight-bolder text-dark">{{label}}</label>
+                                <input type="text"
+                                       class="form-contro"
+                                       name="{{name}}" placeholder="{{label}}" value="{{value}}"/>', 'imgPath')
+                                ?>
                             </div>
                             <!--end::Title-->
                         </div>
