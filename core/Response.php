@@ -19,7 +19,7 @@ class Response
         return true;
     }
 
-    #[NoReturn] public function send(int $code, $body = null)
+    public function send(int $code, $body = null)
     {
         header("Content-Type: application/json");
         $this->statusCode($code);

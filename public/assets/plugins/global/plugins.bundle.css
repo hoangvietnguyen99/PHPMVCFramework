@@ -24390,13 +24390,10 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.flaticon-placeholder:before {
+.flaticon-placeholder-1:before {
   content: "";
 }
 
-.flaticon-placeholder-1:before {
-  content: "";
-}
 
 .flaticon-layers:before {
   content: "";
@@ -25229,6 +25226,10 @@ readers do not read off random characters that represent icons */
 }
 
 .flaticon2-placeholder:before {
+  content: "";
+}
+
+.flaticon2-gender:before {
   content: "";
 }
 

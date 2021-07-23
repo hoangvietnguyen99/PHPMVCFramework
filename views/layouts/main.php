@@ -1011,8 +1011,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                     </li>
                                     <?php endif; ?>
                                     <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
-                                        <a href="/profile" class="menu-link">
-                                            <span class="menu-text">Profile</span>
+                                        <a href="/account" class="menu-link">
+                                            <span class="menu-text">Account</span>
                                             <span class="menu-desc">Settings and more</span>
                                         </a>
                                     </li>

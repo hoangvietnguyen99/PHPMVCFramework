@@ -29,6 +29,8 @@ class Question extends DbModel
     public int $totalViews = 0;
     public float $averageRate = 0;
     public int $totalAnswers = 0;
+    public bool $adIsNotified = false;
+    public bool $adIsSeen = false;
 
     /**
      * Question constructor.
@@ -58,7 +60,7 @@ class Question extends DbModel
             'createdAt' => new UTCDateTime($this->createdDate->getTimestamp() * 1000),
             'author' => $this->author,
             'approved' => $this->isApproved,
-            'approvedBy' => $this->approvedBy,
+            'appovedBy' => $this->approvedBy,
             'publishDay' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
             'category' => $this->category,
             'tags' => $this->tags,
@@ -68,6 +70,8 @@ class Question extends DbModel
             'numofDisliked' => $this->totalDislikes,
             'totalViews' => $this->totalViews,
             'totalAnwser' => count($this->answers),
+            'adIsNotified' => $this->adIsNotified,
+            'adIsSeen' => $this->adIsSeen,
         ];
     }
 
@@ -81,12 +85,14 @@ class Question extends DbModel
         $this->author = $data['author'];
         $this->isApproved = $data['approved'];
         $this->averageRate = $data['averageRate'];
-        $this->approvedBy = $data['approvedBy'];
+        $this->approvedBy = $data['appovedBy'];
         $this->publishDate = $data['publishDay'] ? $data['publishDay']->toDateTime() : null;
         $this->totalLikes = $data['numofLiked'];
         $this->totalDislikes = $data['numofDisliked'];
         $this->totalViews = $data['totalViews'];
         $this->totalAnswers = $data['totalAnwser'];
+        $this->adIsSeen = $data['adIsSeen'];
+        $this->adIsNotified = $data['adIsNotified'];
         foreach ($data['category'] as $category) {
             $this->category[] = $category;
         }

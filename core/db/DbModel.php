@@ -69,7 +69,7 @@ abstract class DbModel implements Persistable
         return $results;
     }
 
-    public static function deleteOne(array|object $filter, $options = []): int
+    public static function deleteOne(array | object $filter, $options = []): int
     {
         $collection = static::getCollection();
         $result = $collection->deleteOne($filter, $options);
