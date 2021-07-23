@@ -30,11 +30,20 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '2d5c133158a3e83f7e28919d4442f5e9f22ba33b',
+    'reference' => '369ee43b850217e3bb56b76f67bfadaf8ca19c4d',
     'name' => 'vietnguyen/phpmvc-framework',
   ),
   'versions' => 
   array (
+    'cloudinary/cloudinary_php' => 
+    array (
+      'pretty_version' => '2.3.0',
+      'version' => '2.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a2dbb98738d9d0ce86004a29c128fba7ebe7740c',
+    ),
     'composer/package-versions-deprecated' => 
     array (
       'pretty_version' => '1.11.99.2',
@@ -62,6 +71,33 @@ private static $installed = array (
       ),
       'reference' => '7e279d2cd5d7fbb156ce46daada972355cea27bb',
     ),
+    'guzzlehttp/guzzle' => 
+    array (
+      'pretty_version' => '7.3.0',
+      'version' => '7.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7008573787b430c1c1f650e3722d9bba59967628',
+    ),
+    'guzzlehttp/promises' => 
+    array (
+      'pretty_version' => '1.4.1',
+      'version' => '1.4.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8e7d04f1f6450fef59366c399cfad4b9383aa30d',
+    ),
+    'guzzlehttp/psr7' => 
+    array (
+      'pretty_version' => '2.0.0',
+      'version' => '2.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '1dc8d9cba3897165e16d12bb13d813afb1eb3fe7',
+    ),
     'jean85/pretty-package-versions' => 
     array (
       'pretty_version' => '1.6.0',
@@ -79,6 +115,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '953dbc19443aa9314c44b7217a16873347e6840d',
+    ),
+    'monolog/monolog' => 
+    array (
+      'pretty_version' => '2.3.1',
+      'version' => '2.3.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '9738e495f288eec0b187e310b7cdbbb285777dbe',
     ),
     'nesbot/carbon' => 
     array (
@@ -104,6 +149,88 @@ private static $installed = array (
       array (
       ),
       'reference' => '994ecccd8f3283ecf5ac33254543eb0ac946d525',
+    ),
+    'psr/http-client' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2dfb5f6c5eff0e91e20e913f8c5452ed95b86621',
+    ),
+    'psr/http-client-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
+    ),
+    'psr/http-factory' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '12ac7fcd07e5b077433f5f2bee95b3a771bf61be',
+    ),
+    'psr/http-factory-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
+    ),
+    'psr/http-message' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f6561bf28d520154e4b0ec72be95418abe6d9363',
+    ),
+    'psr/http-message-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
+    ),
+    'psr/log' => 
+    array (
+      'pretty_version' => '1.1.4',
+      'version' => '1.1.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd49695b909c3b7628b6289db5479a1c204601f11',
+    ),
+    'psr/log-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0.0',
+      ),
+    ),
+    'ralouphie/getallheaders' => 
+    array (
+      'pretty_version' => '3.0.3',
+      'version' => '3.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '120b605dfeb996808c31b6477290a714d356e822',
+    ),
+    'shrikeh/teapot' => 
+    array (
+      'pretty_version' => 'v2.3.1',
+      'version' => '2.3.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2fea5720963f22eedb920ee65b9d643bfa3e8daf',
     ),
     'symfony/deprecation-contracts' => 
     array (
@@ -166,6 +293,15 @@ private static $installed = array (
         0 => '2.3',
       ),
     ),
+    'teapot/status-code' => 
+    array (
+      'pretty_version' => 'v1.1.2',
+      'version' => '1.1.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7aaba4364645ebb9d3a36267c9b3a32206d3042b',
+    ),
     'vietnguyen/phpmvc-framework' => 
     array (
       'pretty_version' => 'dev-main',
@@ -173,7 +309,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '2d5c133158a3e83f7e28919d4442f5e9f22ba33b',
+      'reference' => '369ee43b850217e3bb56b76f67bfadaf8ca19c4d',
     ),
     'vlucas/phpdotenv' => 
     array (

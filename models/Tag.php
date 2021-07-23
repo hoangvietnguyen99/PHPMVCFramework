@@ -13,7 +13,7 @@ class Tag extends DbModel
     public string $name = '';
     public int $count = 0;
     public bool $isDeleted = false;
-    public DateTime $createdDate;
+    public ?DateTime $createdDate;
     public ?DateTime $lastUpdatedDate = null;
 
     /**
@@ -49,7 +49,7 @@ class Tag extends DbModel
         $this->name = $data['name'];
         $this->count = $data['count'];
         $this->isDeleted = $data['isDeleted'];
-        $this->createdDate = $data['createdAt']->toDateTime();
+        $this->createdDate = $data['createdAt'] ? $data['createdAt']->toDateTime() : null;
         $this->lastUpdatedDate = $data['updatedAt'] ? $data['updatedAt']->toDateTime() : null;
     }
 }

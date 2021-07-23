@@ -66,7 +66,7 @@ class Question extends DbModel
             'approved' => $this->isApproved,
             'appovedBy' => $this->approvedBy ? $this->approvedBy->_id : null,
             'publishDay' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
-            'category' => array_map(fn($item) => [
+            'categories' => array_map(fn($item) => [
                 '_id' => $item->getId(),
                 'name' => $item->name
             ], $this->categories),
@@ -106,7 +106,7 @@ class Question extends DbModel
         $this->totalAnswers = $data['totalAnswer'];
         $this->adIsNotified = $data['adIsNotified'];
         $this->adIsSeen = $data['adIsSeen'];
-        foreach ($data['category'] as $category) {
+        foreach ($data['categories'] as $category) {
             $this->categories[] = Category::findOne(['_id' => $category->_id]);
         }
         foreach ($data['tags'] as $tag) {

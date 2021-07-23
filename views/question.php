@@ -591,15 +591,6 @@ jQuery(document).ready(function() {
                                 <div class="d-flex flex-column flex-center">
                                     <!--begin::Symbol-->
                                     <div class="symbol symbol-120 symbol-circle symbol-success overflow-hidden">
-<<<<<<< HEAD
-                                        <span class="symbol-label">
-                                            <img src="<?php echo $author->imgPath ?>" class="h-75 align-self-end" alt="" />
-                                        </span>
-                                    </div>
-                                    <!--end::Symbol-->
-                                    <!--begin::Username-->
-                                    <a href="#" class="card-title font-weight-bolder text-dark-75 text-hover-primary font-size-h4 m-0 pt-7 pb-1"><?php echo $author->name ?></a>
-=======
 																<span class="symbol-label">
 																	<img src="<?php echo $question->author->imgPath ?>"
                                                                          class="h-75 align-self-end" alt=""/>
@@ -609,7 +600,6 @@ jQuery(document).ready(function() {
                                     <!--begin::Username-->
                                     <a href="#"
                                        class="card-title font-weight-bolder text-dark-75 text-hover-primary font-size-h4 m-0 pt-7 pb-1"><?php echo $question->author->name ?></a>
->>>>>>> 1af955f9e4d52fbd86ce0e3bec80ff84e3c57faa
                                     <!--end::Username-->
                                     <!--begin::Info-->
                                     <div class="font-weight-bold text-dark-50 font-size-sm pb-6 text-center">

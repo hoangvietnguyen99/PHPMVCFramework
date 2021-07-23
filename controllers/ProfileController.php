@@ -28,8 +28,8 @@ class ProfileController extends Controller
     {
         $userId = $request->query['id'] ?? null;
         if ($userId) {
-            if ((Application::$application->user)->getId() === $userId) {
-                return $response->redirect('/profile');
+            if ((Application::$application->user)->getId()  == $userId) {
+                return $response->redirect('/account');
             }
             $user = User::findOne(['_id' => new ObjectId($userId)]);
             if (!$user) throw new NotFoundException();
