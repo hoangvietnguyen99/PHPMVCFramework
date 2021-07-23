@@ -11,6 +11,7 @@ use app\core\Response;
 use app\models\LoginForm;
 use app\middlewares\AuthMiddleware;
 use app\models\User;
+use MongoDB\BSON\ObjectId;
 
 class ProfileController extends Controller
 {
@@ -21,7 +22,7 @@ class ProfileController extends Controller
      */
     public function __construct()
     {
-        $this->registerMiddleware(new AuthMiddleware(['profile', 'ChangePassword']));
+        $this->registerMiddleware(new AuthMiddleware(['account', 'ChangePassword']));
     }
     public function getProfile(Request $request, Response $response)
     {
@@ -43,7 +44,6 @@ class ProfileController extends Controller
     }
     public function ChangePassword(Request $request, Response $response)
     {
-        $loginForm = new LoginForm();
         if ($request->getMethod() === 'post') {
             $user =  Application::$application->user;
             // $old_password = $request->body['old_password'];

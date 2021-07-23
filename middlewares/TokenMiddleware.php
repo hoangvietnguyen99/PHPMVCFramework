@@ -18,6 +18,7 @@ class TokenMiddleware extends Middleware
     public function execute()
     {
         if (empty($this->actions) || in_array(Application::$application->controller->action, $this->actions)) {
+            if (Application::$application->user) return;
             $request = Application::$application->request;
             $response = Application::$application->response;
             $token = $request->getBearerToken();

@@ -13,13 +13,13 @@ class Reply extends DbModel
 {
     public string $content = '';
     public DateTime $createdDate;
-    public ObjectId $author;
+    public User $author;
 
     /**
      * Reply constructor.
-     * @param ObjectId $author
+     * @param User $author
      */
-    public function __construct(ObjectId $author)
+    public function __construct(User $author)
     {
         $this->author = $author;
         parent::__construct();
@@ -39,7 +39,7 @@ class Reply extends DbModel
         return [
             '_id' => $this->_id,
             'createdDate' => new UTCDateTime($this->createdDate->getTimestamp() * 1000),
-            'author' => $this->author,
+            'author' => $this->author->_id,
             'content' => $this->content
         ];
     }
@@ -51,7 +51,7 @@ class Reply extends DbModel
     {
         $this->_id = $data['_id'];
         $this->createdDate = $data['createdDate']->toDateTime();
-        $this->author = $data['author'];
+        $this->author = User::findOne(['_id' => $data['author']]);
         $this->content = $data['content'];
     }
 }

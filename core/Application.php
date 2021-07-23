@@ -31,6 +31,7 @@ class Application
     public View $view;
     public string $layout = 'main';
     public JWTHandler $jwt;
+    public CloudinaryUploadHandler $cloudinaryUploadHandler;
 
     public function __construct(string $rootPath, array $config)
     {
@@ -44,6 +45,7 @@ class Application
         $this->session = new Session();
         $this->view = new View();
         $this->jwt = new JWTHandler($config['jwt']);
+        $this->cloudinaryUploadHandler = new CloudinaryUploadHandler($config['cloudinary']);
 
         $userId = Application::$application->session->get('user');
         if ($userId) {

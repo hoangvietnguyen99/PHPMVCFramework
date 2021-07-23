@@ -15,12 +15,15 @@ class Question extends DbModel
     public string $content = '';
     public bool $isDeleted = false;
     public DateTime $createdDate;
-    public ObjectId $author;
+    public User $author;
     public bool $isApproved = false;
-    public ?ObjectId $approvedBy = null;
+    public ?User $approvedBy = null;
     public ?DateTime $publishDate = null;
-    public array $category = [];
+    /** @var Category[] $categories */
+    public array $categories = [];
+    /** @var Tag[] $tags */
     public array $tags = [];
+    /** @var Label[] $labels */
     public array $labels = [];
     /** @var Answer[] $answers */
     public array $answers = [];
@@ -34,9 +37,9 @@ class Question extends DbModel
 
     /**
      * Question constructor.
-     * @param ObjectId $author
+     * @param User $author
      */
-    public function __construct(ObjectId $author)
+    public function __construct(User $author)
     {
         parent::__construct();
         $this->author = $author;
@@ -58,18 +61,36 @@ class Question extends DbModel
             'title' => $this->title,
             'content' => $this->content,
             'createdAt' => new UTCDateTime($this->createdDate->getTimestamp() * 1000),
-            'author' => $this->author,
+            'author' => $this->author->_id,
+            'authorName' => $this->author->name,
             'approved' => $this->isApproved,
+<<<<<<< HEAD
             'appovedBy' => $this->approvedBy,
+=======
+            'appovedBy' => $this->approvedBy ? $this->approvedBy->_id : null,
+>>>>>>> 1af955f9e4d52fbd86ce0e3bec80ff84e3c57faa
             'publishDay' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
-            'category' => $this->category,
-            'tags' => $this->tags,
-            'labels' => $this->labels,
+            'category' => array_map(fn($item) => [
+                '_id' => $item->getId(),
+                'name' => $item->name
+            ], $this->categories),
+            'tags' => array_map(fn($item) => [
+                '_id' => $item->getId(),
+                'name' => $item->name
+            ], $this->tags),
+            'labels' => array_map(fn($item) => [
+                '_id' => $item->getId(),
+                'name' => $item->name
+            ], $this->labels),
             'answers' => $this->answers,
             'numofLiked' => $this->totalLikes,
             'numofDisliked' => $this->totalDislikes,
             'totalViews' => $this->totalViews,
+<<<<<<< HEAD
             'totalAnwser' => count($this->answers),
+=======
+            'totalAnswer' => count($this->answers),
+>>>>>>> 1af955f9e4d52fbd86ce0e3bec80ff84e3c57faa
             'adIsNotified' => $this->adIsNotified,
             'adIsSeen' => $this->adIsSeen,
         ];
@@ -82,25 +103,35 @@ class Question extends DbModel
         $this->isDeleted = $data['isDeleted'];
         $this->content = $data['content'];
         $this->createdDate = $data['createdAt']->toDateTime();
-        $this->author = $data['author'];
+        $this->author = User::findOne(['_id' => $data['author']]);
         $this->isApproved = $data['approved'];
         $this->averageRate = $data['averageRate'];
+<<<<<<< HEAD
         $this->approvedBy = $data['appovedBy'];
+=======
+        $this->approvedBy = $data['appovedBy'] ? User::findOne(['_id' => $data['appovedBy']]) : null;
+>>>>>>> 1af955f9e4d52fbd86ce0e3bec80ff84e3c57faa
         $this->publishDate = $data['publishDay'] ? $data['publishDay']->toDateTime() : null;
         $this->totalLikes = $data['numofLiked'];
         $this->totalDislikes = $data['numofDisliked'];
         $this->totalViews = $data['totalViews'];
+<<<<<<< HEAD
         $this->totalAnswers = $data['totalAnwser'];
         $this->adIsSeen = $data['adIsSeen'];
         $this->adIsNotified = $data['adIsNotified'];
+=======
+        $this->totalAnswers = $data['totalAnswer'];
+        $this->adIsNotified = $data['adIsNotified'];
+        $this->adIsSeen = $data['adIsSeen'];
+>>>>>>> 1af955f9e4d52fbd86ce0e3bec80ff84e3c57faa
         foreach ($data['category'] as $category) {
-            $this->category[] = $category;
+            $this->categories[] = Category::findOne(['_id' => $category->_id]);
         }
         foreach ($data['tags'] as $tag) {
-            $this->tags[] = $tag;
+            $this->tags[] = Tag::findOne(['_id' => $tag->_id]);
         }
         foreach ($data['labels'] as $label) {
-            $this->labels[] = $label;
+            $this->labels[] = Label::findOne(['_id' => $label->_id]);
         }
         foreach ($data['answers'] as $answer) {
             $this->answers[] = $answer;

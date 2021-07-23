@@ -18,6 +18,7 @@ class RegisterForm extends Model
     public string $password = '';
     public string $dateOfBirth = '';
     public string $passwordConfirm = '';
+    public string $imgPath = '';
 
     public function rules(): array
     {
@@ -37,6 +38,7 @@ class RegisterForm extends Model
             'passwordConfirm' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']],
             'gender' => [self::RULE_REQUIRED, [self::RULE_IN_ARRAY, 'values' => [Gender::FEMALE, Gender::MALE]]],
             'dateOfBirth' => [self::RULE_REQUIRED],
+            'imgPath' => [self::RULE_REQUIRED],
         ];
     }
 
@@ -48,6 +50,7 @@ class RegisterForm extends Model
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         $user = new User();
         $user->name = $this->name;
+        $user->imgPath = $this->imgPath;
         $user->gender = $this->gender;
         $user->dateOfBirth = new DateTime($this->dateOfBirth);
         $user->password = $this->password;
@@ -69,7 +72,8 @@ class RegisterForm extends Model
             'password' => 'Password',
             'passwordConfirm' => 'Password confirm',
             'gender' => 'Gender',
-            'dateOfBirth' => 'Date of birth'
+            'dateOfBirth' => 'Date of birth',
+            'imgPath' => 'Image path'
         ];
     }
 }

@@ -29,6 +29,8 @@ class User extends DbModel
     public string $tier = Tier::BASIC;
     public int $score = 0;
     public float $averageRate = 0;
+    /** @var Notification[] $notifications */
+    public array $notifications = [];
 
     /**
      * User constructor.
@@ -64,6 +66,7 @@ class User extends DbModel
             'tier' => $this->tier,
             'score' => $this->score,
             'averageRate' => ($this->totalLikes - $this->totalDislikes) / (($this->totalQuestions + $this->totalAnswers) || 1),
+            'notifications' => $this->notifications
         ];
     }
 
@@ -86,5 +89,8 @@ class User extends DbModel
         $this->tier = $data['tier'];
         $this->score = $data['score'];
         $this->averageRate = $data['averageRate'];
+        foreach ($data['notifications'] as $notification) {
+            $this->notifications[] = $notification;
+        }
     }
 }

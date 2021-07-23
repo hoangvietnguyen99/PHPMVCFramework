@@ -8,6 +8,7 @@ use app\models\User;
 use app\routes\ApiRouter;
 use app\routes\AuthRouter;
 use app\routes\QuestionRouter;
+use app\routes\SiteRouter;
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
@@ -22,6 +23,10 @@ $config = [
     ],
     "jwt" => [
         "SECRET" => $_ENV["SECRET"]
+    ],
+    "cloudinary" => [
+        "SECRET" => $_ENV["CLOUDINARY_API_SECRET"],
+        "KEY" => $_ENV["CLOUDINARY_API_KEY"]
     ]
 ];
 
@@ -31,14 +36,12 @@ $request = $app->request;
 $response = $app->response;
 
 /**
- * @var $siteRouter Router
  * @var $profileRouter Router
  */
-include_once __DIR__.'/../routes/SiteRoutes.php';
 include_once __DIR__.'/../routes/ProfileRoutes.php';
 
 $app->routers[] = new AuthRouter($request, $response);
-$app->routers[] = $siteRouter;
+$app->routers[] = new SiteRouter($request, $response);
 $app->routers[] = $profileRouter;
 $app->routers[] = new ApiRouter($request, $response);
 $app->routers[] = new QuestionRouter($request, $response);
