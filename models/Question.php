@@ -64,11 +64,7 @@ class Question extends DbModel
             'author' => $this->author->_id,
             'authorName' => $this->author->name,
             'approved' => $this->isApproved,
-<<<<<<< HEAD
-            'appovedBy' => $this->approvedBy,
-=======
             'appovedBy' => $this->approvedBy ? $this->approvedBy->_id : null,
->>>>>>> 1af955f9e4d52fbd86ce0e3bec80ff84e3c57faa
             'publishDay' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
             'category' => array_map(fn($item) => [
                 '_id' => $item->getId(),
@@ -86,11 +82,7 @@ class Question extends DbModel
             'numofLiked' => $this->totalLikes,
             'numofDisliked' => $this->totalDislikes,
             'totalViews' => $this->totalViews,
-<<<<<<< HEAD
-            'totalAnwser' => count($this->answers),
-=======
             'totalAnswer' => count($this->answers),
->>>>>>> 1af955f9e4d52fbd86ce0e3bec80ff84e3c57faa
             'adIsNotified' => $this->adIsNotified,
             'adIsSeen' => $this->adIsSeen,
         ];
@@ -106,24 +98,14 @@ class Question extends DbModel
         $this->author = User::findOne(['_id' => $data['author']]);
         $this->isApproved = $data['approved'];
         $this->averageRate = $data['averageRate'];
-<<<<<<< HEAD
-        $this->approvedBy = $data['appovedBy'];
-=======
         $this->approvedBy = $data['appovedBy'] ? User::findOne(['_id' => $data['appovedBy']]) : null;
->>>>>>> 1af955f9e4d52fbd86ce0e3bec80ff84e3c57faa
         $this->publishDate = $data['publishDay'] ? $data['publishDay']->toDateTime() : null;
         $this->totalLikes = $data['numofLiked'];
         $this->totalDislikes = $data['numofDisliked'];
         $this->totalViews = $data['totalViews'];
-<<<<<<< HEAD
-        $this->totalAnswers = $data['totalAnwser'];
-        $this->adIsSeen = $data['adIsSeen'];
-        $this->adIsNotified = $data['adIsNotified'];
-=======
         $this->totalAnswers = $data['totalAnswer'];
         $this->adIsNotified = $data['adIsNotified'];
         $this->adIsSeen = $data['adIsSeen'];
->>>>>>> 1af955f9e4d52fbd86ce0e3bec80ff84e3c57faa
         foreach ($data['category'] as $category) {
             $this->categories[] = Category::findOne(['_id' => $category->_id]);
         }
