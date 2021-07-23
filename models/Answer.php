@@ -21,6 +21,8 @@ class Answer extends DbModel
     public int $totalDislikes = 0;
     /** @var Reply[] List of reply */
     public array $replies = [];
+    public bool $adIsNotified = false;
+    public bool $adIsSeen = false;
 
     /**
      * Answer constructor.
@@ -51,11 +53,13 @@ class Answer extends DbModel
             'author' => $this->author->_id,
             'authorName' => $this->author->name,
             'isApproved' => $this->isApproved,
-            'aprovedBy' => $this->approvedBy ? $this->approvedBy->_id : null,
+            'approvedBy' => $this->approvedBy ? $this->approvedBy->_id : null,
             'publishDate' => $this->publishDate ? new UTCDateTime($this->publishDate->getTimestamp() * 1000) : null,
             'totalLikes' => $this->totalLikes,
             'totalDislikes' => $this->totalDislikes,
             'replies' => $this->replies,
+            'adIsNotified' => $this->adIsNotified,
+            'adIsSeen' => $this->adIsSeen,
         ];
     }
 
@@ -69,10 +73,12 @@ class Answer extends DbModel
         $this->createdDate = $data['createdAt']->toDateTime();
         $this->author = User::findOne(['_id' => $data['author']]);
         $this->isApproved = $data['isApproved'];
-        $this->approvedBy = $data['appovedBy'] ? User::findOne(['_id' => $data['appovedBy']]) : null;
+        $this->approvedBy = $data['approvedBy'] ? User::findOne(['_id' => $data['approvedBy']]) : null;
         $this->publishDate = $data['publishDate'] ? $data['publishDate']->toDateTime() : null;
         $this->totalLikes = $data['totalLikes'];
         $this->totalDislikes = $data['totalDislikes'];
+        $this->adIsNotified = $data['adIsNotified'];
+        $this->adIsSeen = $data['adIsSeen'];
         foreach ($data['replies'] as $reply) {
             $this->replies[] = $reply;
         }

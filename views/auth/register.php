@@ -8,7 +8,7 @@ use app\core\form\Field;
 use app\core\View;
 use app\models\RegisterForm;
 
-$this->title = 'Register';
+$this->title = Path::REGISTER[1];
 $this->scripts[] = '<script type="application/javascript">
     // Class definition
 
@@ -436,7 +436,7 @@ KTUtil.ready(function() {
                             <div class="pb-10 pb-lg-15">
                                 <h3 class="font-weight-bolder text-dark display5">Create Account</h3>
                                 <div class="text-muted font-weight-bold font-size-h4">Already have an Account ?
-                                    <a href="/login" class="text-primary font-weight-bolder">Sign In</a></div>
+                                    <a href="<?php echo Path::LOGIN[0] ?>" class="text-primary font-weight-bolder">Sign In</a></div>
                             </div>
                             <!--end::Title-->
                             <!--begin::Form Group-->

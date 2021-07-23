@@ -7,15 +7,20 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\CloudinaryUploadHandler;
 use app\core\Controller;
+use app\core\exception\NotFoundException;
 use app\core\Request;
 use app\core\Response;
 use app\middlewares\TokenMiddleware;
+use app\models\AnswerForm;
+use app\models\AskForm;
 use app\models\Category;
 use app\models\LoginForm;
+use app\models\Question;
 use app\models\Tag;
 use app\models\User;
 use Exception;
 use JetBrains\PhpStorm\NoReturn;
+use MongoDB\BSON\ObjectId;
 
 class ApiController extends Controller
 {
@@ -75,5 +80,75 @@ class ApiController extends Controller
     {
         $data = $request->query;
         $response->send(200, Application::$application->cloudinaryUploadHandler->getSignature($data['public_id'] ?? ''));
+    }
+
+    /**
+     * @throws NotFoundException
+     */
+    #[NoReturn] public function answer(Request $request, Response $response)
+    {
+        $replyForm = new AnswerForm();
+        $replyForm->loadData($request->body);
+        if ($replyForm->validate() && $replyForm->reply()) {
+            $response->send(201, [
+                'message' => 'Your reply is successfully submitted.'
+            ]);
+        } else {
+            $response->send(400);
+        }
+    }
+
+    /**
+     * @throws NotFoundException
+     */
+    public function answers(Request $request, Response $response)
+    {
+        $replyForm = new AnswerForm();
+        $replyForm->loadData($request->body);
+        if ($replyForm->validate() && $replyForm->reply()) {
+            Application::$application->session->setFlash('success', 'Your reply is successfully submitted.');
+            return $response->redirect('/questions?id=' . $replyForm->questionId);
+        }
+        $question = Question::findOne(['_id' => new ObjectId($replyForm->questionId)]);
+        if (!$question) throw new NotFoundException();
+        return $this->render('question', [
+            'question' => $question,
+            'model' => $replyForm
+        ]);
+    }
+
+    #[NoReturn] public function ask(Request $request, Response $response)
+    {
+        $askForm = new AskForm();
+        $askForm->loadData($request->body);
+        if ($askForm->validate() && $askForm->ask()) {
+            $response->send(201, [
+                'message' => 'Your question is successfully submitted.'
+            ]);
+        } else {
+            $response->send(400);
+        }
+    }
+
+    /**
+     * @throws NotFoundException
+     */
+    public function getQuestions(Request $request)
+    {
+        $questionId = $request->query['id'] ?? null;
+        if ($questionId) {
+            /** @var Question $question */
+            $question = Question::findOne(['_id' => new ObjectId($questionId)]);
+            if (!$question) throw new NotFoundException();
+            $question->totalViews++;
+            $question->insertOrUpdateOne();
+            $replyForm = new AnswerForm();
+            $replyForm->questionId = $questionId;
+            return $this->render('question', [
+                'question' => $question,
+                'model' => $replyForm
+            ]);
+        }
+        return $this->render('questions');
     }
 }

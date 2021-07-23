@@ -32,6 +32,8 @@ class Question extends DbModel
     public int $totalViews = 0;
     public float $averageRate = 0;
     public int $totalAnswers = 0;
+    public bool $adIsNotified = false;
+    public bool $adIsSeen = false;
 
     /**
      * Question constructor.
@@ -81,6 +83,8 @@ class Question extends DbModel
             'numofDisliked' => $this->totalDislikes,
             'totalViews' => $this->totalViews,
             'totalAnswer' => count($this->answers),
+            'adIsNotified' => $this->adIsNotified,
+            'adIsSeen' => $this->adIsSeen,
         ];
     }
 
@@ -100,6 +104,8 @@ class Question extends DbModel
         $this->totalDislikes = $data['numofDisliked'];
         $this->totalViews = $data['totalViews'];
         $this->totalAnswers = $data['totalAnswer'];
+        $this->adIsNotified = $data['adIsNotified'];
+        $this->adIsSeen = $data['adIsSeen'];
         foreach ($data['category'] as $category) {
             $this->categories[] = Category::findOne(['_id' => $category->_id]);
         }

@@ -40,4 +40,7 @@ final class Path
     public const API_ADD_CATEGORIES = [self::API[0].'/categories'];
     public const API_GET_TAGS = [self::API[0].'/tags'];
     public const API_GET_CLOUDINARY_SIGNATURE = [self::API[0].'/cloudinary-signature'];
+    public const API_QUESTIONS = [self::API[0].'/questions'];
+    public const API_ANSWERS = [self::API[0].'/answers'];
+    public const API_ASK = [self::API[0].'/ask'];
 }

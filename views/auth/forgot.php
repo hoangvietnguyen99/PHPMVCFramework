@@ -2,6 +2,7 @@
 /** @var $this View */
 /** @var $model ForgetPasswordForm */
 
+use app\constants\Path;
 use app\core\form\Field;
 use app\core\View;
 use app\models\ForgetPasswordForm;
@@ -140,7 +141,7 @@ jQuery(document).ready(function() {
                             <button type="submit" id="kt_login_forgot_form_submit_button"
                                     class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Submit
                             </button>
-                            <a href="custom/pages/login/login-3/signin.html" id="kt_login_forgot_cancel"
+                            <a href="<?php echo Path::LOGIN[0] ?>" id="kt_login_forgot_cancel"
                                class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Cancel</a>
                         </div>
                         <!--end::Form group-->
