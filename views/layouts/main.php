@@ -1016,6 +1016,12 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <span class="menu-desc">Settings and more</span>
                                         </a>
                                     </li>
+                                    <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+                                        <a href="/Ranking" class="menu-link">
+                                            <span class="menu-text">Ranking</span>
+                                            <span class="menu-desc">Settings and more</span>
+                                        </a>
+                                    </li>
                                 </ul>
                                 <!--end::Header Nav-->
                             </div>

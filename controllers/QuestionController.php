@@ -14,7 +14,12 @@ use app\models\Category;
 use app\models\Question;
 use app\models\AnswerForm;
 use app\models\Tag;
+use app\models\User;
+use app\models\User_month;
 use MongoDB\BSON\ObjectId;
+use DateTime;
+use DateTimeZone;
+use MongoDB\BSON\UTCDateTime;
 
 class QuestionController extends Controller
 {
@@ -83,5 +88,19 @@ class QuestionController extends Controller
             ]);
         }
         return $this->render('questions');
+    }
+    public function update_user_month(User $user, string $fieldname)
+    {
+        //check current month exits
+        $now = new DateTime('', new DateTimeZone('GMT'));
+        $monthRanking = new DateTime($now->format('y') . '-' . $now->format('m') . '-01', new DateTimeZone('GMT'));
+        $user_month = User_month::findOne(['createdAt' => new UTCDateTime($monthRanking->getTimestamp() * 1000)]);
+        if ($user_month != null) {
+            User_month::updateUser($user_month, $user, $fieldname);
+        } else {
+            $user_month = new User_month();
+            $user_month->insertOrUpdateOne();
+            User_month::addUser($user_month, $user, $fieldname);
+        }
     }
 }

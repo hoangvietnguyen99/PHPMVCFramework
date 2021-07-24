@@ -11,7 +11,10 @@ use app\core\Response;
 use app\models\LoginForm;
 use app\middlewares\AuthMiddleware;
 use app\models\User;
+use app\models\Ranking;
 use MongoDB\BSON\ObjectId;
+use DateTime;
+use DateTimeZone;
 
 class ProfileController extends Controller
 {
@@ -28,8 +31,10 @@ class ProfileController extends Controller
     {
         $userId = $request->query['id'] ?? null;
         if ($userId) {
-            if ((Application::$application->user)->getId()  == $userId) {
-                return $response->redirect('/account');
+            if (!Application::isGuest()) {
+                if ((Application::$application->user)->getId()  == $userId) {
+                    return $response->redirect('/account');
+                }
             }
             $user = User::findOne(['_id' => new ObjectId($userId)]);
             if (!$user) throw new NotFoundException();
@@ -74,4 +79,24 @@ class ProfileController extends Controller
             }
         }
     }
+    public function getRanking(Request $request, Response $response)
+    {
+        //get current year-month
+        $mouth = $request->query['month'] ?? null;
+        $year = $request->query['year'] ?? null;
+    }
+    // public function updateRanking(Response $response)
+    // {
+    //     $now = new DateTime('', new DateTimeZone('GMT'));
+    //     $mothRanking = new DateTime($now->format('y') . '-' . $now->format('m') . '-01', new DateTimeZone('GMT'));
+    //     $ranking = Ranking::findOne(['createdAt' => $mothRanking]);
+    //     if ($ranking != null) {
+    //         $users = User::find([], ['sort' => ['score' => 1], 'limit' => 20]);
+    //         $ranking->users=$users;
+    //         $ranking->insertOrUpdateOne();
+    //     }
+    //     else{
+    //         $ranking = new Ranking();
+    //     }
+    // }
 }

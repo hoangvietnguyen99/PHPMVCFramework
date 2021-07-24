@@ -87409,3 +87409,18 @@ body {
   }
 }
 
+.ranking-order-top3 {
+  position: absolute;
+  font-size: 20px;
+  color: white;
+  right: 25px;
+  top: 16px;
+}
+.ranking-order {
+  position: absolute;
+  font-size: 20px;
+  color: white;
+  right: 22px;
+  top: 16px;
+}
+

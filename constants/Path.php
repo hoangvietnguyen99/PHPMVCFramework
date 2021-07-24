@@ -21,6 +21,8 @@ final class Path
     public const PROFILE_PERSONAL_INFORMATION = ['/profile', 'Personal Information'];
     public const PROFILE_CHANGE_PASSWORD = [self::PROFILE[0] . '/change-password', 'Change Password'];
 
+    public const RANKING = ['/ranking', 'ranking'];
+
     public const QUESTIONS = ['/questions', 'Questions'];
     public const ASK = ['/ask', 'Ask'];
     public const REPLY = ['/reply', 'Reply'];
@@ -35,12 +37,12 @@ final class Path
     public const CATEGORIES = ['/categories', 'Categories'];
 
     public const API = ['/api'];
-    public const API_IS_NEW_EMAIL = [self::API[0].'/isnewemail'];
-    public const API_LOGIN = [self::API[0].'/login'];
-    public const API_ADD_CATEGORIES = [self::API[0].'/categories'];
-    public const API_GET_TAGS = [self::API[0].'/tags'];
-    public const API_GET_CLOUDINARY_SIGNATURE = [self::API[0].'/cloudinary-signature'];
-    public const API_QUESTIONS = [self::API[0].'/questions'];
-    public const API_ANSWERS = [self::API[0].'/answers'];
-    public const API_ASK = [self::API[0].'/ask'];
+    public const API_IS_NEW_EMAIL = [self::API[0] . '/isnewemail'];
+    public const API_LOGIN = [self::API[0] . '/login'];
+    public const API_ADD_CATEGORIES = [self::API[0] . '/categories'];
+    public const API_GET_TAGS = [self::API[0] . '/tags'];
+    public const API_GET_CLOUDINARY_SIGNATURE = [self::API[0] . '/cloudinary-signature'];
+    public const API_QUESTIONS = [self::API[0] . '/questions'];
+    public const API_ANSWERS = [self::API[0] . '/answers'];
+    public const API_ASK = [self::API[0] . '/ask'];
 }
