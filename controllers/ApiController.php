@@ -7,7 +7,9 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\CloudinaryUploadHandler;
 use app\core\Controller;
+use app\core\exception\BadRequestException;
 use app\core\exception\NotFoundException;
+use app\core\exception\UnauthorizedException;
 use app\core\Request;
 use app\core\Response;
 use app\middlewares\TokenMiddleware;
@@ -83,38 +85,25 @@ class ApiController extends Controller
     }
 
     /**
-     * @throws NotFoundException
+     * @throws BadRequestException|NotFoundException
      */
     #[NoReturn] public function answer(Request $request, Response $response)
     {
         $replyForm = new AnswerForm();
         $replyForm->loadData($request->body);
-        if ($replyForm->validate() && $replyForm->reply()) {
+        if ($replyForm->validate() && $replyForm->answer()) {
             $response->send(201, [
                 'message' => 'Your reply is successfully submitted.'
             ]);
-        } else {
-            $response->send(400);
         }
+        throw new BadRequestException();
     }
 
-    /**
-     * @throws NotFoundException
-     */
-    public function answers(Request $request, Response $response)
+    public function getAnswers(Request $request, Response $response)
     {
-        $replyForm = new AnswerForm();
-        $replyForm->loadData($request->body);
-        if ($replyForm->validate() && $replyForm->reply()) {
-            Application::$application->session->setFlash('success', 'Your reply is successfully submitted.');
-            return $response->redirect('/questions?id=' . $replyForm->questionId);
+        if (isset($request->query['question_id'])) {
+
         }
-        $question = Question::findOne(['_id' => new ObjectId($replyForm->questionId)]);
-        if (!$question) throw new NotFoundException();
-        return $this->render('question', [
-            'question' => $question,
-            'model' => $replyForm
-        ]);
     }
 
     #[NoReturn] public function ask(Request $request, Response $response)

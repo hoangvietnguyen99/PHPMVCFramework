@@ -20,14 +20,15 @@ class TokenMiddleware extends Middleware
         if (empty($this->actions) || in_array(Application::$application->controller->action, $this->actions)) {
             if (Application::$application->user) return;
             $request = Application::$application->request;
-            $response = Application::$application->response;
             $token = $request->getBearerToken();
-            if (!$token) throw new UnauthorizedException(false);
+            if (!$token) throw new UnauthorizedException();
             $jwt = Application::$application->jwt;
             try {
                 $jwt->validate($token);
             } catch (Exception $exception) {
-                $response->send(401, ['message' => $exception->getMessage()]);
+                $newException = new UnauthorizedException();
+                $newException->setMessage($exception->getMessage());
+                throw $newException;
             }
         }
     }

@@ -32,9 +32,6 @@ class RankingController extends Controller
         $this->registerMiddleware(new AuthMiddleware(['ranking']));
     }
 
-    /**
-     * @throws NotFoundException
-     */
     public function ranking(){
         return $this->render('ranking',[]);
     }

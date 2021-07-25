@@ -7,7 +7,9 @@ use app\core\Router;
 use app\models\User;
 use app\routes\ApiRouter;
 use app\routes\AuthRouter;
+use app\routes\ProfileRouter;
 use app\routes\QuestionRouter;
+use app\routes\RankingRouter;
 use app\routes\SiteRouter;
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
@@ -35,14 +37,10 @@ $app = new Application(dirname(__DIR__), $config);
 $request = $app->request;
 $response = $app->response;
 
-/**
- * @var $profileRouter Router
- */
-include_once __DIR__.'/../routes/ProfileRoutes.php';
-
 $app->routers[] = new AuthRouter($request, $response);
 $app->routers[] = new SiteRouter($request, $response);
-$app->routers[] = $profileRouter;
+$app->routers[] = new ProfileRouter($request, $response);
+$app->routers[] = new RankingRouter($request, $response);
 $app->routers[] = new ApiRouter($request, $response);
 $app->routers[] = new QuestionRouter($request, $response);
 

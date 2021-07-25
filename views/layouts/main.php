@@ -1,6 +1,7 @@
 <?php
 /** @var $this View */
 
+use app\constants\Path;
 use app\constants\Role;
 use app\core\Application;
 use app\core\View;
@@ -997,14 +998,14 @@ License: You must have a valid license purchased only from themeforest(the above
                                     </li>
                                     <?PHP endif; ?>
                                     <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
-                                        <a href="/questions" class="menu-link">
+                                        <a href="<?php echo Path::QUESTIONS[0] ?>" class="menu-link">
                                             <span class="menu-text">Questions</span>
                                             <span class="menu-desc">View all questions</span>
                                         </a>
                                     </li>
                                     <?php if ($user): ?>
                                     <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
-                                        <a href="/ask" class="menu-link">
+                                        <a href="<?php echo Path::ASK[0] ?>" class="menu-link">
                                             <span class="menu-text">Ask</span>
                                             <span class="menu-desc">Ask a question</span>
                                         </a>
@@ -1017,7 +1018,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         </a>
                                     </li>
                                     <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
-                                        <a href="/Ranking" class="menu-link">
+                                        <a href="<?php echo Path::RANKING[0] ?>" class="menu-link">
                                             <span class="menu-text">Ranking</span>
                                             <span class="menu-desc">Settings and more</span>
                                         </a>

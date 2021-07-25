@@ -3,6 +3,7 @@
 namespace app\core;
 
 
+use app\constants\Path;
 use app\core\db\Database;
 use app\core\exception\BaseException;
 use app\core\exception\NotFoundException;
@@ -71,15 +72,8 @@ class Application
             }
             if (!$result) throw new NotFoundException();
         } catch (Exception $exception) {
-            if ($exception instanceof BaseException) {
-                if ($exception->renderWithView) {
-                    $this->response->statusCode($exception->getCode());
-                    echo $this->view->renderView('_error', [
-                        'exception' => $exception
-                    ]);
-                } else {
-                    $this->response->send($exception->getCode(), ['message' => $exception->getMessage()]);
-                }
+            if (str_starts_with($this->request->url, Path::API[0])) {
+                $this->response->send($exception->getCode(), ['message' => $exception->getMessage()]);
             } else {
                 $this->response->statusCode(500);
                 echo $this->view->renderView('_error', [

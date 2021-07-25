@@ -4,10 +4,16 @@
 namespace app\core\exception;
 
 
+use JetBrains\PhpStorm\Pure;
+use Throwable;
+
 class UnauthorizedException extends BaseException
 {
-    public function __construct($renderWithView = true)
+    /**
+     * UnauthorizedException constructor.
+     */
+    #[Pure] public function __construct(Throwable $previous = null)
     {
-        parent::__construct('Unauthorized', 401, $renderWithView);
+        parent::__construct('Unauthorized', 401, $previous);
     }
 }

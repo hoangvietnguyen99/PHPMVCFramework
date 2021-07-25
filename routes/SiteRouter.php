@@ -10,7 +10,7 @@ use app\core\Request;
 use app\core\Response;
 use app\core\Router;
 
-class SiteRouter extends Router
+final class SiteRouter extends Router
 {
     public function __construct(Request $request, Response $response)
     {

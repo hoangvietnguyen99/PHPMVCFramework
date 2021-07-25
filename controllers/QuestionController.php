@@ -35,12 +35,12 @@ class QuestionController extends Controller
     /**
      * @throws NotFoundException
      */
-    public function reply(Request $request, Response $response)
+    public function answer(Request $request, Response $response)
     {
         $replyForm = new AnswerForm();
         $replyForm->loadData($request->body);
-        if ($replyForm->validate() && $replyForm->reply()) {
-            Application::$application->session->setFlash('success', 'Your reply is successfully submitted.');
+        if ($replyForm->validate() && $replyForm->answer()) {
+            Application::$application->session->setFlash('success', 'Your answer is successfully submitted.');
             return $response->redirect('/questions?id=' . $replyForm->questionId);
         }
         $question = Question::findOne(['_id' => new ObjectId($replyForm->questionId)]);

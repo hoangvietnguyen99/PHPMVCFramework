@@ -4,10 +4,16 @@
 namespace app\core\exception;
 
 
+use JetBrains\PhpStorm\Pure;
+use Throwable;
+
 class ForbiddenException extends BaseException
 {
-    public function __construct($renderWithView = true)
+    /**
+     * ForbiddenException constructor.
+     */
+    #[Pure] public function __construct(Throwable $previous = null)
     {
-        parent::__construct('Forbidden', 403, $renderWithView);
+        parent::__construct('Forbidden', 403, $previous);
     }
 }

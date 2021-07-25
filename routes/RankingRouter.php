@@ -1,10 +1,21 @@
 <?php
 
+
+namespace app\routes;
+
+
 use app\constants\Path;
 use app\controllers\RankingController;
-use app\core\Application;
+use app\core\Request;
+use app\core\Response;
 use app\core\Router;
 
-$rankingRouter = new Router(Application::$application->request, Application::$application->response);
+final class RankingRouter extends Router
+{
+    public function __construct(Request $request, Response $response)
+    {
+        parent::__construct($request, $response);
 
-$rankingRouter->get(Path::RANKING[0], [RankingController::class, 'ranking']);
+        $this->get(Path::RANKING[0], [RankingController::class, 'ranking']);
+    }
+}

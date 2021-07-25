@@ -38,13 +38,11 @@ class AnswerForm extends Model
     /**
      * @throws NotFoundException
      */
-    public function reply()
+    public function answer()
     {
         $questionId = new ObjectId($this->questionId);
-        /** @var Question $question */
         $question = Question::findOne(['_id' => $questionId]);
         if (!$question) throw new NotFoundException();
-        /** @var User $questionAuthor */
         $answerAuthor = Application::$application->user;
         $answer = new Answer($answerAuthor);
         $answer->content = $this->reply;
