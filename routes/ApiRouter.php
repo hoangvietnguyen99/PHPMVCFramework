@@ -25,8 +25,9 @@ final class ApiRouter extends Router
 
         $this->get(Path::API_GET_CLOUDINARY_SIGNATURE[0], [ApiController::class, 'getCloudinarySignature']);
 
-        $this->get(Path::API_GET_CLOUDINARY_SIGNATURE[0], [ApiController::class, 'getCloudinarySignature']);
-        $this->get(Path::API_GET_CLOUDINARY_SIGNATURE[0], [ApiController::class, 'getCloudinarySignature']);
-        $this->get(Path::API_GET_CLOUDINARY_SIGNATURE[0], [ApiController::class, 'getCloudinarySignature']);
+        $this->get(Path::API_QUESTIONS[0], [ApiController::class, 'getQuestions']);
+        $this->post(Path::API_QUESTIONS[0], [ApiController::class, 'ask']);
+
+        $this->post(Path::API_ANSWERS[0], [ApiController::class, 'answer']);
     }
 }

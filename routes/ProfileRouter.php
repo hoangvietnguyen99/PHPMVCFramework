@@ -10,7 +10,7 @@ use app\core\Request;
 use app\core\Response;
 use app\core\Router;
 
-class ProfileRouter extends Router
+final class ProfileRouter extends Router
 {
     public function __construct(Request $request, Response $response)
     {

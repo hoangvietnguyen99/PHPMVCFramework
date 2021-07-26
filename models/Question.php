@@ -90,32 +90,32 @@ class Question extends DbModel
 
     public function bsonUnserialize(array $data)
     {
-        $this->_id = $data['_id'];
-        $this->title = $data['title'];
-        $this->isDeleted = $data['isDeleted'];
-        $this->content = $data['content'];
-        $this->createdDate = $data['createdAt']->toDateTime();
-        $this->author = User::findOne(['_id' => $data['author']]);
-        $this->isApproved = $data['approved'];
-        $this->averageRate = $data['averageRate'];
-        $this->approvedBy = $data['appovedBy'] ? User::findOne(['_id' => $data['appovedBy']]) : null;
-        $this->publishDate = $data['publishDay'] ? $data['publishDay']->toDateTime() : null;
-        $this->totalLikes = $data['numofLiked'];
-        $this->totalDislikes = $data['numofDisliked'];
-        $this->totalViews = $data['totalViews'];
-        $this->totalAnswers = $data['totalAnswer'];
-        $this->adIsNotified = $data['adIsNotified'];
-        $this->adIsSeen = $data['adIsSeen'];
-        foreach ($data['categories'] as $category) {
+        if (isset($data['_id'])) $this->_id = $data['_id'];
+        if (isset($data['title'])) $this->title = $data['title'];
+        if (isset($data['isDeleted'])) $this->isDeleted = $data['isDeleted'];
+        if (isset($data['content'])) $this->content = $data['content'];
+        if (isset($data['createdAt'])) $this->createdDate = $data['createdAt']->toDateTime();
+        if (isset($data['author'])) $this->author = User::findOne(['_id' => $data['author']]);
+        if (isset($data['approved'])) $this->isApproved = $data['approved'];
+        if (isset($data['averageRate'])) $this->averageRate = $data['averageRate'];
+        if (isset($data['appovedBy'])) $this->approvedBy = $data['appovedBy'] ? User::findOne(['_id' => $data['appovedBy']]) : null;
+        if (isset($data['publishDay'])) $this->publishDate = $data['publishDay'] ? $data['publishDay']->toDateTime() : null;
+        if (isset($data['numofLiked'])) $this->totalLikes = $data['numofLiked'];
+        if (isset($data['numofDisliked'])) $this->totalDislikes = $data['numofDisliked'];
+        if (isset($data['totalViews'])) $this->totalViews = $data['totalViews'];
+        if (isset($data['totalAnswer'])) $this->totalAnswers = $data['totalAnswer'];
+        if (isset($data['adIsNotified'])) $this->adIsNotified = $data['adIsNotified'];
+        if (isset($data['adIsSeen'])) $this->adIsSeen = $data['adIsSeen'];
+        if (isset($data['categories'])) foreach ($data['categories'] as $category) {
             $this->categories[] = Category::findOne(['_id' => $category->_id]);
         }
-        foreach ($data['tags'] as $tag) {
+        if (isset($data['tags'])) foreach ($data['tags'] as $tag) {
             $this->tags[] = Tag::findOne(['_id' => $tag->_id]);
         }
-        foreach ($data['labels'] as $label) {
+        if (isset($data['labels'])) foreach ($data['labels'] as $label) {
             $this->labels[] = Label::findOne(['_id' => $label->_id]);
         }
-        foreach ($data['answers'] as $answer) {
+        if (isset($data['answers'])) foreach ($data['answers'] as $answer) {
             $this->answers[] = $answer;
         }
     }

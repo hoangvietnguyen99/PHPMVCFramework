@@ -29,14 +29,14 @@ class ApiController extends Controller
     public function __construct()
     {
         $this->registerMiddleware(new TokenMiddleware([
-            'addCategories'
+            'addCategories', 'getQuestions', 'ask', 'answer'
         ]));
     }
 
     /**
      * @throws Exception
      */
-    #[NoReturn] public function logIn(Request $request, Response $response)
+    public function logIn(Request $request, Response $response)
     {
         $loginForm = new LoginForm();
         $loginForm->loadData($request->body);
@@ -52,13 +52,13 @@ class ApiController extends Controller
         $response->send(401, $loginForm->errors);
     }
 
-    #[NoReturn] public function getTags(Request $request, Response $response)
+    public function getTags(Request $request, Response $response)
     {
         $tags = Tag::find();
         $response->send(200, $tags);
     }
 
-    #[NoReturn] public function addCategories(Request $request, Response $response)
+    public function addCategories(Request $request, Response $response)
     {
         $body = $request->body;
         foreach ($body as $item) {
@@ -69,7 +69,7 @@ class ApiController extends Controller
         $response->send(201);
     }
 
-    #[NoReturn] public function isNewEmail(Request $request, Response $response)
+    public function isNewEmail(Request $request, Response $response)
     {
         $data = $request->body;
         if (!isset($data['email'])) $response->send(200, ['canCreate' => false]);
@@ -78,7 +78,7 @@ class ApiController extends Controller
         $response->send(200, ['canCreate' => true]);
     }
 
-    #[NoReturn] public function getCloudinarySignature(Request $request, Response $response)
+    public function getCloudinarySignature(Request $request, Response $response)
     {
         $data = $request->query;
         $response->send(200, Application::$application->cloudinaryUploadHandler->getSignature($data['public_id'] ?? ''));
@@ -87,57 +87,50 @@ class ApiController extends Controller
     /**
      * @throws BadRequestException|NotFoundException
      */
-    #[NoReturn] public function answer(Request $request, Response $response)
+    public function answer(Request $request, Response $response)
     {
         $replyForm = new AnswerForm();
         $replyForm->loadData($request->body);
-        if ($replyForm->validate() && $replyForm->answer()) {
-            $response->send(201, [
-                'message' => 'Your reply is successfully submitted.'
-            ]);
+        if ($replyForm->validate()) {
+            if ($replyForm->answer()) {
+                $response->send(201, [
+                    'message' => 'Your reply is successfully submitted.'
+                ]);
+            }
+            throw new BadRequestException();
         }
-        throw new BadRequestException();
-    }
-
-    public function getAnswers(Request $request, Response $response)
-    {
-        if (isset($request->query['question_id'])) {
-
-        }
-    }
-
-    #[NoReturn] public function ask(Request $request, Response $response)
-    {
-        $askForm = new AskForm();
-        $askForm->loadData($request->body);
-        if ($askForm->validate() && $askForm->ask()) {
-            $response->send(201, [
-                'message' => 'Your question is successfully submitted.'
-            ]);
-        } else {
-            $response->send(400);
-        }
+        $response->send(400, $replyForm->errors);
     }
 
     /**
      * @throws NotFoundException
      */
-    public function getQuestions(Request $request)
+    public function getQuestions(Request $request, Response $response)
     {
-        $questionId = $request->query['id'] ?? null;
-        if ($questionId) {
-            /** @var Question $question */
-            $question = Question::findOne(['_id' => new ObjectId($questionId)]);
-            if (!$question) throw new NotFoundException();
-            $question->totalViews++;
-            $question->insertOrUpdateOne();
-            $replyForm = new AnswerForm();
-            $replyForm->questionId = $questionId;
-            return $this->render('question', [
-                'question' => $question,
-                'model' => $replyForm
-            ]);
+        if (isset($request->query['id'])) {
+            $question = Question::findOne(['_id' => new ObjectId($request->query['id'])]);
+            if ($question) $response->send(200, $question);
+            throw new NotFoundException();
         }
-        return $this->render('questions');
+        $questions = Question::find();
+        $response->send(200, $questions);
+    }
+
+    /**
+     * @throws BadRequestException
+     */
+    public function ask(Request $request, Response $response)
+    {
+        $askForm = new AskForm();
+        $askForm->loadData($request->body);
+        if ($askForm->validate()) {
+            if ($askForm->ask()) {
+                $response->send(201, [
+                    'message' => 'Your question is successfully submitted.'
+                ]);
+            }
+            throw new BadRequestException();
+        }
+        $response->send(400, $askForm->errors);
     }
 }

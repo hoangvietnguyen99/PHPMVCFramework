@@ -29,8 +29,6 @@ class User extends DbModel
     public string $tier = Tier::BASIC;
     public int $score = 0;
     public float $averageRate = 0;
-    /** @var Notification[] $notifications */
-    public array $notifications = [];
 
     /**
      * User constructor.
@@ -66,31 +64,27 @@ class User extends DbModel
             'tier' => $this->tier,
             'score' => $this->score,
             'averageRate' => ($this->totalLikes - $this->totalDislikes) / (($this->totalQuestions + $this->totalAnswers) || 1),
-            'notifications' => $this->notifications
         ];
     }
 
     public function bsonUnserialize(array $data)
     {
-        $this->_id = $data['_id'];
-        $this->name = $data['name'];
-        $this->role = $data['role'];
-        $this->phone = $data['phone'];
-        $this->email = $data['email'];
-        $this->password = $data['password'];
-        $this->joinDate = $data['joinDate']->toDateTime();
-        $this->dateOfBirth = $data['dateOfBirth']->toDateTime();
-        $this->imgPath = $data['imgPath'];
-        $this->gender = $data['gender'];
-        $this->totalQuestions = $data['totalPostedQuestion'];
-        $this->totalAnswers = $data['totalPostedAnswser'];
-        $this->totalLikes = $data['totalLikes'];
-        $this->totalDislikes = $data['totalDislikes'];
-        $this->tier = $data['tier'];
-        $this->score = $data['score'];
-        $this->averageRate = $data['averageRate'];
-        foreach ($data['notifications'] as $notification) {
-            $this->notifications[] = $notification;
-        }
+        if (isset($data['_id'])) $this->_id = $data['_id'];
+        if (isset($data['name'])) $this->name = $data['name'];
+        if (isset($data['role'])) $this->role = $data['role'];
+        if (isset($data['phone'])) $this->phone = $data['phone'];
+        if (isset($data['email'])) $this->email = $data['email'];
+        if (isset($data['password'])) $this->password = $data['password'];
+        if (isset($data['joinDate'])) $this->joinDate = $data['joinDate']->toDateTime();
+        if (isset($data['dateOfBirth'])) $this->dateOfBirth = $data['dateOfBirth']->toDateTime();
+        if (isset($data['imgPath'])) $this->imgPath = $data['imgPath'];
+        if (isset($data['gender'])) $this->gender = $data['gender'];
+        if (isset($data['totalPostedQuestion'])) $this->totalQuestions = $data['totalPostedQuestion'];
+        if (isset($data['totalPostedAnswser'])) $this->totalAnswers = $data['totalPostedAnswser'];
+        if (isset($data['totalLikes'])) $this->totalLikes = $data['totalLikes'];
+        if (isset($data['totalDislikes'])) $this->totalDislikes = $data['totalDislikes'];
+        if (isset($data['tier'])) $this->tier = $data['tier'];
+        if (isset($data['score'])) $this->score = $data['score'];
+        if (isset($data['averageRate'])) $this->averageRate = $data['averageRate'];
     }
 }

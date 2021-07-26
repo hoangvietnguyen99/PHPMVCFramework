@@ -52,8 +52,6 @@ class Request
 //                }
 //            }
 //        }
-       
-
     }
 
     public function getMethod()
