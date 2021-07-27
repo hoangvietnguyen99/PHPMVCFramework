@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '369ee43b850217e3bb56b76f67bfadaf8ca19c4d',
+    'reference' => '8a12815f4cf3dd404dab6c0a17a27ecf642358a8',
     'name' => 'vietnguyen/phpmvc-framework',
   ),
   'versions' => 
@@ -285,7 +285,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '369ee43b850217e3bb56b76f67bfadaf8ca19c4d',
+      'reference' => '8a12815f4cf3dd404dab6c0a17a27ecf642358a8',
     ),
     'vlucas/phpdotenv' => 
     array (

@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\constants\Score;
 use app\core\Application;
 use app\core\CloudinaryUploadHandler;
 use app\core\Controller;
@@ -29,7 +30,7 @@ class ApiController extends Controller
     public function __construct()
     {
         $this->registerMiddleware(new TokenMiddleware([
-            'addCategories', 'getQuestions', 'ask', 'answer'
+            'addCategories', 'getQuestions', 'ask', 'answer', 'like', 'dislike', 'report'
         ]));
     }
 
@@ -140,28 +141,139 @@ class ApiController extends Controller
     /**
      * @throws BadRequestException
      * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function like(Request $request, Response $response)
     {
-        $questionId = $request->query["question_id"] ?? null;
-        $answerId = $request->query["answer_id"] ?? null;
+        $user = Application::$application->user;
+        if (!$user) throw new UnauthorizedException();
+        $questionId = $request->body["question_id"] ?? null;
+        $answerId = $request->body["answer_id"] ?? null;
         if (!$questionId) throw new BadRequestException();
         $question = Question::findOne(["_id" => new ObjectId($questionId)]);
         if (!$question) throw new NotFoundException();
-//        if ($answerId) {
-//
-//        } else {
-//            $question->
-//        }
+        if ($answerId) {
+            $answerId = new ObjectId($answerId);
+            foreach ($question->answers as $answer) {
+                if ($answer->getId() == $answerId) {
+                    foreach ($answer->likedUserIds as $likedUserId) {
+                        if ($likedUserId == $user->getId()) {
+                            $response->send(409);
+                        }
+                    }
+                    $answer->likedUserIds[] = $user->getId();
+                    $answer->author->totalLikes++;
+                    $answer->author->score += Score::NEW_LIKE;
+                    $answer->author->updateOne();
+                    $question->updateOne();
+                    $response->send(200);
+                }
+            }
+            throw new NotFoundException();
+        }
+        foreach ($question->likedUserIds as $likedUserId) {
+            if ($likedUserId == $user->getId()) {
+                $response->send(409);
+            }
+        }
+        $question->likedUserIds[] = $user->getId();
+        $question->author->totalLikes++;
+        $question->author->score += Score::NEW_LIKE;
+        $question->author->updateOne();
+        $question->updateOne();
+        $response->send(200);
     }
 
-    public function dislike()
+    /**
+     * @throws UnauthorizedException
+     * @throws BadRequestException
+     * @throws NotFoundException
+     */
+    public function dislike(Request $request, Response $response)
     {
-
+        $user = Application::$application->user;
+        if (!$user) throw new UnauthorizedException();
+        $questionId = $request->body["question_id"] ?? null;
+        $answerId = $request->body["answer_id"] ?? null;
+        if (!$questionId) throw new BadRequestException();
+        $question = Question::findOne(["_id" => new ObjectId($questionId)]);
+        if (!$question) throw new NotFoundException();
+        if ($answerId) {
+            $answerId = new ObjectId($answerId);
+            foreach ($question->answers as $answer) {
+                if ($answer->getId() == $answerId) {
+                    foreach ($answer->dislikedUserIds as $dislikedUserId) {
+                        if ($dislikedUserId == $user->getId()) {
+                            $response->send(409);
+                        }
+                    }
+                    $answer->dislikedUserIds[] = $user->getId();
+                    $answer->author->totalDislikes++;
+                    $answer->author->score += Score::NEW_DISLIKE;
+                    $answer->author->updateOne();
+                    $question->updateOne();
+                    $response->send(200);
+                }
+            }
+            throw new NotFoundException();
+        }
+        foreach ($question->dislikedUserIds as $dislikedUserId) {
+            if ($dislikedUserId == $user->getId()) {
+                $response->send(409);
+            }
+        }
+        $question->dislikedUserIds[] = $user->getId();
+        $question->author->totalDislikes++;
+        $question->author->score += Score::NEW_DISLIKE;
+        $question->author->updateOne();
+        $question->updateOne();
+        $response->send(200);
     }
 
-    public function report()
+    /**
+     * @throws UnauthorizedException
+     * @throws BadRequestException
+     * @throws NotFoundException
+     */
+    public function report(Request $request, Response $response)
     {
-
+        $user = Application::$application->user;
+        if (!$user) throw new UnauthorizedException();
+        $questionId = $request->body["question_id"] ?? null;
+        $answerId = $request->body["answer_id"] ?? null;
+        $content = $request->body["content"] ?? null;
+        if (!$questionId || !$content || strlen($content) === 0) throw new BadRequestException();
+        $question = Question::findOne(["_id" => new ObjectId($questionId)]);
+        if (!$question) throw new NotFoundException();
+        if ($answerId) {
+            $answerId = new ObjectId($answerId);
+            foreach ($question->answers as $answer) {
+                if ($answer->getId() == $answerId) {
+                    foreach ($answer->dislikedUserIds as $dislikedUserId) {
+                        if ($dislikedUserId == $user->getId()) {
+                            $response->send(409);
+                        }
+                    }
+                    $answer->dislikedUserIds[] = $user->getId();
+                    $answer->author->totalDislikes++;
+                    $answer->author->score += Score::NEW_DISLIKE;
+                    $answer->author->updateOne();
+                    $question->updateOne();
+                    $response->send(200);
+                }
+            }
+            throw new NotFoundException();
+        }
+        foreach ($question->dislikedUserIds as $dislikedUserId) {
+            if ($dislikedUserId == $user->getId()) {
+                $response->send(409);
+            }
+        }
+        $question->dislikedUserIds[] = $user->getId();
+        $question->author->totalDislikes++;
+        $question->author->score += Score::NEW_DISLIKE;
+        $question->author->updateOne();
+        $question->updateOne();
+        $response->send(200);
     }
 }

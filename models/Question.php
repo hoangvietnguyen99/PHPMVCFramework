@@ -38,6 +38,7 @@ class Question extends DbModel
     public array $likedUserIds = [];
     /** @var ObjectId[] */
     public array $dislikedUserIds = [];
+    public array $reports = [];
 
     /**
      * Question constructor.
@@ -83,14 +84,15 @@ class Question extends DbModel
                 'name' => $item->name
             ], $this->labels),
             'answers' => $this->answers,
-            'numofLiked' => $this->totalLikes,
-            'numofDisliked' => $this->totalDislikes,
+            'numofLiked' => count($this->likedUserIds),
+            'numofDisliked' => count($this->dislikedUserIds),
             'totalViews' => $this->totalViews,
             'totalAnswer' => count($this->answers),
             'adIsNotified' => $this->adIsNotified,
             'adIsSeen' => $this->adIsSeen,
             'likedUserIds' => $this->likedUserIds,
-            'dislikedUserIds' => $this->dislikedUserIds
+            'dislikedUserIds' => $this->dislikedUserIds,
+            'reports' => $this->reports
         ];
     }
 
@@ -112,8 +114,12 @@ class Question extends DbModel
         if (isset($data['totalAnswer'])) $this->totalAnswers = $data['totalAnswer'];
         if (isset($data['adIsNotified'])) $this->adIsNotified = $data['adIsNotified'];
         if (isset($data['adIsSeen'])) $this->adIsSeen = $data['adIsSeen'];
-        if (isset($data['likedUserIds'])) $this->likedUserIds = $data['likedUserIds'];
-        if (isset($data['dislikedUserIds'])) $this->dislikedUserIds = $data['dislikedUserIds'];
+        if (isset($data['likedUserIds'])) foreach ($data['likedUserIds'] as $likedUserId) {
+            $this->likedUserIds[] = $likedUserId;
+        }
+        if (isset($data['dislikedUserIds'])) foreach ($data['dislikedUserIds'] as $dislikedUserId) {
+            $this->dislikedUserIds[] = $dislikedUserId;
+        }
         if (isset($data['categories'])) foreach ($data['categories'] as $category) {
             $this->categories[] = Category::findOne(['_id' => $category->_id]);
         }
@@ -125,6 +131,9 @@ class Question extends DbModel
         }
         if (isset($data['answers'])) foreach ($data['answers'] as $answer) {
             $this->answers[] = $answer;
+        }
+        if (isset($data['reports'])) foreach ($data['reports'] as $report) {
+            $this->reports[] = $report;
         }
     }
 }
