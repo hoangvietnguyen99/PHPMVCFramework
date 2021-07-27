@@ -29,5 +29,9 @@ final class ApiRouter extends Router
         $this->post(Path::API_QUESTIONS[0], [ApiController::class, 'ask']);
 
         $this->post(Path::API_ANSWERS[0], [ApiController::class, 'answer']);
+
+        $this->post(Path::API_LIKE[0], [ApiController::class, 'like']);
+        $this->post(Path::API_DISLIKE[0], [ApiController::class, 'dislike']);
+        $this->post(Path::API_REPORT[0], [ApiController::class, 'report']);
     }
 }

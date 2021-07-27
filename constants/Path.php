@@ -44,5 +44,8 @@ final class Path
     public const API_GET_CLOUDINARY_SIGNATURE = [self::API[0] . '/cloudinary-signature'];
     public const API_QUESTIONS = [self::API[0] . '/questions'];
     public const API_ANSWERS = [self::API[0] . '/answers'];
-    public const API_ASK = [self::API[0] . '/ask'];
+
+    public const API_LIKE = [self::API[0] . '/like'];
+    public const API_DISLIKE = [self::API[0] . '/dislike'];
+    public const API_REPORT = [self::API[0] . '/report'];
 }

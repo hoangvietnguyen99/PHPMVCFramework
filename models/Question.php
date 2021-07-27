@@ -34,6 +34,10 @@ class Question extends DbModel
     public int $totalAnswers = 0;
     public bool $adIsNotified = false;
     public bool $adIsSeen = false;
+    /** @var ObjectId[] */
+    public array $likedUserIds = [];
+    /** @var ObjectId[] */
+    public array $dislikedUserIds = [];
 
     /**
      * Question constructor.
@@ -85,6 +89,8 @@ class Question extends DbModel
             'totalAnswer' => count($this->answers),
             'adIsNotified' => $this->adIsNotified,
             'adIsSeen' => $this->adIsSeen,
+            'likedUserIds' => $this->likedUserIds,
+            'dislikedUserIds' => $this->dislikedUserIds
         ];
     }
 
@@ -106,6 +112,8 @@ class Question extends DbModel
         if (isset($data['totalAnswer'])) $this->totalAnswers = $data['totalAnswer'];
         if (isset($data['adIsNotified'])) $this->adIsNotified = $data['adIsNotified'];
         if (isset($data['adIsSeen'])) $this->adIsSeen = $data['adIsSeen'];
+        if (isset($data['likedUserIds'])) $this->likedUserIds = $data['likedUserIds'];
+        if (isset($data['dislikedUserIds'])) $this->dislikedUserIds = $data['dislikedUserIds'];
         if (isset($data['categories'])) foreach ($data['categories'] as $category) {
             $this->categories[] = Category::findOne(['_id' => $category->_id]);
         }

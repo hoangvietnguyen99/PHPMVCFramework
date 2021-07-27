@@ -113,6 +113,9 @@ class ApiController extends Controller
             throw new NotFoundException();
         }
         $questions = Question::find();
+        foreach ($questions as $question) {
+            $question->answers = [];
+        }
         $response->send(200, $questions);
     }
 
@@ -132,5 +135,33 @@ class ApiController extends Controller
             throw new BadRequestException();
         }
         $response->send(400, $askForm->errors);
+    }
+
+    /**
+     * @throws BadRequestException
+     * @throws NotFoundException
+     */
+    public function like(Request $request, Response $response)
+    {
+        $questionId = $request->query["question_id"] ?? null;
+        $answerId = $request->query["answer_id"] ?? null;
+        if (!$questionId) throw new BadRequestException();
+        $question = Question::findOne(["_id" => new ObjectId($questionId)]);
+        if (!$question) throw new NotFoundException();
+//        if ($answerId) {
+//
+//        } else {
+//            $question->
+//        }
+    }
+
+    public function dislike()
+    {
+
+    }
+
+    public function report()
+    {
+
     }
 }
