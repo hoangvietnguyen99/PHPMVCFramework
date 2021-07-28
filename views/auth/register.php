@@ -351,7 +351,7 @@ KTUtil.ready(function() {
             <div class="d-flex flex-column-auto flex-column pt-15 px-30">
                 <!--begin::Aside header-->
                 <a href="#" class="login-logo py-6">
-                    <img src="assets/media/logos/logo-1.png" class="max-h-70px" alt=""/>
+                    <img src="assets/media/logos/logo-1-dark.png" class="max-h-70px" alt=""/>
                 </a>
                 <!--end::Aside header-->
                 <!--begin: Wizard Nav-->
