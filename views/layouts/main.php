@@ -56,7 +56,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <div id="kt_header_mobile" class="header-mobile bg-primary header-mobile-fixed">
         <!--begin::Logo-->
         <a href="index.html">
-            <img alt="Logo" src="assets/media/logos/logo-letter-9.png" class="max-h-30px" />
+            <img alt="Logo" src="assets/media/logos/logo-1.png" class="max-h-30px" />
         </a>
         <!--end::Logo-->
         <!--begin::Toolbar-->
@@ -96,7 +96,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div class="d-none d-lg-flex align-items-center mr-3">
                                 <!--begin::Logo-->
                                 <a href="/" class="mr-20">
-                                    <img alt="Logo" src="assets/media/logos/logo-letter-9.png" class="max-h-35px" />
+                                    <img alt="Logo" src="assets/media/logos/logo-1.png" class="max-h-35px" />
                                 </a>
                                 <!--end::Logo-->
                                 <!--begin::Desktop Search-->
