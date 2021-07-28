@@ -1077,7 +1077,6 @@ License: You must have a valid license purchased only from themeforest(the above
                     <!--end::Subheader-->
                     {{content}}
                 </div>
-<<<<<<< HEAD
                 <!--end::Content-->
                 <!--begin::Footer-->
                 <div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
@@ -1095,26 +1094,6 @@ License: You must have a valid license purchased only from themeforest(the above
                             <a href="/contact" target="_blank" class="nav-link px-3">Contact</a>
                         </div>
                         <!--end::Nav-->
-=======
-                <!--end::Subheader-->
-                {{content}}
-            </div>
-            <!--end::Content-->
-            <!--begin::Footer-->
-            <div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
-                <!--begin::Container-->
-                <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
-                    <!--begin::Copyright-->
-                    <div class="text-dark order-2 order-md-1">
-                        <span class="text-muted font-weight-bold mr-2">2021©</span>
-                        <a href="/" target="_blank" class="text-dark-75 text-hover-primary">Tri thức số</a>
-                    </div>
-                    <!--end::Copyright-->
-                    <!--begin::Nav-->
-                    <div class="nav nav-dark order-1 order-md-2">
-                        <a href="/abount" target="_blank" class="nav-link pr-3 pl-0">About</a>
-                        <a href="/contact" target="_blank" class="nav-link px-3">Contact</a>
->>>>>>> 185c562589b21dccc16d19682eaff07131dd548d
                     </div>
                     <!--end::Container-->
                 </div>
