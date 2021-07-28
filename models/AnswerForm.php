@@ -8,6 +8,7 @@ use app\constants\Score;
 use app\core\Application;
 use app\core\exception\NotFoundException;
 use app\core\Model;
+use app\controllers\QuestionController;
 use MongoDB\BSON\ObjectId;
 
 class AnswerForm extends Model
@@ -50,6 +51,8 @@ class AnswerForm extends Model
         if ($answerAuthor->insertOrUpdateOne()) {
             $question->answers[] = $answer;
             if ($question->insertOrUpdateOne()) {
+                $questionController = new QuestionController();
+                $questionController->update_user_month($answerAuthor, 'totalAnswers');
                 return true;
             }
         }

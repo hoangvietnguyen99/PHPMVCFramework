@@ -389,7 +389,7 @@ jQuery(document).ready(function() {
                                 <!--begin::Symbol-->
                                         <div class="symbol symbol-40 symbol-light-success mr-5 mt-1">
 																<span class="symbol-label">
-																	<img src="' . $answer->author->imgPath . '" class="h-75 align-self-end" alt="">
+																	<img src="' . $answer->author->imgPath . '" class="h-100 align-self-end" alt="">
 																</span>
                                         </div>
                                         <!--end::Symbol-->
@@ -593,7 +593,7 @@ jQuery(document).ready(function() {
                                     <div class="symbol symbol-120 symbol-circle symbol-success overflow-hidden">
 																<span class="symbol-label">
 																	<img src="<?php echo $question->author->imgPath ?>"
-                                                                         class="h-75 align-self-end" alt=""/>
+                                                                         class="h-100 w-100 align-self-end" alt=""/>
 																</span>
                                     </div>
                                     <!--end::Symbol-->

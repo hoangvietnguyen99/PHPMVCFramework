@@ -5,6 +5,7 @@ namespace app\models;
 
 
 use app\constants\Score;
+use app\controllers\QuestionController;
 use app\core\Application;
 use app\core\Model;
 use app\utils\StringUtil;
@@ -80,7 +81,8 @@ class AskForm extends Model
         if ($question->insertOrUpdateOne()) {
             $user->totalQuestions++;
             $user->insertOrUpdateOne();
-
+            $questionController = new QuestionController();
+            $questionController->update_user_month($user,'totalQuestions');
             return true;
         }
 
