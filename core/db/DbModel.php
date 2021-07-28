@@ -15,7 +15,7 @@ use MongoDB\UpdateResult;
 
 abstract class DbModel implements Persistable
 {
-    protected ObjectId $_id;
+    public ObjectId $_id;
 
     /**
      * DbModel constructor.
