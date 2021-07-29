@@ -30,7 +30,7 @@ class ApiController extends Controller
     public function __construct()
     {
         $this->registerMiddleware(new TokenMiddleware([
-            'addCategories', 'getQuestions', 'ask', 'answer', 'like', 'dislike', 'report'
+            'addCategories', 'ask', 'answer', 'like', 'dislike', 'report'
         ]));
     }
 
