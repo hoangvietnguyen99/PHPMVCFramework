@@ -171,7 +171,7 @@ class ApiController extends Controller
                     $answer->author->score += Score::NEW_LIKE;
                     $answer->author->updateOne();
                     $question->updateOne();
-                    $response->send(200);
+                    $response->send(201);
                 }
             }
             throw new NotFoundException();
@@ -191,7 +191,7 @@ class ApiController extends Controller
         $question->author->score += Score::NEW_LIKE;
         $question->author->updateOne();
         $question->updateOne();
-        $response->send(200);
+        $response->send(201);
     }
 
     /**
@@ -227,7 +227,7 @@ class ApiController extends Controller
                     $answer->author->score += Score::NEW_DISLIKE;
                     $answer->author->updateOne();
                     $question->updateOne();
-                    $response->send(200);
+                    $response->send(201);
                 }
             }
             throw new NotFoundException();
@@ -247,7 +247,7 @@ class ApiController extends Controller
         $question->author->score += Score::NEW_DISLIKE;
         $question->author->updateOne();
         $question->updateOne();
-        $response->send(200);
+        $response->send(201);
     }
 
     /**
