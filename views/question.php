@@ -315,7 +315,7 @@ jQuery(document).ready(function() {
                                         <!--end::Text-->
                                         <!--begin::Action-->
                                         <div class="d-flex align-items-center">
-                                            <a href="#" class="btn btn-hover-text-primary btn-hover-icon-primary btn-sm btn-text-primary bg-hover-light-primary rounded font-weight-bolder font-size-sm p-2 mr-2">
+                                            <a href="#" id="like-question" class="btn btn-hover-text-primary btn-hover-icon-primary btn-sm btn-text-primary bg-hover-light-primary rounded font-weight-bolder font-size-sm p-2 mr-2">
                                                 <span class="svg-icon svg-icon-primary svg-icon-md pr-2">
                                                     <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-up.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -325,8 +325,8 @@ jQuery(document).ready(function() {
                                                         </g>
                                                     </svg>
                                                     <!--end::Svg Icon-->
-                                                </span><?php echo $question->totalLikes ?></a>
-                                            <a href="#" class="btn btn-hover-text-danger btn-hover-icon-danger btn-sm btn-text-danger bg-hover-light-danger rounded font-weight-bolder font-size-sm p-2 mr-2">
+                                                </span><span class="totalLike-question"><?php echo $question->totalLikes ?></span></a>
+                                            <a href="#" id="dislike-question" class="btn btn-hover-text-danger btn-hover-icon-danger btn-sm btn-text-danger bg-hover-light-danger rounded font-weight-bolder font-size-sm p-2 mr-2">
                                                 <span class="svg-icon svg-icon-danger svg-icon-md pr-2">
                                                     <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-down.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -336,7 +336,7 @@ jQuery(document).ready(function() {
                                                         </g>
                                                     </svg>
                                                     <!--end::Svg Icon-->
-                                                </span><?php echo $question->totalDislikes ?></a>
+                                                </span><span class="totalDislike-question"><?php echo $question->totalDislikes ?></span></a>
                                             <a href="#" class="btn btn-hover-text-success btn-hover-icon-success btn-sm btn-text-success bg-hover-light-success rounded font-weight-bolder font-size-sm p-2">
                                                 <span class="svg-icon svg-icon-success svg-icon-md pr-2">
                                                     <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\General\Visible.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -466,24 +466,24 @@ jQuery(document).ready(function() {
                                     <!--end::Text-->
                                     <!--begin::Action-->
                                     <div class="d-flex align-items-center">
-                                        <a href="#"
-                                               class="btn btn-hover-text-primary btn-hover-icon-primary btn-sm btn-text-primary bg-hover-light-primary rounded font-weight-bolder font-size-sm p-2 mr-2">
+                                        <a href="#" data-idanswer=' . $answer->getId() . '
+                                               class="btn btn-hover-text-primary btn-hover-icon-primary btn-sm btn-text-primary bg-hover-light-primary rounded font-weight-bolder font-size-sm p-2 mr-2 like-answer">
                                                 <span class="svg-icon svg-icon-primary svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-up.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon points="0 0 24 0 24 24 0 24"/>
         <path d="M8.2928955,10.2071068 C7.90237121,9.81658249 7.90237121,9.18341751 8.2928955,8.79289322 C8.6834198,8.40236893 9.31658478,8.40236893 9.70710907,8.79289322 L15.7071091,14.7928932 C16.085688,15.1714722 16.0989336,15.7810586 15.7371564,16.1757246 L10.2371564,22.1757246 C9.86396402,22.5828436 9.23139665,22.6103465 8.82427766,22.2371541 C8.41715867,21.8639617 8.38965574,21.2313944 8.76284815,20.8242754 L13.6158645,15.5300757 L8.2928955,10.2071068 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 15.500003) scale(-1, 1) rotate(-90.000000) translate(-12.000003, -15.500003) "/>
         <path d="M6.70710678,12.2071104 C6.31658249,12.5976347 5.68341751,12.5976347 5.29289322,12.2071104 C4.90236893,11.8165861 4.90236893,11.1834211 5.29289322,10.7928968 L11.2928932,4.79289682 C11.6714722,4.41431789 12.2810586,4.40107226 12.6757246,4.76284946 L18.6757246,10.2628495 C19.0828436,10.6360419 19.1103465,11.2686092 18.7371541,11.6757282 C18.3639617,12.0828472 17.7313944,12.1103502 17.3242754,11.7371577 L12.0300757,6.88414142 L6.70710678,12.2071104 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(12.000003, 8.500003) scale(-1, 1) rotate(-360.000000) translate(-12.000003, -8.500003) "/>
     </g>
-</svg><!--end::Svg Icon--></span>' . $answer->totalLikes . '</a>
-                                            <a href="#"
-                                               class="btn btn-hover-text-danger btn-hover-icon-danger btn-sm btn-text-danger bg-hover-light-danger rounded font-weight-bolder font-size-sm p-2 mr-2">
+</svg><!--end::Svg Icon--></span><span class="totalLikes">' . $answer->totalLikes . '</span></a>
+                                            <a href="#" data-idanswer =' . $answer->getId() . '
+                                               class="btn btn-hover-text-danger btn-hover-icon-danger btn-sm btn-text-danger bg-hover-light-danger rounded font-weight-bolder font-size-sm p-2 mr-2 dislike-answer">
                                                 <span class="svg-icon svg-icon-danger svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-down.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon points="0 0 24 0 24 24 0 24"/>
         <path d="M8.2928955,3.20710089 C7.90237121,2.8165766 7.90237121,2.18341162 8.2928955,1.79288733 C8.6834198,1.40236304 9.31658478,1.40236304 9.70710907,1.79288733 L15.7071091,7.79288733 C16.085688,8.17146626 16.0989336,8.7810527 15.7371564,9.17571874 L10.2371564,15.1757187 C9.86396402,15.5828377 9.23139665,15.6103407 8.82427766,15.2371482 C8.41715867,14.8639558 8.38965574,14.2313885 8.76284815,13.8242695 L13.6158645,8.53006986 L8.2928955,3.20710089 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 8.499997) scale(-1, -1) rotate(-90.000000) translate(-12.000003, -8.499997) "/>
         <path d="M6.70710678,19.2071045 C6.31658249,19.5976288 5.68341751,19.5976288 5.29289322,19.2071045 C4.90236893,18.8165802 4.90236893,18.1834152 5.29289322,17.7928909 L11.2928932,11.7928909 C11.6714722,11.414312 12.2810586,11.4010664 12.6757246,11.7628436 L18.6757246,17.2628436 C19.0828436,17.636036 19.1103465,18.2686034 18.7371541,18.6757223 C18.3639617,19.0828413 17.7313944,19.1103443 17.3242754,18.7371519 L12.0300757,13.8841355 L6.70710678,19.2071045 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(12.000003, 15.499997) scale(-1, -1) rotate(-360.000000) translate(-12.000003, -15.499997) "/>
     </g>
-</svg><!--end::Svg Icon--></span>' . $answer->totalDislikes . '</a>
+</svg><!--end::Svg Icon--></span><span class="totalDislikes">' . $answer->totalDislikes . '</span></a>
                                     </div>
                                     <!--end::Action-->';
                                     foreach ($answer->replies as $reply) {
@@ -591,15 +591,13 @@ jQuery(document).ready(function() {
                                 <div class="d-flex flex-column flex-center">
                                     <!--begin::Symbol-->
                                     <div class="symbol symbol-120 symbol-circle symbol-success overflow-hidden">
-																<span class="symbol-label">
-																	<img src="<?php echo $question->author->imgPath ?>"
-                                                                         class="h-100 w-100 align-self-end" alt=""/>
-																</span>
+                                        <span class="symbol-label">
+                                            <img src="<?php echo $question->author->imgPath ?>" class="h-100 w-100 align-self-end" alt="" />
+                                        </span>
                                     </div>
                                     <!--end::Symbol-->
                                     <!--begin::Username-->
-                                    <a href="#"
-                                       class="card-title font-weight-bolder text-dark-75 text-hover-primary font-size-h4 m-0 pt-7 pb-1"><?php echo $question->author->name ?></a>
+                                    <a href="#" class="card-title font-weight-bolder text-dark-75 text-hover-primary font-size-h4 m-0 pt-7 pb-1"><?php echo $question->author->name ?></a>
                                     <!--end::Username-->
                                     <!--begin::Info-->
                                     <div class="font-weight-bold text-dark-50 font-size-sm pb-6 text-center">
@@ -1095,3 +1093,130 @@ jQuery(document).ready(function() {
     <!--end::Container-->
 </div>
 <!--end::Entry-->
+<script src="assets/plugins/global/plugins.bundle.js"></script>
+<script type="application/javascript">
+    $('document').ready(() => {
+        $("#like-question").click(function(event) {
+            event.preventDefault();
+            var question_id = "<?php echo $question->getId(); ?>";
+            var totalLike = parseInt($(this).find('.totalLike-question').html());
+            $.ajax({
+                url: '/api/like',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    question_id
+                },
+                success: function(data, textStatus, xhr) {
+                    // console.log(xhr.status);
+                    if (xhr.status == 201) {
+                        $('.totalLike-question').html(totalLike + 1);
+                    }
+                    if (xhr.status == 200) {
+                        $('.totalLike-question').html(totalLike - 1);
+                    }
+
+                },
+                error: function(error) {
+                    if (error.statusText == 'Unauthorized') {
+                        alert("To like this question you need to login first");
+                    }
+                },
+            });
+        })
+        $("#dislike-question").click(function(event) {
+            event.preventDefault();
+            var question_id = "<?php echo $question->getId(); ?>";
+            var totalDislike = parseInt($(this).find('.totalDislike-question').html());
+            $.ajax({
+                url: '/api/dislike',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    question_id
+                },
+                success: function(data, textStatus, xhr) {
+                    // console.log(xhr.status);
+                    if (xhr.status == 201) {
+                        $('.totalDislike-question').html(totalDislike + 1);
+                        console.log('dislike');
+                    }
+                    if (xhr.status == 200) {
+                        $('.totalDislike-question').html(totalDislike - 1);
+                        console.log('unDislike')
+                    }
+                },
+                error: function(error) {
+                    if (error.statusText == 'Unauthorized') {
+                        alert("To dislike this question you need to login first");
+                    }
+                },
+            });
+        })
+        $(document).on("click", ".like-answer", function(event) {
+            event.preventDefault();
+            var answer_id = $(this).data('idanswer');
+            var question_id = "<?php echo $question->getId(); ?>";
+            var totalLike = parseInt($(this).find('.totalLikes').html());
+            $.ajax({
+                url: 'api/like',
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    answer_id,
+                    question_id
+                },
+                success: function(data, textStatus, xhr) {
+                    // console.log(xhr.status);
+                    if (xhr.status == 201) {
+                        // ($('.like-answer').find('.totalLikes')).html(totalLike + 1);
+                        // $("a[data-idanswer=" + answer_id + "]")
+                        ($("a[data-idanswer=" + answer_id + "]").find('.totalLikes')).html(totalLike + 1);
+                    }
+                    if (xhr.status == 200) {
+                        // ($('.like-answer').find('.totalLikes')).html(totalLike - 1);
+                        ($("a[data-idanswer=" + answer_id + "]").find('.totalLikes')).html(totalLike - 1);
+                    }
+                },
+                error: function(error) {
+                    if (error.statusText == 'Unauthorized') {
+                        alert("To like this answer you need to login first");
+                    }
+                },
+            });
+        });
+        $(document).on("click", ".dislike-answer", function(event) {
+            event.preventDefault();
+            var answer_id = $(this).data('idanswer');
+            var question_id = "<?php echo $question->getId(); ?>";
+            var totalDislikes = parseInt($(this).find('.totalDislikes').html());
+            $.ajax({
+                url: 'api/dislike',
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    answer_id,
+                    question_id
+                },
+                success: function(data, textStatus, xhr) {
+                    // console.log(xhr.status);
+                    if (xhr.status == 201) {
+                        // ($('.dislike-answer').find('.totalDislikes')).html(totalLike + 1);
+                        ($("a[data-idanswer=" + answer_id + "]").find('.totalDislikes')).html(totalDislikes + 1);
+
+                    }
+                    if (xhr.status == 200) {
+                        // ($('.dislike-answer').find('.totalDislikes')).html(totalLike - 1);
+                        ($("a[data-idanswer=" + answer_id + "]").find('.totalDislikes')).html(totalDislikes - 1);
+
+                    }
+                },
+                error: function(error) {
+                    if (error.statusText == 'Unauthorized') {
+                        alert("To dislike this answer you need to login first");
+                    }
+                },
+            });
+        });
+    });
+</script>
