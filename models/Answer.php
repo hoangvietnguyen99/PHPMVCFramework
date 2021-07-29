@@ -27,6 +27,8 @@ class Answer extends DbModel
     public array $likedUserIds = [];
     /** @var ObjectId[] */
     public array $dislikedUserIds = [];
+    /** @var array{_id: ObjectId, content: string} */
+    public array $reports = [];
 
     /**
      * Answer constructor.
@@ -65,7 +67,8 @@ class Answer extends DbModel
             'adIsNotified' => $this->adIsNotified,
             'adIsSeen' => $this->adIsSeen,
             'likedUserIds' => $this->likedUserIds,
-            'dislikedUserIds' => $this->dislikedUserIds
+            'dislikedUserIds' => $this->dislikedUserIds,
+            'reports' => $this->reports
         ];
     }
 
@@ -74,24 +77,27 @@ class Answer extends DbModel
      */
     public function bsonUnserialize(array $data)
     {
-        if (isset($data['_id'])) $this->_id = $data['_id'];
-        if (isset($data['content'])) $this->content = $data['content'];
-        if (isset($data['createdAt'])) $this->createdDate = $data['createdAt']->toDateTime();
-        if (isset($data['author'])) $this->author = User::findOne(['_id' => $data['author']]);
-        if (isset($data['isApproved'])) $this->isApproved = $data['isApproved'];
-        if (isset($data['approvedBy'])) $this->approvedBy = $data['approvedBy'] ? User::findOne(['_id' => $data['approvedBy']]) : null;
-        if (isset($data['publishDate'])) $this->publishDate = $data['publishDate'] ? $data['publishDate']->toDateTime() : null;
-        if (isset($data['totalLikes'])) $this->totalLikes = $data['totalLikes'];
-        if (isset($data['totalDislikes'])) $this->totalDislikes = $data['totalDislikes'];
-        if (isset($data['adIsNotified'])) $this->adIsNotified = $data['adIsNotified'];
-        if (isset($data['adIsSeen'])) $this->adIsSeen = $data['adIsSeen'];
-        if (isset($data['likedUserIds'])) foreach ($data['likedUserIds'] as $likedUserId) {
+        if ($data['_id']) $this->_id = $data['_id'];
+        if ($data['content']) $this->content = $data['content'];
+        if ($data['createdAt']) $this->createdDate = $data['createdAt']->toDateTime();
+        if ($data['author']) $this->author = User::findOne(['_id' => $data['author']]);
+        if ($data['isApproved']) $this->isApproved = $data['isApproved'];
+        if ($data['approvedBy']) $this->approvedBy = $data['approvedBy'] ? User::findOne(['_id' => $data['approvedBy']]) : null;
+        if ($data['publishDate']) $this->publishDate = $data['publishDate'] ? $data['publishDate']->toDateTime() : null;
+        if ($data['totalLikes']) $this->totalLikes = $data['totalLikes'];
+        if ($data['totalDislikes']) $this->totalDislikes = $data['totalDislikes'];
+        if ($data['adIsNotified']) $this->adIsNotified = $data['adIsNotified'];
+        if ($data['adIsSeen']) $this->adIsSeen = $data['adIsSeen'];
+        if ($data['reports']) foreach ($data['reports'] as $report) {
+            $this->reports[] = $report;
+        }
+        if ($data['likedUserIds']) foreach ($data['likedUserIds'] as $likedUserId) {
             $this->likedUserIds[] = $likedUserId;
         }
-        if (isset($data['dislikedUserIds'])) foreach ($data['dislikedUserIds'] as $dislikedUserId) {
+        if ($data['dislikedUserIds']) foreach ($data['dislikedUserIds'] as $dislikedUserId) {
             $this->dislikedUserIds[] = $dislikedUserId;
         }
-        if (isset($data['replies'])) foreach ($data['replies'] as $reply) {
+        if ($data['replies']) foreach ($data['replies'] as $reply) {
             $this->replies[] = $reply;
         }
     }

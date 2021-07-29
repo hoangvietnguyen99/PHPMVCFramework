@@ -202,7 +202,7 @@ class ApiController extends Controller
         if (!$user) throw new UnauthorizedException();
         $questionId = $request->body["question_id"] ?? null;
         $answerId = $request->body["answer_id"] ?? null;
-        $content = $request->body["content"] ?? null;
+        $content = $request->body["content"] ?? '';
         if (!$questionId || !$content || strlen($content) === 0) throw new BadRequestException();
         $question = Question::findOne(["_id" => new ObjectId($questionId)]);
         if (!$question) throw new NotFoundException();
@@ -210,32 +210,12 @@ class ApiController extends Controller
             $answerId = new ObjectId($answerId);
             foreach ($question->answers as $answer) {
                 if ($answer->getId() == $answerId) {
-                    foreach ($answer->dislikedUserIds as $dislikedUserId) {
-                        if ($dislikedUserId == $user->getId()) {
-                            $response->send(409);
-                        }
-                    }
-                    $answer->dislikedUserIds[] = $user->getId();
-                    $answer->author->totalDislikes++;
-                    $answer->author->score += Score::NEW_DISLIKE;
-                    $answer->author->updateOne();
-                    $question->updateOne();
-                    $response->send(200);
+                    $this->reportAnswer($answer, $user, $question, $response, $content);
                 }
             }
             throw new NotFoundException();
         }
-        foreach ($question->dislikedUserIds as $dislikedUserId) {
-            if ($dislikedUserId == $user->getId()) {
-                $response->send(409);
-            }
-        }
-        $question->dislikedUserIds[] = $user->getId();
-        $question->author->totalDislikes++;
-        $question->author->score += Score::NEW_DISLIKE;
-        $question->author->updateOne();
-        $question->updateOne();
-        $response->send(200);
+        $this->reportQuestion($question, $user, $response, $content);
     }
 
     /**
@@ -335,6 +315,47 @@ class ApiController extends Controller
         $answer->likedUserIds[] = $user->getId();
         $answer->author->totalLikes++;
         $answer->author->score += Score::NEW_LIKE;
+        $answer->author->updateOne();
+        $question->updateOne();
+        $response->send(201);
+    }
+
+    /**
+     * @param Question $question
+     * @param User $user
+     * @param Response $response
+     * @param string $content
+     */
+    public function reportQuestion(Question $question, User $user, Response $response, string $content): void
+    {
+        foreach ($question->reports as $report) {
+            if ($report['_id'] == $user->getId()) {
+                $response->send(409);
+            }
+        }
+        $question->reports[] = (object) array('_id' => $user->getId(), 'content' => $content);
+        $question->author->score += Score::NEW_REPORT;
+        $question->author->updateOne();
+        $question->updateOne();
+        $response->send(201);
+    }
+
+    /**
+     * @param Answer $answer
+     * @param User $user
+     * @param Question $question
+     * @param Response $response
+     * @param string $content
+     */
+    public function reportAnswer(Answer $answer, User $user, Question $question, Response $response, string $content): void
+    {
+        foreach ($answer->reports as $report) {
+            if ($report['_id'] == $user->getId()) {
+                $response->send(409);
+            }
+        }
+        $answer->reports[] = (object) array('_id' => $user->getId(), 'content' => $content);
+        $answer->author->score += Score::NEW_REPORT;
         $answer->author->updateOne();
         $question->updateOne();
         $response->send(201);

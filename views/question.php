@@ -316,7 +316,7 @@ jQuery(document).ready(function() {
                                         <!--end::Text-->
                                         <!--begin::Action-->
                                         <div class="d-flex align-items-center">
-                                            <a href="#" <?php if (array_search((Application::$application->user)->getId(), $question->likedUserIds) !== false) echo 'style="background-color: #D7F9EF !important;"' ?> id="like-question" class="btn btn-hover-text-primary btn-hover-icon-primary btn-sm btn-text-primary bg-hover-light-primary rounded font-weight-bolder font-size-sm p-2 mr-2">
+                                            <a href="#" <?php if (Application::$application->user && array_search((Application::$application->user)->getId(), $question->likedUserIds) !== false) echo 'style="background-color: #D7F9EF !important;"' ?> id="like-question" class="btn btn-hover-text-primary btn-hover-icon-primary btn-sm btn-text-primary bg-hover-light-primary rounded font-weight-bolder font-size-sm p-2 mr-2">
                                                 <span class="svg-icon svg-icon-primary svg-icon-md pr-2">
                                                     <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-up.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -327,7 +327,7 @@ jQuery(document).ready(function() {
                                                     </svg>
                                                     <!--end::Svg Icon-->
                                                 </span><span class="totalLike-question"><?php echo $question->totalLikes ?></span></a>
-                                            <a href="#" <?php if (array_search((Application::$application->user)->getId(), $question->dislikedUserIds) !== false) echo 'style="background-color: #FFE2E5 !important;"' ?> id="dislike-question" class="btn btn-hover-text-danger btn-hover-icon-danger btn-sm btn-text-danger bg-hover-light-danger rounded font-weight-bolder font-size-sm p-2 mr-2">
+                                            <a href="#" <?php if (Application::$application->user && array_search((Application::$application->user)->getId(), $question->dislikedUserIds) !== false) echo 'style="background-color: #FFE2E5 !important;"' ?> id="dislike-question" class="btn btn-hover-text-danger btn-hover-icon-danger btn-sm btn-text-danger bg-hover-light-danger rounded font-weight-bolder font-size-sm p-2 mr-2">
                                                 <span class="svg-icon svg-icon-danger svg-icon-md pr-2">
                                                     <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-down.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -467,7 +467,7 @@ jQuery(document).ready(function() {
                                     <!--end::Text-->
                                     <!--begin::Action-->
                                     <div class="d-flex align-items-center">
-                                        <a data-idanswer=' . $answer->getId() . ' href="#" ' . (array_search((Application::$application->user)->getId(), $answer->likedUserIds) !== false ? ' style="background-color: #D7F9EF !important;" ' : '') . '
+                                        <a data-idanswer=' . $answer->getId() . ' href="#" ' . (Application::$application->user && array_search((Application::$application->user)->getId(), $answer->likedUserIds) !== false ? ' style="background-color: #D7F9EF !important;" ' : '') . '
                                                class="btn btn-hover-text-primary btn-hover-icon-primary btn-sm btn-text-primary bg-hover-light-primary rounded font-weight-bolder font-size-sm p-2 mr-2 like-answer">
                                                 <span class="svg-icon svg-icon-primary svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-up.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -476,7 +476,7 @@ jQuery(document).ready(function() {
         <path d="M6.70710678,12.2071104 C6.31658249,12.5976347 5.68341751,12.5976347 5.29289322,12.2071104 C4.90236893,11.8165861 4.90236893,11.1834211 5.29289322,10.7928968 L11.2928932,4.79289682 C11.6714722,4.41431789 12.2810586,4.40107226 12.6757246,4.76284946 L18.6757246,10.2628495 C19.0828436,10.6360419 19.1103465,11.2686092 18.7371541,11.6757282 C18.3639617,12.0828472 17.7313944,12.1103502 17.3242754,11.7371577 L12.0300757,6.88414142 L6.70710678,12.2071104 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(12.000003, 8.500003) scale(-1, 1) rotate(-360.000000) translate(-12.000003, -8.500003) "/>
     </g>
 </svg><!--end::Svg Icon--></span><span class="totalLikes">' . $answer->totalLikes . '</span></a>
-                                            <a data-idanswer=' . $answer->getId() . ' href="#" ' . (array_search((Application::$application->user)->getId(), $answer->dislikedUserIds) !== false ? 'style="background-color: #FFE2E5 !important;"' : '') . '
+                                            <a data-idanswer=' . $answer->getId() . ' href="#" ' . (Application::$application->user && array_search((Application::$application->user)->getId(), $answer->dislikedUserIds) !== false ? 'style="background-color: #FFE2E5 !important;"' : '') . '
                                                class="btn btn-hover-text-danger btn-hover-icon-danger btn-sm btn-text-danger bg-hover-light-danger rounded font-weight-bolder font-size-sm p-2 mr-2 dislike-answer">
                                                 <span class="svg-icon svg-icon-danger svg-icon-md pr-2"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo9\dist/../src/media/svg/icons\Navigation\Angle-double-down.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
