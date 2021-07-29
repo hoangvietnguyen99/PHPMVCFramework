@@ -156,9 +156,14 @@ class ApiController extends Controller
             $answerId = new ObjectId($answerId);
             foreach ($question->answers as $answer) {
                 if ($answer->getId() == $answerId) {
-                    foreach ($answer->likedUserIds as $likedUserId) {
+                    foreach ($answer->likedUserIds as $key => $likedUserId) {
                         if ($likedUserId == $user->getId()) {
-                            $response->send(409);
+                            array_splice($answer->likedUserIds, $key, 1);
+                            $answer->author->totalLikes--;
+                            $answer->author->score -= Score::NEW_LIKE;
+                            $answer->author->updateOne();
+                            $question->updateOne();
+                            $response->send(200);
                         }
                     }
                     $answer->likedUserIds[] = $user->getId();
@@ -171,9 +176,14 @@ class ApiController extends Controller
             }
             throw new NotFoundException();
         }
-        foreach ($question->likedUserIds as $likedUserId) {
+        foreach ($question->likedUserIds as $key => $likedUserId) {
             if ($likedUserId == $user->getId()) {
-                $response->send(409);
+                array_splice($question->likedUserIds, $key, 1);
+                $question->author->totalLikes--;
+                $question->author->score -= Score::NEW_LIKE;
+                $question->author->updateOne();
+                $question->updateOne();
+                $response->send(200);
             }
         }
         $question->likedUserIds[] = $user->getId();
@@ -202,9 +212,14 @@ class ApiController extends Controller
             $answerId = new ObjectId($answerId);
             foreach ($question->answers as $answer) {
                 if ($answer->getId() == $answerId) {
-                    foreach ($answer->dislikedUserIds as $dislikedUserId) {
+                    foreach ($answer->dislikedUserIds as $key => $dislikedUserId) {
                         if ($dislikedUserId == $user->getId()) {
-                            $response->send(409);
+                            array_splice($answer->dislikedUserIds, $key, 1);
+                            $answer->author->totalDislikes--;
+                            $answer->author->score -= Score::NEW_DISLIKE;
+                            $answer->author->updateOne();
+                            $question->updateOne();
+                            $response->send(200);
                         }
                     }
                     $answer->dislikedUserIds[] = $user->getId();
@@ -217,9 +232,14 @@ class ApiController extends Controller
             }
             throw new NotFoundException();
         }
-        foreach ($question->dislikedUserIds as $dislikedUserId) {
+        foreach ($question->dislikedUserIds as $key => $dislikedUserId) {
             if ($dislikedUserId == $user->getId()) {
-                $response->send(409);
+                array_splice($question->dislikedUserIds, $key, 1);
+                $question->author->totalDislikes--;
+                $question->author->score -= Score::NEW_DISLIKE;
+                $question->author->updateOne();
+                $question->updateOne();
+                $response->send(200);
             }
         }
         $question->dislikedUserIds[] = $user->getId();
