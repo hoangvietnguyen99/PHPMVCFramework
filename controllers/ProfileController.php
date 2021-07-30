@@ -27,6 +27,7 @@ class ProfileController extends Controller
     {
         $this->registerMiddleware(new AuthMiddleware(['account', 'ChangePassword']));
     }
+
     public function getProfile(Request $request, Response $response)
     {
         $userId = $request->query['id'] ?? null;
@@ -41,12 +42,17 @@ class ProfileController extends Controller
             return $this->render('profile', ['user' => $user]);
         }
     }
-    public function account()
+
+    /**
+     * @throws NotFoundException
+     */
+    public function account(Request $request)
     {
-        $user =  Application::$application->user;
+        $user = isset($request->query['id']) ? User::findOne(['_id' => new ObjectId($request->query['id'])]) : Application::$application->user;
         if (!$user) throw new NotFoundException();
         return $this->render('profile', ['user' => $user]);
     }
+
     public function ChangePassword(Request $request, Response $response)
     {
         if ($request->getMethod() === 'post') {

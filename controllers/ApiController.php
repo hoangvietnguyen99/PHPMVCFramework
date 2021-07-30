@@ -117,7 +117,7 @@ class ApiController extends Controller
 
         $filter = [];
         if (!isset($request->query['all']) || $request->query['all'] === 'F') {
-            //            $filter['approved'] = true;
+            $filter['approved'] = true;
         }
         if (isset($request->query['search'])) {
             $filter['$text'] = ['$search' => $request->query['search']];
@@ -355,7 +355,7 @@ class ApiController extends Controller
                 $response->send(409);
             }
         }
-        $question->reports[] = (object) array('_id' => $user->getId(), 'content' => $content);
+        $question->reports[] = (object)array('_id' => $user->getId(), 'content' => $content);
         $question->author->score += Score::NEW_REPORT;
         $question->author->updateOne();
         $question->updateOne();
@@ -376,7 +376,7 @@ class ApiController extends Controller
                 $response->send(409);
             }
         }
-        $answer->reports[] = (object) array('_id' => $user->getId(), 'content' => $content);
+        $answer->reports[] = (object)array('_id' => $user->getId(), 'content' => $content);
         $answer->author->score += Score::NEW_REPORT;
         $answer->author->updateOne();
         $question->updateOne();

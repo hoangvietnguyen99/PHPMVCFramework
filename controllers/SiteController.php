@@ -5,6 +5,8 @@ namespace app\controllers;
 
 
 use app\core\Controller;
+use app\core\Request;
+use app\core\Response;
 use app\middlewares\AuthMiddleware;
 
 class SiteController extends Controller
@@ -17,9 +19,10 @@ class SiteController extends Controller
         $this->registerMiddleware(new AuthMiddleware(['profile']));
     }
 
-    public function home()
+    public function home(Request $request, Response $response)
     {
-        return $this->render('home');
+        return $response->redirect('/questions');
+//        return $this->render('home');
     }
 
     public function contact()

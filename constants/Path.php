@@ -16,7 +16,7 @@ final class Path
 
     public const HOME = ['/', 'Home'];
 
-    public const PROFILE = ['/account', 'accout'];
+    public const PROFILE = ['/account', 'Account'];
     public const PROFILE_ACCOUNT_SETTINGS = [self::PROFILE[0] . '/account-settings', 'Account Settings'];
     public const PROFILE_PERSONAL_INFORMATION = ['/profile', 'Personal Information'];
     public const PROFILE_CHANGE_PASSWORD = [self::PROFILE[0] . '/change-password', 'Change Password'];

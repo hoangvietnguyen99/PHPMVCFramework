@@ -83,12 +83,24 @@ class QuestionController extends Controller
             $question->answers = array_filter($question->answers, fn($answer) => $answer->isApproved);
             $replyForm = new AnswerForm();
             $replyForm->questionId = $questionId;
+
             return $this->render('question', [
                 'question' => $question,
                 'model' => $replyForm
             ]);
         }
-        return $this->render('questions');
+        $uom = null;
+        $userMonth = User_month::findOne([], ['sort' => ['createdAt' => -1]]);
+        if ($userMonth) {
+            usort($userMonth->users, fn($a, $b) => $b->score - $a->score);
+            if ($userMonth->users[0]) {
+                $uom = $userMonth->users[0];
+            }
+        }
+
+        return $this->render('questions', [
+            'uom' => $uom
+        ]);
     }
     public function update_user_month(User $user, string $fieldname)
     {
