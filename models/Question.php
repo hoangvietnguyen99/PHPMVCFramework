@@ -99,41 +99,41 @@ class Question extends DbModel
 
     public function bsonUnserialize(array $data)
     {
-        if ($data['_id']) $this->_id = $data['_id'];
-        if ($data['title']) $this->title = $data['title'];
-        if ($data['isDeleted']) $this->isDeleted = $data['isDeleted'];
-        if ($data['content']) $this->content = $data['content'];
-        if ($data['createdAt']) $this->createdDate = $data['createdAt']->toDateTime();
-        if ($data['author']) $this->author = User::findOne(['_id' => $data['author']]);
-        if ($data['approved']) $this->isApproved = $data['approved'];
-        if ($data['averageRate']) $this->averageRate = $data['averageRate'];
-        if ($data['appovedBy']) $this->approvedBy = $data['appovedBy'] ? User::findOne(['_id' => $data['appovedBy']]) : null;
-        if ($data['publishDay']) $this->publishDate = $data['publishDay'] ? $data['publishDay']->toDateTime() : null;
-        if ($data['numofLiked']) $this->totalLikes = $data['numofLiked'];
-        if ($data['numofDisliked']) $this->totalDislikes = $data['numofDisliked'];
-        if ($data['totalViews']) $this->totalViews = $data['totalViews'];
-        if ($data['totalAnswer']) $this->totalAnswers = $data['totalAnswer'];
-        if ($data['adIsNotified']) $this->adIsNotified = $data['adIsNotified'];
-        if ($data['adIsSeen']) $this->adIsSeen = $data['adIsSeen'];
-        if ($data['likedUserIds']) foreach ($data['likedUserIds'] as $likedUserId) {
+        if (isset($data['_id'])) $this->_id = $data['_id'];
+        if (isset($data['title'])) $this->title = $data['title'];
+        if (isset($data['isDeleted'])) $this->isDeleted = $data['isDeleted'];
+        if (isset($data['content'])) $this->content = $data['content'];
+        if (isset($data['createdAt'])) $this->createdDate = $data['createdAt']->toDateTime();
+        if (isset($data['author'])) $this->author = User::findOne(['_id' => $data['author']]);
+        if (isset($data['approved'])) $this->isApproved = $data['approved'];
+        if (isset($data['averageRate'])) $this->averageRate = $data['averageRate'];
+        if (isset($data['appovedBy'])) $this->approvedBy = $data['appovedBy'] ? User::findOne(['_id' => $data['appovedBy']]) : null;
+        if (isset($data['publishDay'])) $this->publishDate = $data['publishDay'] ? $data['publishDay']->toDateTime() : null;
+        if (isset($data['numofLiked'])) $this->totalLikes = $data['numofLiked'];
+        if (isset($data['numofDisliked'])) $this->totalDislikes = $data['numofDisliked'];
+        if (isset($data['totalViews'])) $this->totalViews = $data['totalViews'];
+        if (isset($data['totalAnswer'])) $this->totalAnswers = $data['totalAnswer'];
+        if (isset($data['adIsNotified'])) $this->adIsNotified = $data['adIsNotified'];
+        if (isset($data['adIsSeen'])) $this->adIsSeen = $data['adIsSeen'];
+        if (isset($data['likedUserIds'])) foreach ($data['likedUserIds'] as $likedUserId) {
             $this->likedUserIds[] = $likedUserId;
         }
-        if ($data['dislikedUserIds']) foreach ($data['dislikedUserIds'] as $dislikedUserId) {
+        if (isset($data['dislikedUserIds'])) foreach ($data['dislikedUserIds'] as $dislikedUserId) {
             $this->dislikedUserIds[] = $dislikedUserId;
         }
-        if ($data['categories']) foreach ($data['categories'] as $category) {
+        if (isset($data['categories'])) foreach ($data['categories'] as $category) {
             $this->categories[] = Category::findOne(['_id' => $category->_id]);
         }
-        if ($data['tags']) foreach ($data['tags'] as $tag) {
+        if (isset($data['tags'])) foreach ($data['tags'] as $tag) {
             $this->tags[] = Tag::findOne(['_id' => $tag->_id]);
         }
-        if ($data['labels']) foreach ($data['labels'] as $label) {
+        if (isset($data['labels'])) foreach ($data['labels'] as $label) {
             $this->labels[] = Label::findOne(['_id' => $label->_id]);
         }
-        if ($data['answers']) foreach ($data['answers'] as $answer) {
+        if (isset($data['answers'])) foreach ($data['answers'] as $answer) {
             $this->answers[] = $answer;
         }
-        if ($data['reports']) foreach ($data['reports'] as $report) {
+        if (isset($data['reports'])) foreach ($data['reports'] as $report) {
             $this->reports[] = $report;
         }
     }
