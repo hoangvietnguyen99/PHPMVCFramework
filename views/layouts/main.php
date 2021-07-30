@@ -100,9 +100,9 @@ License: You must have a valid license purchased only from themeforest(the above
                                 </a>
                                 <!--end::Logo-->
                                 <!--begin::Desktop Search-->
-                                <div class="quick-search quick-search-inline ml-4 w-300px" id="kt_quick_search_inline">
+                                <div class="quick-search quick-search-inline ml-4 w-300px">
                                     <!--begin::Form-->
-                                    <form method="get" class="quick-search-form">
+                                    <form method="get" class="quick-search-form" method="GET" action="/questions">
                                         <div class="input-group rounded bg-light">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
@@ -119,7 +119,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     </span>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control h-45px" placeholder="Search..." />
+                                            <input type="text" name="search" class="form-control h-45px" placeholder="Search..." />
                                             <div class="input-group-append">
                                                 <span class="input-group-text">
                                                     <i class="quick-search-close ki ki-close icon-sm"></i>
@@ -1035,7 +1035,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                     <!--begin::Subheader-->
-<!--                    Subheader ở đây-->
+                    <!--                    Subheader ở đây-->
                     <!--end::Subheader-->
                     {{content}}
                 </div>

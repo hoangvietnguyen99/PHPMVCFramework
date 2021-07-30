@@ -117,9 +117,11 @@ class ApiController extends Controller
 
         $filter = [];
         if (!isset($request->query['all']) || $request->query['all'] === 'F') {
-//            $filter['approved'] = true;
+            //            $filter['approved'] = true;
         }
-
+        if (isset($request->query['search'])) {
+            $filter['$text'] = ['$search' => $request->query['search']];
+        }
         if (isset($request->query['category'])) {
             $filter['categories'] = array('$elemMatch' => array('_id' => new ObjectId($request->query['category'])));
         }
