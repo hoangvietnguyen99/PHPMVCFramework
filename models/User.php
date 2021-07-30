@@ -61,7 +61,7 @@ class User extends DbModel
             'totalPostedAnswser' => $this->totalAnswers,
             'totalLikes' => $this->totalLikes,
             'totalDislikes' => $this->totalDislikes,
-            'tier' => $this->tier,
+            'tier' => $this->score > 10 ? ($this->score > 20 ? ($this->score > 50 ? Tier::PLATINUM : Tier::GOLD) : Tier::SILVER) : Tier::BASIC,
             'score' => $this->score,
             'averageRate' => ($this->totalLikes - $this->totalDislikes) / (($this->totalQuestions + $this->totalAnswers) || 1),
         ];
