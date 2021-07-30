@@ -115,15 +115,27 @@ class ApiController extends Controller
             throw new NotFoundException();
         }
 
+        $filter = [];
+        if (!isset($request->query['all']) || $request->query['all'] === 'F') {
+//            $filter['approved'] = true;
+        }
+
+        if (isset($request->query['category'])) {
+            $filter['categories'] = array('$elemMatch' => array('_id' => new ObjectId($request->query['category'])));
+        }
+        if (isset($request->query['tag'])) {
+            $filter['tags'] = array('$elemMatch' => array('_id' => new ObjectId($request->query['tag'])));
+        }
+
         $options = array();
-        if ($request->query['sort']) {
+        if (isset($request->query['sort'])) {
             $options['sort'] = array($request->query['sort'] => +$request->query['order']);
         }
         $limit = $request->query['limit'] ?? 5;
         $skip = $request->query['skip'] ?? 0;
         $options['limit'] = +$limit;
         $options['skip'] = +$skip;
-        $questions = Question::find([], $options);
+        $questions = Question::find($filter, $options);
         $response->send(200, $questions);
     }
 

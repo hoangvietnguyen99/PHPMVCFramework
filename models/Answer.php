@@ -88,7 +88,7 @@ class Answer extends DbModel
         if (isset($data['totalDislikes'])) $this->totalDislikes = $data['totalDislikes'];
         if (isset($data['adIsNotified'])) $this->adIsNotified = $data['adIsNotified'];
         if (isset($data['adIsSeen'])) $this->adIsSeen = $data['adIsSeen'];
-        if ($data['reports']) foreach ($data['reports'] as $report) {
+        if (isset($data['reports'])) foreach ($data['reports'] as $report) {
             $this->reports[] = $report;
         }
         if (isset($data['likedUserIds'])) foreach ($data['likedUserIds'] as $likedUserId) {

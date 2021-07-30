@@ -3,7 +3,7 @@
 // Class definition
 var KTWidgets = function () {
     function getElement(data) {
-        let publishDate = new Date(data.createdDate.date + data.createdDate.timezone);
+        let publishDate = data.publishDate ? new Date(data.publishDate.date + data.publishDate.timezone) : new Date();
 
         const element = document.createElement('div');
         element.innerHTML = `<div class="card card-custom gutter-b">

@@ -498,9 +498,13 @@ $this->scripts[] = '<script src="assets/js/pages/widgets.js"></script>';
             <!--end::Aside-->
             <!--begin::Content-->
             <div class="flex-row-fluid ml-lg-8">
+                <div class="btn-group gutter-b" role="group" aria-label="Basic example">
+                    <a href="javascript: window.location.href = `\questions${location.search ? location.search.split('&sort')[0] + '&' : '?'}sort=publishDay&order=-1`;" type="button" class="btn btn-primary">Newest</a>
+                    <a href="javascript: window.location.href = `\questions${location.search ? location.search.split('&sort')[0] + '&' : '?'}sort=totalViews&order=-1`;" class="btn btn-primary">Most view</a>
+                    <a href="javascript: window.location.href = `\questions${location.search ? location.search.split('&sort')[0] + '&' : '?'}sort=numofLiked&order=-1`;" class="btn btn-primary">Most liked</a>
+                </div>
                 <div class="row">
                     <div class="col-xxl-12" id="questions_container">
-
                     </div>
                     <div class="col-xxl-12">
                         <div class="d-flex flex-center pb-1">
