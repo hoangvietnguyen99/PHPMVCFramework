@@ -994,14 +994,6 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile header-menu-layout-default">
                                     <!--begin::Header Nav-->
                                     <ul class="menu-nav">
-                                        <?PHP if (!Application::isGuest() && $user->role === Role::ADMIN) : ?>
-                                            <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
-                                                <a href="/admin" class="menu-link">
-                                                    <span class="menu-text">Admin Page</span>
-                                                    <span class="menu-desc">Manage resources of website</span>
-                                                </a>
-                                            </li>
-                                        <?PHP endif; ?>
                                         <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
                                             <a href="<?php echo Path::QUESTIONS[0] ?>" class="menu-link">
                                                 <span class="menu-text">Questions</span>
@@ -1018,14 +1010,14 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <?php endif; ?>
                                         <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
                                             <a href="/account" class="menu-link">
-                                                <span class="menu-text">Account</span>
+                                                <span class="menu-text">Profile</span>
                                                 <span class="menu-desc">Settings and more</span>
                                             </a>
                                         </li>
                                         <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
                                             <a href="<?php echo Path::RANKING[0] ?>" class="menu-link">
                                                 <span class="menu-text">Ranking</span>
-                                                <span class="menu-desc">Settings and more</span>
+                                                <span class="menu-desc">User ranking by month</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -2555,8 +2547,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="assets/js/scripts.bundle.js"></script>
     <!--end::Global Theme Bundle-->
     <!--begin::Page Scripts(used by this page)-->
-    <script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
-    <script src="assets/js/pages/widgets.js"></script>
+    <script src="assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="application/javascript">
         $('document').ready(() => {
             const errors = JSON.parse('<?php echo json_encode(Application::$application->session->getFlash('error')) ?>') || [];

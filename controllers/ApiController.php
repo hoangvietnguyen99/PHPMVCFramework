@@ -114,10 +114,16 @@ class ApiController extends Controller
             if ($question) $response->send(200, $question);
             throw new NotFoundException();
         }
-        $questions = Question::find();
-        foreach ($questions as $question) {
-            $question->answers = [];
+
+        $options = array();
+        if ($request->query['sort']) {
+            $options['sort'] = array($request->query['sort'] => +$request->query['order']);
         }
+        $limit = $request->query['limit'] ?? 5;
+        $skip = $request->query['skip'] ?? 0;
+        $options['limit'] = +$limit;
+        $options['skip'] = +$skip;
+        $questions = Question::find([], $options);
         $response->send(200, $questions);
     }
 
