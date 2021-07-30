@@ -18,6 +18,7 @@
     "ext-mongodb": "*",
     "firebase/php-jwt": "^5.4",
     "nesbot/carbon": "^2.49",
-    "cloudinary/cloudinary_php": "^2.3"
+    "cloudinary/cloudinary_php": "^2.3",
+    "ext-curl": "*"
   }
 }

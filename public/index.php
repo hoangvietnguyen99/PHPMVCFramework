@@ -29,7 +29,8 @@ $config = [
     "cloudinary" => [
         "SECRET" => $_ENV["CLOUDINARY_API_SECRET"],
         "KEY" => $_ENV["CLOUDINARY_API_KEY"]
-    ]
+    ],
+    'censor' => $_ENV['CENSOR_SERVER']
 ];
 
 $app = new Application(dirname(__DIR__), $config);

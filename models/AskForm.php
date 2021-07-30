@@ -8,6 +8,7 @@ use app\constants\Score;
 use app\controllers\QuestionController;
 use app\core\Application;
 use app\core\Model;
+use app\utils\APIUtil;
 use app\utils\StringUtil;
 use DateTime;
 
@@ -53,6 +54,11 @@ class AskForm extends Model
             if (!$tagInDb) {
                 $tagInDb = new Tag();
                 $tagInDb->name = $tag['value'];
+                $censorResult = APIUtil::CallAPI('POST', Application::$application->censorUri, array('inputText' => $tagInDb->name));
+                if ($censorResult === 'true') {
+                    $this->addError('tags', 'Invalid tags');
+                    return false;
+                }
             }
             $tagArray[] = $tagInDb;
         }
@@ -77,6 +83,13 @@ class AskForm extends Model
         //        $question->tags = array_map(fn($tag) => (object)['_id' => $tag->getId(), 'name' => $tag->name], $tagArray);
         $question->tags = $tagArray;
         $question->title = $this->title;
+
+        if (APIUtil::CallAPI('POST', Application::$application->censorUri, array('inputText' => $question->content)) === 'false' &&
+            APIUtil::CallAPI('POST', Application::$application->censorUri, array('inputText' => $this->title)) === 'false') {
+            $question->publishDate = new DateTime();
+            $question->isApproved = true;
+            $user->score += Score::NEW_PUBLISH_QUESTION;
+        }
 
         if ($question->insertOrUpdateOne()) {
             $user->totalQuestions++;

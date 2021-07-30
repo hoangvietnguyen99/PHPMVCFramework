@@ -9,6 +9,8 @@ use app\core\Application;
 use app\core\exception\NotFoundException;
 use app\core\Model;
 use app\controllers\QuestionController;
+use app\utils\APIUtil;
+use DateTime;
 use MongoDB\BSON\ObjectId;
 
 class AnswerForm extends Model
@@ -47,6 +49,12 @@ class AnswerForm extends Model
         $answerAuthor = Application::$application->user;
         $answer = new Answer($answerAuthor);
         $answer->content = $this->reply;
+        $censorResult = APIUtil::CallAPI('POST', Application::$application->censorUri, array('inputText' => $answer->content));
+        if ($censorResult === 'false') {
+            $answer->publishDate = new DateTime();
+            $answer->isApproved = true;
+            $answerAuthor->score += Score::NEW_PUBLISH_ANSWER;
+        }
         $answerAuthor->totalAnswers++;
         if ($answerAuthor->insertOrUpdateOne()) {
             $question->answers[] = $answer;
