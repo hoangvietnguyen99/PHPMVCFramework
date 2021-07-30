@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '8a12815f4cf3dd404dab6c0a17a27ecf642358a8',
+    'reference' => 'b6465c08c16c6d9fb9277c1a197cd3108aa47dd6',
     'name' => 'vietnguyen/phpmvc-framework',
   ),
   'versions' => 
@@ -94,21 +94,21 @@
     ),
     'monolog/monolog' => 
     array (
-      'pretty_version' => '2.3.1',
-      'version' => '2.3.1.0',
+      'pretty_version' => '2.3.2',
+      'version' => '2.3.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9738e495f288eec0b187e310b7cdbbb285777dbe',
+      'reference' => '71312564759a7db5b789296369c1a264efc43aad',
     ),
     'nesbot/carbon' => 
     array (
-      'pretty_version' => '2.49.0',
-      'version' => '2.49.0.0',
+      'pretty_version' => '2.51.1',
+      'version' => '2.51.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '93d9db91c0235c486875d22f1e08b50bdf3e6eee',
+      'reference' => '8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922',
     ),
     'ocramius/package-versions' => 
     array (
@@ -228,30 +228,30 @@
     ),
     'symfony/polyfill-mbstring' => 
     array (
-      'pretty_version' => 'v1.23.0',
-      'version' => '1.23.0.0',
+      'pretty_version' => 'v1.23.1',
+      'version' => '1.23.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '2df51500adbaebdc4c38dea4c89a2e131c45c8a1',
+      'reference' => '9174a3d80210dca8daa7f31fec659150bbeabfc6',
     ),
     'symfony/polyfill-php80' => 
     array (
-      'pretty_version' => 'v1.23.0',
-      'version' => '1.23.0.0',
+      'pretty_version' => 'v1.23.1',
+      'version' => '1.23.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'eca0bf41ed421bed1b57c4958bab16aa86b757d0',
+      'reference' => '1100343ed1a92e3a38f9ae122fc0eb21602547be',
     ),
     'symfony/translation' => 
     array (
-      'pretty_version' => 'v5.3.2',
-      'version' => '5.3.2.0',
+      'pretty_version' => 'v5.3.4',
+      'version' => '5.3.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '7e2603bcc598e14804c4d2359d8dc4ee3c40391b',
+      'reference' => 'd89ad7292932c2699cbe4af98d72c5c6bbc504c1',
     ),
     'symfony/translation-contracts' => 
     array (
@@ -285,7 +285,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '8a12815f4cf3dd404dab6c0a17a27ecf642358a8',
+      'reference' => 'b6465c08c16c6d9fb9277c1a197cd3108aa47dd6',
     ),
     'vlucas/phpdotenv' => 
     array (

@@ -80,6 +80,7 @@ class QuestionController extends Controller
             if (!$question) throw new NotFoundException();
             $question->totalViews++;
             $question->insertOrUpdateOne();
+            $question->answers = array_filter($question->answers, fn($answer) => $answer->isApproved);
             $replyForm = new AnswerForm();
             $replyForm->questionId = $questionId;
             return $this->render('question', [

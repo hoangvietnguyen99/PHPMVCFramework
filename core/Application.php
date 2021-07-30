@@ -33,6 +33,7 @@ class Application
     public string $layout = 'main';
     public JWTHandler $jwt;
     public CloudinaryUploadHandler $cloudinaryUploadHandler;
+    public string $censorUri;
 
     public function __construct(string $rootPath, array $config)
     {
@@ -47,6 +48,7 @@ class Application
         $this->view = new View();
         $this->jwt = new JWTHandler($config['jwt']);
         $this->cloudinaryUploadHandler = new CloudinaryUploadHandler($config['cloudinary']);
+        $this->censorUri = $config['censor'];
 
         $userId = Application::$application->session->get('user');
         if ($userId) {

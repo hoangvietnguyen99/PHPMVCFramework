@@ -133,7 +133,7 @@ class ApiController extends Controller
         if (isset($request->query['sort'])) {
             $options['sort'] = array($request->query['sort'] => +$request->query['order']);
         } else {
-            $options['sort'] = array('publishDate' => -1);
+            $options['sort'] = array('publishDay' => -1);
         }
         $limit = $request->query['limit'] ?? 5;
         $skip = $request->query['skip'] ?? 0;
